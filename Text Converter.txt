@@ -20,9 +20,10 @@ Development
 ====================================================================
 	
 	-------------------------------------------------------------
-	[iOS Edge Read Aloud]
-	
+	[Google Translate Version]
+		
 		Must contain some text in empty page to enable Read Aloud
 		
+		OutputTextLeft translate="yes"
 		
 	
