@@ -121,8 +121,8 @@ div.outputTextAreaRight {
 			<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit"></script>
 			
 			
-			<textarea id="inputTextArea" name="w3review" rows="8" class="inputTextArea" translate="no">
-			test
+			<textarea id="inputTextArea" name="w3review" rows="10" class="inputTextArea" translate="no">
+		
 			</textarea>
 			
 			<img id="button_light" src="button_light.png" onclick="lightUp()" class="imgButton" alt="Light">
@@ -277,6 +277,13 @@ div.outputTextAreaRight {
 			text = text.replaceAll(/。(?![\"|\”])/gi, "。<hr>");
 		//	text = text.replaceAll("。\n", "。<hr>");
 			text = text.replaceAll("? ", "?<hr>");
+			text = text.replaceAll("?\"", "?\"<hr>");
+			text = text.replaceAll("?\”", "?\”<hr>");
+			text = text.replaceAll("？ ", "?<hr>");
+			text = text.replaceAll("？\"", "?\"<hr>");
+			text = text.replaceAll("？\”", "?\”<hr>");
+			text = text.replaceAll("…\"", "…\"<hr>");
+			text = text.replaceAll("…\”", "…\”<hr>");
 		//	text = text.replaceAll("?\n", "?<hr>");
 			text = text.replaceAll("\n", "<hr>");
 			
