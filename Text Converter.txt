@@ -1,0 +1,17 @@
+====================================================================
+Usage
+====================================================================
+	
+	Xodo as PDF Reader
+	Edge as browswer
+	- Translate
+	- Read aloud
+	
+	-------------------------------------------------------------
+	[Translate]
+	
+		If lines not correctly displayed (two horizontal lines close together), 
+		convert text to original, then separate it
+
+		
+	
