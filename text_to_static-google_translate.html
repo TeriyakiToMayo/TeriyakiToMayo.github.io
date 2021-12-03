@@ -98,7 +98,7 @@ div.outputTextAreaRight {
 	<div class="split left">
 		<div>
 			<!-- Button Text Captured at Browser zoom size 125%  -->
-			<!-- <button class="button" type="button" onclick="toOriginal()">Dark</button> -->
+			<!-- <button class="button" type="button" onclick="toOriginal()">Left Text</button> -->
 			
 			<br>
 			
@@ -129,15 +129,12 @@ div.outputTextAreaRight {
 			<img src="button_original.png" onclick="toOriginal()" class="imgButton" alt="Original">
 			<img src="button_separate.png" onclick="toSeparate()" class="imgButton" alt="Separate">
 			
-			
-			
-			<input type="checkbox" id="clearNewlineCheckbox" value="mergeEnter" hidden>
-			<img id="clearNewlineImg" src="checkbox_clear_newline.png" onclick="checkClearNewline()" class="imgCheckBox" alt="Merge Enter">
-			<input type="checkbox" id="numberingCheckbox" value="Bike" hidden>
-			<img id="numberingImg" src="checkbox_numbering.png" onclick="checkNumbering()" class="imgCheckBox" alt="Bullet Number">
-
-			
-			
+			<input type="checkbox" id="clearNewlineCheckbox" value="clearNewline" hidden>
+			<img id="clearNewlineImg" src="checkbox_clear_newline.png" onclick="checkClearNewline()" class="imgCheckBox" alt="Clear Newline">
+			<input type="checkbox" id="numberingCheckbox" value="numbering" hidden>
+			<img id="numberingImg" src="checkbox_numbering.png" onclick="checkNumbering()" class="imgCheckBox" alt="Numbering">
+			<input type="checkbox" id="leftTextCheckbox" value="leftText" hidden>
+			<img id="leftTextImg" src="checkbox_left_text.png" onclick="checkLeftText()" class="imgCheckBox" alt="Left Text">
 			
 			<br>
 
@@ -168,6 +165,7 @@ div.outputTextAreaRight {
 			document.getElementById("outputTextAreaLeft").innerHTML = "";
 			document.getElementById("clearNewlineCheckbox").checked = true;
 			document.getElementById("numberingCheckbox").checked = true;
+			document.getElementById("leftTextCheckbox").checked = true;
 			light = false;
 			document.getElementById("button_light").style.opacity = "0.5";
 		}
@@ -204,6 +202,13 @@ div.outputTextAreaRight {
 			checkBox = document.getElementById("numberingCheckbox");
 			checkBox.checked = checkBox.checked ? false : true;
 			document.getElementById("numberingImg").style.opacity = checkBox.checked? "1.0" : "0.5";
+			toSeparate();
+		}
+		
+		function checkLeftText() {
+			checkBox = document.getElementById("leftTextCheckbox");
+			checkBox.checked = checkBox.checked ? false : true;
+			document.getElementById("leftTextImg").style.opacity = checkBox.checked? "1.0" : "0.5";
 			toSeparate();
 		}
 	
@@ -243,7 +248,9 @@ div.outputTextAreaRight {
 			clearNewline = document.getElementById("clearNewlineCheckbox").checked;
 			//get whether include bullet number
 			numbering = document.getElementById("numberingCheckbox").checked
-		
+			//get whether display left text
+			leftText = document.getElementById("leftTextCheckbox").checked
+			
 			//replace all
 			//https://stackoverflow.com/questions/1144783/how-to-replace-all-occurrences-of-a-string-in-javascript
 			//get text from inputTextArea
@@ -314,7 +321,7 @@ div.outputTextAreaRight {
 			
 			//print text to outputTextAreaRight
 			document.getElementById("outputTextAreaRight").innerHTML = textWithPadding;
-			document.getElementById("outputTextAreaLeft").innerHTML = textWithPadding;
+			document.getElementById("outputTextAreaLeft").innerHTML = leftText ? textWithPadding : "";
 		}
 	</script>
 	
