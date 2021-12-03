@@ -179,13 +179,15 @@ div.outputTextAreaRight {
 		}
 		
 		function checkClearNewline() {
-			checkBox = document.getElementById("clearNewlineCheckbox")
-			checkBox.checked = checkBox.checked ? false : true
+			checkBox = document.getElementById("clearNewlineCheckbox");
+			checkBox.checked = checkBox.checked ? false : true;
+			toSeparate();
 		}
 		
 		function checkNumbering() {
-			checkBox = document.getElementById("numberingCheckbox")
-			checkBox.checked = checkBox.checked ? false : true
+			checkBox = document.getElementById("numberingCheckbox");
+			checkBox.checked = checkBox.checked ? false : true;
+			toSeparate();
 		}
 	
 		function toOriginal() { 
@@ -199,6 +201,21 @@ div.outputTextAreaRight {
 			document.getElementById("outputTextAreaRight").innerHTML = text;
 			document.getElementById("outputTextAreaLeft").innerHTML = "";
 		}
+		
+		function specialDotStringEscapes() { 
+			reg = "(";
+			reg = reg + "(U\\.S)" + "|";
+			reg = reg + "(U\\.K)" + "|";
+			reg = reg + "(U\\.K)" + "|";
+			reg = reg + "(a\\.m)" + "|";
+			reg = reg + "(p\\.m)" + "|";
+			reg = reg + "(pp)" + "|";
+			reg = reg + "(cf)" + "|";
+			reg = reg + "(e\\.g)" + "|";
+			reg = reg + "(et\\sal)";
+			reg = reg + ")\\.\\s";
+			return new RegExp(reg, "gi");
+		} 
 		
 		function toSeparate() { 
 			//get whether merge enters "\n"
@@ -215,12 +232,31 @@ div.outputTextAreaRight {
 			if(clearNewline){
 				text = text.replaceAll("\n", " ");
 			}
+			text = text.replaceAll(": ", ":<hr>");
 			text = text.replaceAll(";", ";<hr>");
+			//=====================================================
+			//replace dot symbols
+			tmpSymbol = "<tmp&symbl>"
+			text = text.replaceAll(specialDotStringEscapes(), function(x){
+				console.log(x.substring(x.length - 2))
+				return x.substring(0, x.length - 1) + tmpSymbol;
+			});
 			text = text.replaceAll(". ", ".<hr>");
-			text = text.replaceAll(".\n", ".<hr>");
-			text = text.replaceAll("。", "。<hr>");
-			text = text.replaceAll("。\n", "。<hr>");
+			text = text.replaceAll(tmpSymbol, " ");
+			//=====================================================
+		//	text = text.replaceAll(/(?![et\sal])\.\s/gi, ".<hr>");
+			text = text.replaceAll(".\"", ".\"<hr>");
+			text = text.replaceAll(".\”", ".\"<hr>");
+		//	text = text.replaceAll(".\n", ".<hr>");
+			text = text.replaceAll(/\.\[[0-9]+\]/gi, function (x) {
+			  return x + " <hr>";
+			});
+			text = text.replaceAll("。\"", "。\"<hr>");
+			text = text.replaceAll("。\”", "。\”<hr>");
+			text = text.replaceAll(/。(?![\"|\”])/gi, "。<hr>");
+		//	text = text.replaceAll("。\n", "。<hr>");
 			text = text.replaceAll("? ", "?<hr>");
+		//	text = text.replaceAll("?\n", "?<hr>");
 			text = text.replaceAll("\n", "<hr>");
 			
 			textPieces = text.split("<hr>")

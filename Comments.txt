@@ -1,0 +1,18 @@
+Period types
+
+End of sentence: 
+	Normal: 
+		Lincoln was born into poverty in a log cabin and was raised on the frontier primarily in Indiana.
+	Wiki: 
+		Thomas then worked at odd jobs in Kentucky and Tennessee before the family settled in Hardin County, Kentucky, in the early 1800s.[6] 
+
+Acronym: 
+	U.S.
+	a.m.
+	pp. 
+	e.g. 
+
+Symbols: 
+	Ellipsis: 
+		...
+	
