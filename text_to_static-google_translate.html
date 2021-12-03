@@ -175,20 +175,17 @@ div.outputTextAreaRight {
 		
 		
 		lightButtonImg = "button_light.png";
-		darkButtonImg = "button_dark.png";
 		lightBackgroundColor = "#FFE599";
 		darkBackgroundColor = "#323233";
 		lightTextColor = "black";
 		darkTextColor = "#828282";
 		function lightUp(){	
 			if(light){
-			//	document.getElementById("button_light").src = lightButtonImg;
 				document.getElementById("button_light").style.opacity = "0.5";
 				
 				document.getElementById("pageBody").style.backgroundColor = darkBackgroundColor
 				document.getElementById("pageBody").style.color = darkTextColor;
 			}else {
-			//	document.getElementById("button_light").src = darkButtonImg;
 				document.getElementById("button_light").style.opacity = "1.0";
 				
 				document.getElementById("pageBody").style.backgroundColor = lightBackgroundColor
