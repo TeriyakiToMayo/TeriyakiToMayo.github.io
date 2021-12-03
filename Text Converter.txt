@@ -14,4 +14,15 @@ Usage
 		convert text to original, then separate it
 
 		
+
+====================================================================
+Development
+====================================================================
+	
+	-------------------------------------------------------------
+	[iOS Edge Read Aloud]
+	
+		Must contain some text in empty page to enable Read Aloud
+		
+		
 	
