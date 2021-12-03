@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<style>
+
+.body{
+  background-color:#323233;
+  color:#828282;
+  font-family: Tahoma, sans-serif;
+  font-size:26px;
+}
+
+
+
+/* Split the screen in half */
+/* https://www.w3schools.com/howto/howto_css_split_screen.asp */
+.split {
+  height: 100vh;
+  width: 45vw;
+  position: fixed;
+  z-index: 1;
+  top: 0;
+  overflow-x: hidden;
+  padding-top: 1vw;
+  padding-left: 2.5vw;
+  padding-right: 2.5vw; 
+}
+
+/* Control the left side */
+.left {
+  left: 0;
+}
+
+/* Control the right side */
+.right {
+  right: 0;
+}
+
+
+/*Div Settings*/
+div.outputTextAreaLeft {
+  width: 45.5vw;
+  height: 45vh;	
+  overflow: auto;
+}
+
+.round2 {
+  border: 2px solid #828282;
+  border-radius: 8px;
+  padding: 0.5vw;
+}
+
+div.outputTextAreaRight {
+  float: right;
+  width: 45.5vw;
+  min-height: 80vh;
+  max-height: 80vh;
+  overflow: auto;
+}
+
+.inputTextArea {
+  background-color:orange;
+  color:black;
+  font-size:20px;
+  width: 46.3vw;
+}
+
+
+/*Button Settings*/
+.imgButton {
+  height: 6.9vh; 
+}
+
+.imgCheckBox {
+  height: 2.3vh; 
+}
+
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding: 15px 32px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  margin: 4px 2px;
+  cursor: pointer;
+}
+
+</style>
+
+<body id="pageBody" onload="initialize()" class="body">
+<div class="container">
+	
+	<div class="split left">
+		<div>
+			<!-- Button Text Captured at Browser zoom size 125%  -->
+			<!-- <button class="button" type="button" onclick="toOriginal()">Dark</button> -->
+			
+			<br>
+			
+			<div id="outputTextAreaLeft" class="outputTextAreaLeft round2" translate="no">
+				
+			</div>
+			
+			<br>
+			
+			<textarea id="inputTextArea" name="w3review" rows="10" class="inputTextArea">
+		
+			</textarea>
+			
+			<br>
+			
+			<img id="button_light" src="button_light.png" onclick="lightUp()" class="imgButton" alt="Light">
+			<img src="button_original.png" onclick="toOriginal()" class="imgButton" alt="Original">
+			<img src="button_separate.png" onclick="toSeparate()" class="imgButton" alt="Separate">
+			
+			
+			
+			<input type="checkbox" id="clearNewlineCheckbox" value="mergeEnter">
+			<img src="checkbox_clear_newline.png" onclick="checkClearNewline()" class="imgCheckBox" alt="Merge Enter">
+			<input type="checkbox" id="numberingCheckbox" value="Bike">
+			<img src="checkbox_numbering.png" onclick="checkNumbering()" class="imgCheckBox" alt="Bullet Number">
+			
+			<br>
+			
+
+		</div>
+	</div>
+
+	<div class="split right">
+		<div>
+		
+			<br>
+			
+			<div id="outputTextAreaRight" class="outputTextAreaRight round2">
+				
+			</div>
+			
+			<br><br><br><br>
+			
+		</div>
+	</div>
+	
+	
+	
+	<script>
+		light = false;
+	
+		function initialize() {
+			document.getElementById("inputTextArea").innerHTML = "";
+			document.getElementById("outputTextAreaLeft").innerHTML = "";
+			document.getElementById("clearNewlineCheckbox").checked = true;
+			document.getElementById("numberingCheckbox").checked = true;
+			light = false;
+		}
+		
+		
+		lightButtonImg = "button_light.png";
+		darkButtonImg = "button_dark.png";
+		lightBackgroundColor = "#FFE599";
+		darkBackgroundColor = "#323233";
+		lightTextColor = "black";
+		darkTextColor = "#828282";
+		function lightUp(){	
+			if(light){
+				document.getElementById("button_light").src = lightButtonImg;
+				
+				document.getElementById("pageBody").style.backgroundColor = darkBackgroundColor
+				document.getElementById("pageBody").style.color = darkTextColor;
+			}else {
+				document.getElementById("button_light").src = darkButtonImg;
+				
+				document.getElementById("pageBody").style.backgroundColor = lightBackgroundColor
+				document.getElementById("pageBody").style.color = lightTextColor;
+			}
+			light = light ? false : true;
+		}
+		
+		function checkClearNewline() {
+			checkBox = document.getElementById("clearNewlineCheckbox")
+			checkBox.checked = checkBox.checked ? false : true
+		}
+		
+		function checkNumbering() {
+			checkBox = document.getElementById("numberingCheckbox")
+			checkBox.checked = checkBox.checked ? false : true
+		}
+	
+		function toOriginal() { 
+			//get text from inputTextArea
+			text = document.getElementById("inputTextArea").value;
+			
+			//add paddings
+		//	text = "<br>" + text + "<br><br><br><br>"
+			
+			//print text to outputTextAreaRight
+			document.getElementById("outputTextAreaRight").innerHTML = text;
+			document.getElementById("outputTextAreaLeft").innerHTML = "";
+		}
+		
+		function toSeparate() { 
+			//get whether merge enters "\n"
+			clearNewline = document.getElementById("clearNewlineCheckbox").checked;
+			//get whether include bullet number
+			numbering = document.getElementById("numberingCheckbox").checked
+		
+			//replace all
+			//https://stackoverflow.com/questions/1144783/how-to-replace-all-occurrences-of-a-string-in-javascript
+			//get text from inputTextArea
+			let text = document.getElementById("inputTextArea").value;
+			
+			//replace symbols
+			if(clearNewline){
+				text = text.replaceAll("\n", " ");
+			}
+			text = text.replaceAll(";", ";<hr>");
+			text = text.replaceAll(". ", ".<hr>");
+			text = text.replaceAll(".\n", ".<hr>");
+			text = text.replaceAll("。", "。<hr>");
+			text = text.replaceAll("。\n", "。<hr>");
+			text = text.replaceAll("? ", "?<hr>");
+			text = text.replaceAll("\n", "<hr>");
+			
+			textPieces = text.split("<hr>")
+			textPieces0 = textPieces[0].trim();
+			
+			lineCount = 1
+		//	console.log(textPieces0.length)
+			if(textPieces0.length != 0){ 
+				text = (numbering ? "(" + lineCount + ") " : "") + textPieces[0]
+				lineCount++;
+			}
+			
+			for(i = 1; i < textPieces.length; i++){
+				line = textPieces[i].trim()
+				if(line.length == 0){
+					continue;
+				}
+				number = numbering ? "(" + lineCount + ") " : "";
+				lineCount++;
+				line = number + line; 
+				text = text + "&nbsp;<hr>" + line
+			}
+			
+			//add paddings
+			text = text + "&nbsp;";
+			textWithPadding = text + "<br><br><br><br>";
+			
+			//print text to outputTextAreaRight
+			document.getElementById("outputTextAreaRight").innerHTML = textWithPadding;
+			document.getElementById("outputTextAreaLeft").innerHTML = textWithPadding;
+		}
+	</script>
+	
+</div>
+<script>
+</script>
+</body>
+</html>
