@@ -68,11 +68,14 @@ div.outputTextAreaRight {
 
 /*Button Settings*/
 .imgButton {
-  height: 6.9vh; 
+  max-height: 6.9vh; 
+  max-width: 7vw;
 }
 
 .imgCheckBox {
-  height: 2.3vh; 
+  float: right; 
+  max-wdith: 6vw; 
+  max-height: 2.3vh; 
 }
 
 .button {
@@ -106,7 +109,7 @@ div.outputTextAreaRight {
 			
 			<br>
 			
-			<textarea id="inputTextArea" name="w3review" rows="10" class="inputTextArea">
+			<textarea id="inputTextArea" name="w3review" rows="10" class="inputTextArea" translate="no">
 		
 			</textarea>
 			
@@ -118,10 +121,10 @@ div.outputTextAreaRight {
 			
 			
 			
-			<input type="checkbox" id="clearNewlineCheckbox" value="mergeEnter">
-			<img src="checkbox_clear_newline.png" onclick="checkClearNewline()" class="imgCheckBox" alt="Merge Enter">
-			<input type="checkbox" id="numberingCheckbox" value="Bike">
-			<img src="checkbox_numbering.png" onclick="checkNumbering()" class="imgCheckBox" alt="Bullet Number">
+			<input type="checkbox" id="clearNewlineCheckbox" value="mergeEnter" hidden>
+			<img id="clearNewlineImg" src="checkbox_clear_newline.png" onclick="checkClearNewline()" class="imgCheckBox" alt="Merge Enter">
+			<input type="checkbox" id="numberingCheckbox" value="Bike" hidden>
+			<img id="numberingImg" src="checkbox_numbering.png" onclick="checkNumbering()" class="imgCheckBox" alt="Bullet Number">
 			
 			<br>
 			
@@ -154,23 +157,23 @@ div.outputTextAreaRight {
 			document.getElementById("clearNewlineCheckbox").checked = true;
 			document.getElementById("numberingCheckbox").checked = true;
 			light = false;
+			document.getElementById("button_light").style.opacity = "0.5";
 		}
 		
 		
 		lightButtonImg = "button_light.png";
-		darkButtonImg = "button_dark.png";
 		lightBackgroundColor = "#FFE599";
 		darkBackgroundColor = "#323233";
 		lightTextColor = "black";
 		darkTextColor = "#828282";
 		function lightUp(){	
 			if(light){
-				document.getElementById("button_light").src = lightButtonImg;
+				document.getElementById("button_light").style.opacity = "0.5";
 				
 				document.getElementById("pageBody").style.backgroundColor = darkBackgroundColor
 				document.getElementById("pageBody").style.color = darkTextColor;
 			}else {
-				document.getElementById("button_light").src = darkButtonImg;
+				document.getElementById("button_light").style.opacity = "1.0";
 				
 				document.getElementById("pageBody").style.backgroundColor = lightBackgroundColor
 				document.getElementById("pageBody").style.color = lightTextColor;
@@ -181,12 +184,14 @@ div.outputTextAreaRight {
 		function checkClearNewline() {
 			checkBox = document.getElementById("clearNewlineCheckbox");
 			checkBox.checked = checkBox.checked ? false : true;
+			document.getElementById("clearNewlineImg").style.opacity = checkBox.checked? "1.0" : "0.5";
 			toSeparate();
 		}
 		
 		function checkNumbering() {
 			checkBox = document.getElementById("numberingCheckbox");
 			checkBox.checked = checkBox.checked ? false : true;
+			document.getElementById("numberingImg").style.opacity = checkBox.checked? "1.0" : "0.5";
 			toSeparate();
 		}
 	
@@ -219,6 +224,9 @@ div.outputTextAreaRight {
 		} 
 		
 		function toSeparate() { 
+			//convert to original first to avoid translate formatting problems
+			toOriginal(); 
+		
 			//get whether merge enters "\n"
 			clearNewline = document.getElementById("clearNewlineCheckbox").checked;
 			//get whether include bullet number
