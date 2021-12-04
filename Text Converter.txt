@@ -10,8 +10,14 @@ Usage
 	-------------------------------------------------------------
 	[Translate]
 	
-		If lines not correctly displayed (two horizontal lines close together), 
-		convert text to original, then separate it
+		Format not correctly displayed 
+		- Examples:  
+			- two horizontal lines close together, 
+			- number is not in the right line), 
+		- Reasons: 
+			- when you translate text in an element for the first time, the format will be incorrect
+		- Solution: 
+			- press show twice
 
 		
 

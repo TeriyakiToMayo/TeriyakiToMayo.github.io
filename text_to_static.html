@@ -68,13 +68,27 @@ div.outputTextAreaRight {
 
 /*Button Settings*/
 .imgButton {
-  max-height: 6.9vh; 
-  max-width: 7vw;
+  max-height: 5.9vh; 
+  max-width: 6vw;
 }
 
 .imgCheckBox {
   max-wdith: 6vw; 
   max-height: 2.3vh; 
+}
+
+.imgCheckBoxUpperLeft {
+  max-wdith: 6vw; 
+  max-height: 2.3vh; 
+  float:left;
+  padding:1px;
+}
+
+.imgCheckBoxUpperRight {
+  max-wdith: 6vw; 
+  max-height: 2.3vh; 
+  float:right;
+  padding:1px;
 }
 
 .button {
@@ -102,7 +116,13 @@ div.outputTextAreaRight {
 			
 			<br>
 			
+			<input type="checkbox" id="showLeftCheckbox" value="showLeft" hidden>
+			<img id="showLeftImg" src="checkbox_show.png" onclick="show(0)" class="imgCheckBoxUpperLeft" alt="Show">
+			<input type="checkbox" id="translateLeftCheckbox" value="translateLeft" hidden>
+			<img id="translateLeftImg" src="checkbox_translate.png" onclick="translateText(0)" class="imgCheckBoxUpperLeft" alt="Translate">
+			
 			<div id="outputTextAreaLeftOutter">
+				
 				<div id="outputTextAreaLeft" class="outputTextAreaLeft round2" translate="no">
 					
 				</div>
@@ -114,7 +134,7 @@ div.outputTextAreaRight {
 		
 			</textarea>
 			
-			<img id="button_light" src="button_light.png" onclick="lightUp()" class="imgButton" alt="Light">
+			<img id="buttonLight" src="button_light.png" onclick="lightUp()" class="imgButton" alt="Light">
 			<img src="button_original.png" onclick="toOriginal()" class="imgButton" alt="Original">
 			<img src="button_separate.png" onclick="toSeparate()" class="imgButton" alt="Separate">
 			
@@ -122,8 +142,6 @@ div.outputTextAreaRight {
 			<img id="clearNewlineImg" src="checkbox_clear_newline.png" onclick="checkClearNewline()" class="imgCheckBox" alt="Clear Newline">
 			<input type="checkbox" id="numberingCheckbox" value="numbering" hidden>
 			<img id="numberingImg" src="checkbox_numbering.png" onclick="checkNumbering()" class="imgCheckBox" alt="Numbering">
-			<input type="checkbox" id="transRightCheckbox" value="transRight" hidden>
-			<img id="transRightImg" src="checkbox_trans_right.png" onclick="checkTransRight()" class="imgCheckBox" alt="Trans Right">
 			
 			<br>
 
@@ -134,6 +152,11 @@ div.outputTextAreaRight {
 		<div>
 		
 			<br>
+			
+			<input type="checkbox" id="translateRightCheckbox" value="translateRight" hidden>
+			<img id="translateRightImg" src="checkbox_translate.png" onclick="translateText(1)" class="imgCheckBoxUpperRight" alt="Translate">
+			<input type="checkbox" id="showRightCheckbox" value="showRight" hidden>
+			<img id="showRightImg" src="checkbox_show.png" onclick="show(1)" class="imgCheckBoxUpperRight" alt="Show">
 			
 			<div id="outputTextAreaRightOutter">
 				<div id="outputTextAreaRight" class="outputTextAreaRight round2" translate="yes">
@@ -150,15 +173,21 @@ div.outputTextAreaRight {
 	
 	<script>
 		light = false;
+		leftText = "";
+		rightText = "";
 	
 		function initialize() {
 			document.getElementById("inputTextArea").innerHTML = "";
 			document.getElementById("outputTextAreaLeft").innerHTML = "";
 			document.getElementById("clearNewlineCheckbox").checked = true;
 			document.getElementById("numberingCheckbox").checked = true;
-			document.getElementById("transRightCheckbox").checked = true;
+			document.getElementById("showLeftCheckbox").checked = true;
+			document.getElementById("showRightCheckbox").checked = true;
+			document.getElementById("translateLeftCheckbox").checked = true;
+			translateText(0);
+			document.getElementById("translateRightCheckbox").checked = true;
 			light = false;
-			document.getElementById("button_light").style.opacity = "0.5";
+			document.getElementById("buttonLight").style.opacity = "0.5";
 
 		}
 		
@@ -170,12 +199,12 @@ div.outputTextAreaRight {
 		darkTextColor = "#828282";
 		function lightUp(){	
 			if(light){
-				document.getElementById("button_light").style.opacity = "0.5";
+				document.getElementById("buttonLight").style.opacity = "0.5";
 				
 				document.getElementById("pageBody").style.backgroundColor = darkBackgroundColor
 				document.getElementById("pageBody").style.color = darkTextColor;
 			}else {
-				document.getElementById("button_light").style.opacity = "1.0";
+				document.getElementById("buttonLight").style.opacity = "1.0";
 				
 				document.getElementById("pageBody").style.backgroundColor = lightBackgroundColor
 				document.getElementById("pageBody").style.color = lightTextColor;
@@ -196,25 +225,55 @@ div.outputTextAreaRight {
 			document.getElementById("numberingImg").style.opacity = checkBox.checked? "1.0" : "0.5";
 			toSeparate();
 		}
+
 		
-		transLeftImg = "checkbox_trans_left.png";
-		transRightImg = "checkbox_trans_right.png";
-		function checkTransRight() {
-			checkBox = document.getElementById("transRightCheckbox");
-			checkBox.checked = checkBox.checked ? false : true;
-			document.getElementById("transRightImg").src = checkBox.checked ? transRightImg : transLeftImg;
+		function writeToOutputTextArea(sideCode) {
+			side = sideCode == 0 ? "Left" : "Right"; 
+			showCheckBox = document.getElementById("show" + side + "Checkbox"); 
 			
-		//	console.log(checkBox.checked);
-			document.getElementById("outputTextAreaRightOutter").innerHTML = 
-				"<div id=\"outputTextAreaRight\" class=\"outputTextAreaRight round2\" translate=\"" + 
-				(checkBox.checked ? "yes" : "no") + "\"></div>";
-			document.getElementById("outputTextAreaLeftOutter").innerHTML = 
-				"<div id=\"outputTextAreaLeft\" class=\"outputTextAreaLeft round2\" translate=\"" + 
-				(checkBox.checked ? "no" : "yes") + "\"></div>";
-		//	document.getElementById("outputTextAreaRight").translate = checkBox.checked ? "yes" : "no";
-		//	document.getElementById("outputTextAreaLeft").translate = checkBox.checked ? "no" : "yes";
-			toSeparate();
+			document.getElementById("outputTextArea" + side).innerHTML = "";
+			content = showCheckBox.checked ? (sideCode == 0 ? leftText : rightText) : ""; 
+			document.getElementById("outputTextArea" + side).innerHTML = content;
 		}
+		
+		//sideCode = 0: left, 1: right
+		function show(sideCode) { 
+			side = sideCode == 0 ? "Left" : "Right"; 
+			showCheckBox = document.getElementById("show" + side + "Checkbox"); 
+			showCheckBox.checked = showCheckBox.checked ? false : true; 
+			
+			writeToOutputTextArea(sideCode); 
+			
+			document.getElementById("show" + side + "Img").style.opacity = showCheckBox.checked ? "1.0" : "0.5";
+		}
+				
+		//sideCode = 0: left, 1: right
+		//translateCode = 0: no, 1: yes
+		function generateOutputTextAreaDivTag(sideCode, translateCode) { 
+			side = sideCode == 0 ? "Left" : "Right"; 
+			translate = translateCode == 0 ? "no" : "yes"; 
+			div = "<div id=\"outputTextArea" + side + 
+					"\" class=\"outputTextArea" + side + 
+					" round2\" translate=\"" + translate + "\"></div>"; 
+			
+			return div; 
+		}
+		
+		//sideCode = 0: left, 1: right
+		function translateText(sideCode) {
+			side = sideCode == 0 ? "Left" : "Right"; 
+			translateCheckBox = document.getElementById("translate" + side + "Checkbox"); 
+			translateCheckBox.checked = translateCheckBox.checked ? false : true;
+			translateCode = translateCheckBox.checked ? 1 : 0; 
+			
+			newOutputAreaDiv = generateOutputTextAreaDivTag(sideCode, translateCode); 
+			document.getElementById("outputTextArea" + side + "Outter").innerHTML = newOutputAreaDiv; 
+			writeToOutputTextArea(sideCode); 
+			
+			document.getElementById("translate" + side + "Img").style.opacity = translateCheckBox.checked ? "1.0" : "0.5";
+		}
+		
+		
 	
 		function toOriginal() { 
 			//get text from inputTextArea
@@ -223,9 +282,13 @@ div.outputTextAreaRight {
 			//add paddings
 		//	text = "<br>" + text + "<br><br><br><br>"
 			
+			//assign text to leftText and rightText
+			leftText = "";
+			rightText = text;
+			
 			//print text to outputTextAreaRight
-			document.getElementById("outputTextAreaRight").innerHTML = text;
-			document.getElementById("outputTextAreaLeft").innerHTML = "";
+			writeToOutputTextArea(0); 
+			writeToOutputTextArea(1); 
 		}
 		
 		function specialDotStringEscapes() { 
@@ -247,7 +310,7 @@ div.outputTextAreaRight {
 		
 		function toSeparate() { 
 			//convert to original first to avoid translate formatting problems
-			toOriginal(); 
+		//	toOriginal(); 
 		
 			//get whether merge enters "\n"
 			clearNewline = document.getElementById("clearNewlineCheckbox").checked;
@@ -323,9 +386,13 @@ div.outputTextAreaRight {
 			text = text + "&nbsp;";
 			textWithPadding = text + "<br><br><br><br>";
 			
+			//assign text to leftText and rightText
+			leftText = text;
+			rightText = text;
+			
 			//print text to outputTextAreaRight
-			document.getElementById("outputTextAreaRight").innerHTML = textWithPadding;
-			document.getElementById("outputTextAreaLeft").innerHTML = textWithPadding;
+			writeToOutputTextArea(0); 
+			writeToOutputTextArea(1); 
 		}
 	</script>
 	
