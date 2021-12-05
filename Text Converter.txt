@@ -30,6 +30,5 @@ Development
 		
 		Must contain some text in empty page to enable Read Aloud
 		
-		OutputTextLeft translate="yes"
 		
 	
