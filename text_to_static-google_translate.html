@@ -150,6 +150,7 @@ div.outputTextAreaRight {
 			<img id="buttonLight" src="button_light.png" onclick="lightUp()" class="imgButton" alt="Light">
 			<img src="button_original.png" onclick="toOriginal()" class="imgButton" alt="Original">
 			<img src="button_separate.png" onclick="toSeparate()" class="imgButton" alt="Separate">
+			<img src="button_paste.png" onclick="paste()" class="imgButton" alt="Separate">
 			
 			<input type="checkbox" id="clearNewlineCheckbox" value="clearNewline" hidden>
 			<img id="clearNewlineImg" src="checkbox_clear_newline.png" onclick="checkClearNewline()" class="imgCheckBox" alt="Clear Newline">
@@ -406,6 +407,14 @@ div.outputTextAreaRight {
 			//print text to outputTextAreaRight
 			writeToOutputTextArea(0); 
 			writeToOutputTextArea(1); 
+		}
+		
+		function paste(){
+			navigator.clipboard.readText().then((text) => {
+				document.getElementById("inputTextArea").value = text;
+				toSeparate();
+			});
+			
 		}
 	</script>
 	
