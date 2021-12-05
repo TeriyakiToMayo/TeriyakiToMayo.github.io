@@ -302,12 +302,17 @@ div.outputTextAreaRight {
 			reg = reg + "(e\\.g)" + "|";	//e.g. 
 			reg = reg + "(c)" + "|";		//circa
 			reg = reg + "(p)" + "|";		//page
+			reg = reg + "([A-Z])" + "|";	//Name abbrevation
 			reg = reg + "(pp)" + "|";		//pages
 			reg = reg + "(cf)" + "|";		//compare
+			reg = reg + "(Dr)" + "|";		//Dr. 
+			reg = reg + "(Mr)" + "|";		//Dr. 
+			reg = reg + "(No)" + "|";		//No. 
 			reg = reg + "(fig)" + "|";		//figure
+			reg = reg + "(figs)" + "|";		//figures
 			reg = reg + "(et\\sal)";		//et al. 
 			reg = reg + ")\\.\\s";
-			return new RegExp(reg, "gi");	//global case-insensitive
+			return new RegExp(reg, "g");	//global case-insensitive
 		} 
 		
 		function toSeparate() { 
@@ -334,7 +339,7 @@ div.outputTextAreaRight {
 			//replace dot symbols
 			tmpSymbol = "<tmp&symbl>"
 			text = text.replaceAll(specialDotStringEscapes(), function(x){
-				console.log(x.substring(x.length - 2))
+			//	console.log(x.substring(x.length - 2))
 				return x.substring(0, x.length - 1) + tmpSymbol;
 			});
 			text = text.replaceAll(". ", ".<hr>");
@@ -344,8 +349,8 @@ div.outputTextAreaRight {
 			text = text.replaceAll(".\"", ".\"<hr>");
 			text = text.replaceAll(".\”", ".\"<hr>");
 		//	text = text.replaceAll(".\n", ".<hr>");
-			text = text.replaceAll(/\.\[[0-9]+\]/gi, function (x) {
-			  return x + " <hr>";
+			text = text.replaceAll(/\.(\[[0-9]+\])+/gi, function (x) {
+			  return x + "<hr>";
 			});
 			text = text.replaceAll("。\"", "。\"<hr>");
 			text = text.replaceAll("。\”", "。\”<hr>");
