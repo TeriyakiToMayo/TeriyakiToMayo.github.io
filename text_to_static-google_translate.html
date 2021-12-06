@@ -66,6 +66,7 @@ div.outputTextAreaRight {
   font-size:20px;
   width: 46.3vw;
   max-width: 46.3vw;
+  height: 10em;
 }
 
 
@@ -139,7 +140,7 @@ div.outputTextAreaRight {
 				</script>
 			</div>
 			
-			<textarea id="inputTextArea" name="w3review" rows="10" class="inputTextArea" translate="no">
+			<textarea id="inputTextArea" name="w3review" class="inputTextArea" translate="no">
 				Text
 			</textarea>
 			
@@ -154,7 +155,10 @@ div.outputTextAreaRight {
 			<img id="clearNewlineImg" src="checkbox_clear_newline.png" onclick="checkClearNewline()" class="imgCheckBox" alt="Clear Newline">
 			<input type="checkbox" id="numberingCheckbox" value="numbering" hidden>
 			<img id="numberingImg" src="checkbox_numbering.png" onclick="checkNumbering()" class="imgCheckBox" alt="Numbering">
-			<input type="range" min="1" max="100" value="50">
+			
+			<div></div>	
+			
+			<input type="range" min="1" max="100" value="50" style="width:25vw;">
 			<br>
 
 		</div>
@@ -212,6 +216,8 @@ div.outputTextAreaRight {
 				//Make buttonPaste visible
 				document.getElementById("buttonPaste").outerHTML = 
 					"<img id=\"buttonPaste\" src=\"button_paste.png\" onclick=\"paste()\" class=\"imgButton\" alt=\"Paste\">";
+				//Modify inputTextArea rows
+				document.getElementById("inputTextArea").style.height = "8em";
 				//Make font size larger
 			//	document.getElementById("pageBody").style.fontSize = "40px";
 				//Init translate element
