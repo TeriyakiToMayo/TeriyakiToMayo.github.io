@@ -40,7 +40,7 @@
 /*Div Settings*/
 div.outputTextAreaLeft {
   width: 45.5vw;
-  max-width: 50vw;
+  max-width: 45.5vw;
   height: 44.9vh;	
   overflow: auto;
 }
@@ -54,7 +54,7 @@ div.outputTextAreaLeft {
 div.outputTextAreaRight {
   float: right;
   width: 45.5vw;
-  max-width: 50vw;
+  max-width: 45.5vw;
   min-height: 80vh;
   max-height: 80vh;
   overflow: auto;
@@ -65,6 +65,7 @@ div.outputTextAreaRight {
   color:black;
   font-size:20px;
   width: 46.3vw;
+  max-width: 46.3vw;
 }
 
 
@@ -145,7 +146,8 @@ div.outputTextAreaRight {
 			<img id="buttonLight" src="button_light.png" onclick="lightUp()" class="imgButton" alt="Light">
 			<img src="button_original.png" onclick="toOriginal()" class="imgButton" alt="Original">
 			<img src="button_separate.png" onclick="toSeparate()" class="imgButton" alt="Separate">
-			<img id="buttonPaste" src="button_paste.png" onclick="paste()" class="imgButton" alt="Separate" visibility="hidden">
+			<div id="buttonPaste"></div>
+			<div></div>	
 			
 			<input type="checkbox" id="clearNewlineCheckbox" value="clearNewline" hidden>
 			<img id="clearNewlineImg" src="checkbox_clear_newline.png" onclick="checkClearNewline()" class="imgCheckBox" alt="Clear Newline">
@@ -207,7 +209,8 @@ div.outputTextAreaRight {
 				//Make <br> between outputTextAreaLeft and inputTextArea hidden
 				document.getElementById("leftBr").outerHTML = "";
 				//Make buttonPaste visible
-				document.getElementById("buttonPaste").style.visibility = "visible";
+				document.getElementById("buttonPaste").outerHTML = 
+					"<img id=\"buttonPaste\" src=\"button_paste.png\" onclick=\"paste()\" class=\"imgButton\" alt=\"Paste\">";
 				//Make font size larger
 			//	document.getElementById("pageBody").style.fontSize = "40px";
 				//Init translate element
