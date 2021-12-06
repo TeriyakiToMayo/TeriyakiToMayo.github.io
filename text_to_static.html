@@ -202,17 +202,23 @@ div.outputTextAreaRight {
 		
 		function googleTranslateElementInit() {
 			if (googleTranslate){
+				//Make font size larger
+				document.getElementById("pageBody").style.fontSize = "40px";
+				//Init translate element
 				new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element'); 
+				return; 
+				setTimeout(function () {
+					googleTranslateElementSelect = document.getElementById(":0.targetLanguage").children[0]; 
+					langOptions = googleTranslateElementSelect.children; 
+					
+					for(var i = 0; i < langOptions.length; i++){ 
+						currentOption = langOptions[i]; 
+						if(currentOption.value == "zh-CN") {
+							currentOption.outerHTML = "<option value=\"zh-CN\" selected>Chinese (Simplified)</option>"; 
+						}
+					}
+				}, 1000); 
 			}
-		}		
-		
-		//Unused function
-		function googleTranslateInit() {
-			if (googleTranslate){
-				googleTranslateElementSelect = document.getElementById(":0.targetLanguage"); 
-				alert(googleTranslateElementSelect); 
-			}
-		
 		}
 		
 		
