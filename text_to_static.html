@@ -130,6 +130,12 @@ div.outputTextAreaRight {
 			
 			<br>
 			
+			<div id="googleTranslateContainer">
+				<div id="google_translate_element"></div> 
+				<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+				</script>
+			</div>
+			
 			<textarea id="inputTextArea" name="w3review" rows="10" class="inputTextArea" translate="no">
 				Text
 			</textarea>
@@ -174,6 +180,7 @@ div.outputTextAreaRight {
 	
 	<script>
 		light = false;
+		googleTranslate = false;
 		leftText = "";
 		rightText = "";
 	
@@ -189,7 +196,23 @@ div.outputTextAreaRight {
 			document.getElementById("translateRightCheckbox").checked = true;
 			light = false;
 			document.getElementById("buttonLight").style.opacity = "0.5";
-
+			
+		}
+		
+		
+		function googleTranslateElementInit() {
+			if (googleTranslate){
+				new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element'); 
+			}
+		}		
+		
+		//Unused function
+		function googleTranslateInit() {
+			if (googleTranslate){
+				googleTranslateElementSelect = document.getElementById(":0.targetLanguage"); 
+				alert(googleTranslateElementSelect); 
+			}
+		
 		}
 		
 		
