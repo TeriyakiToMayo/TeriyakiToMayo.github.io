@@ -64,10 +64,10 @@ div.outputTextAreaRight {
   background-color:orange;
   color:black;
   font-size:20px;
-  width: 46.3vw;
-  max-width: 46.3vw;
+  height: 10em;
+  width: 40vw;
+  max-width: 40vw;
 }
-
 
 /*Button Settings*/
 .imgButton {
@@ -92,6 +92,10 @@ div.outputTextAreaRight {
   max-height: 2.3vh; 
   float:right;
   padding:1px;
+}
+
+.fontSizeSlider {
+  width:40vw; 
 }
 
 .button {
@@ -147,6 +151,7 @@ div.outputTextAreaRight {
 			<img src="button_original.png" onclick="toOriginal()" class="imgButton" alt="Original">
 			<img src="button_separate.png" onclick="toSeparate()" class="imgButton" alt="Separate">
 			<div id="buttonPaste"></div>
+			
 			<div></div>	
 			
 			<input type="checkbox" id="clearNewlineCheckbox" value="clearNewline" hidden>
@@ -154,8 +159,12 @@ div.outputTextAreaRight {
 			<input type="checkbox" id="numberingCheckbox" value="numbering" hidden>
 			<img id="numberingImg" src="checkbox_numbering.png" onclick="checkNumbering()" class="imgCheckBox" alt="Numbering">
 			
+			<div></div>	
+			
+			<div id="fontSizeSlider"></div>	
+			
 			<br>
-
+			
 		</div>
 	</div>
 
@@ -208,10 +217,15 @@ div.outputTextAreaRight {
 			if (googleTranslate){
 				//Make <br> between outputTextAreaLeft and inputTextArea hidden
 				document.getElementById("leftBr").outerHTML = "";
+				//Modify inputTextArea rows
+				document.getElementById("inputTextArea").style.height = "8em";
 				//Make buttonPaste visible
 				document.getElementById("buttonPaste").outerHTML = 
 					"<img id=\"buttonPaste\" src=\"button_paste.png\" onclick=\"paste()\" class=\"imgButton\" alt=\"Paste\">";
-				//Make font size larger
+				//Make fontSizeSlider visible
+				document.getElementById("fontSizeSlider").outerHTML = 
+					"<input id=\"fontSizeSlider\" type=\"range\" min=\"26\" max=\"50\" value=\"26\" class=\"fontSizeSlider\" oninput=\"fontSizeSliderUpdate()\">"; 
+				//Make outputTextArea font size larger
 			//	document.getElementById("pageBody").style.fontSize = "40px";
 				//Init translate element
 				new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element'); 
@@ -232,6 +246,14 @@ div.outputTextAreaRight {
 					*/
 				}, 10); 
 			}
+		}
+		
+		function fontSizeSliderUpdate() {
+			fontSizeSlider = document.getElementById("fontSizeSlider"); 
+		//	alert(fontSizeSlider); 
+			fontSize = fontSizeSlider.value; 
+			document.getElementById("outputTextAreaLeft").style.fontSize = fontSize + "px"; 
+			document.getElementById("outputTextAreaRight").style.fontSize = fontSize + "px"; 
 		}
 		
 		

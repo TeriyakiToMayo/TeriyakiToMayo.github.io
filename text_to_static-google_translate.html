@@ -64,11 +64,10 @@ div.outputTextAreaRight {
   background-color:orange;
   color:black;
   font-size:20px;
+  height: 10em;
   width: 40vw;
   max-width: 40vw;
-  height: 10em;
 }
-
 
 /*Button Settings*/
 .imgButton {
@@ -93,6 +92,10 @@ div.outputTextAreaRight {
   max-height: 2.3vh; 
   float:right;
   padding:1px;
+}
+
+.fontSizeSlider {
+  width:40vw; 
 }
 
 .button {
@@ -140,7 +143,7 @@ div.outputTextAreaRight {
 				</script>
 			</div>
 			
-			<textarea id="inputTextArea" name="w3review" class="inputTextArea" translate="no">
+			<textarea id="inputTextArea" name="w3review" rows="10" class="inputTextArea" translate="no">
 				Text
 			</textarea>
 			
@@ -158,9 +161,10 @@ div.outputTextAreaRight {
 			
 			<div></div>	
 			
-			<input type="range" min="1" max="100" value="50" style="width:40vw;">
+			<div id="fontSizeSlider"></div>	
+			
 			<br>
-
+			
 		</div>
 	</div>
 
@@ -213,12 +217,15 @@ div.outputTextAreaRight {
 			if (googleTranslate){
 				//Make <br> between outputTextAreaLeft and inputTextArea hidden
 				document.getElementById("leftBr").outerHTML = "";
+				//Modify inputTextArea rows
+				document.getElementById("inputTextArea").style.height = "8em";
 				//Make buttonPaste visible
 				document.getElementById("buttonPaste").outerHTML = 
 					"<img id=\"buttonPaste\" src=\"button_paste.png\" onclick=\"paste()\" class=\"imgButton\" alt=\"Paste\">";
-				//Modify inputTextArea rows
-				document.getElementById("inputTextArea").style.height = "8em";
-				//Make font size larger
+				//Make fontSizeSlider visible
+				document.getElementById("fontSizeSlider").outerHTML = 
+					"<input id=\"fontSizeSlider\" type=\"range\" min=\"26\" max=\"50\" value=\"26\" class=\"fontSizeSlider\" oninput=\"fontSizeSliderUpdate()\">"; 
+				//Make outputTextArea font size larger
 			//	document.getElementById("pageBody").style.fontSize = "40px";
 				//Init translate element
 				new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element'); 
@@ -239,6 +246,14 @@ div.outputTextAreaRight {
 					*/
 				}, 10); 
 			}
+		}
+		
+		function fontSizeSliderUpdate() {
+			fontSizeSlider = document.getElementById("fontSizeSlider"); 
+		//	alert(fontSizeSlider); 
+			fontSize = fontSizeSlider.value; 
+			document.getElementById("outputTextAreaLeft").style.fontSize = fontSize + "px"; 
+			document.getElementById("outputTextAreaRight").style.fontSize = fontSize + "px"; 
 		}
 		
 		
