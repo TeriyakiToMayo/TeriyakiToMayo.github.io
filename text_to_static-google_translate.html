@@ -188,7 +188,7 @@ div.outputTextAreaRight {
 	
 	<script>
 		light = false;
-		googleTranslate = true;
+		googleTranslate = true; 
 		leftText = "";
 		rightText = "";
 	
@@ -363,10 +363,18 @@ div.outputTextAreaRight {
 			reg = reg + "(p\\.m)" + "|";	//p.m. 
 			reg = reg + "(i\\.e)" + "|";	//i.e. 
 			reg = reg + "(e\\.g)" + "|";	//e.g. 
-			reg = reg + "(c)" + "|";		//circa
-			reg = reg + "(p)" + "|";		//page
-			reg = reg + "([A-Z])" + "|";	//Name abbrevation
-			reg = reg + "(pp)" + "|";		//pages
+			reg = reg + "(Jan)" + "|";		//January
+			reg = reg + "(Feb)" + "|";		//February
+			reg = reg + "(Jun)" + "|";		//June
+			reg = reg + "(Aug)" + "|";		//August
+			reg = reg + "(Sep)" + "|";		//September
+			reg = reg + "(Oct)" + "|";		//October
+			reg = reg + "(Nov)" + "|";		//November
+			reg = reg + "(Dec)" + "|";		//December
+			reg = reg + "(\\sc)" + "|";		//circa
+			reg = reg + "(\\sp)" + "|";		//page
+			reg = reg + "(\\s[A-Z])" + "|";	//Name abbrevation
+			reg = reg + "(\\spp)" + "|";	//pages
 			reg = reg + "(cf)" + "|";		//compare
 			reg = reg + "(Dr)" + "|";		//Dr. 
 			reg = reg + "(Mr)" + "|";		//Dr. 
@@ -414,7 +422,12 @@ div.outputTextAreaRight {
 			text = text.replaceAll(".\"", ".\"<hr>");
 			text = text.replaceAll(".\”", ".\"<hr>");
 		//	text = text.replaceAll(".\n", ".<hr>");
+			// Wikipedia reference: ".[1][2][3]"
 			text = text.replaceAll(/\.(\[[0-9]+\])+/gi, function (x) {
+			  return x + "<hr>";
+			});
+			// Foot annotation index
+			text = text.replaceAll(/\.([0-9])+/gi, function (x) {
 			  return x + "<hr>";
 			});
 			text = text.replaceAll("。\"", "。\"<hr>");
