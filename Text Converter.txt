@@ -9,7 +9,11 @@ Usage
 	
 	-------------------------------------------------------------
 	[Translate]
-	
+		
+		Can translate English to other languages
+		Can translate other languages to English
+		But other to other is not supported
+		
 		Format not correctly displayed 
 		- Examples:  
 			- two horizontal lines close together, 
