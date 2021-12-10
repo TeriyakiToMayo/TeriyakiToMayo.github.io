@@ -379,6 +379,7 @@ div.outputTextAreaRight {
 			reg = reg + "(\\svs)" + "|";	//vs
 			reg = reg + "(\\sVS)" + "|";	//vs
 			reg = reg + "(Dr)" + "|";		//Dr. 
+			reg = reg + "(DR)" + "|";		//Dr. 
 			reg = reg + "(Mr)" + "|";		//Dr. 
 			reg = reg + "(No)" + "|";		//No. 
 			reg = reg + "(fig)" + "|";		//figure
@@ -423,6 +424,7 @@ div.outputTextAreaRight {
 		//	text = text.replaceAll(/(?![et\sal])\.\s/gi, ".<hr>");
 			text = text.replaceAll(".\"", ".\"<hr>");
 			text = text.replaceAll(".\”", ".\"<hr>");
+			text = text.replaceAll(".\]", ".\]<hr>");
 		//	text = text.replaceAll(".\n", ".<hr>");
 			// Wikipedia reference: ".[1][2][3]"
 			text = text.replaceAll(/\.(\[([A-Z]|[a-z]|[0-9]|\s)+\])+/gi, function (x) {
@@ -439,9 +441,17 @@ div.outputTextAreaRight {
 			text = text.replaceAll("? ", "?<hr>");
 			text = text.replaceAll("?\"", "?\"<hr>");
 			text = text.replaceAll("?\”", "?\”<hr>");
-			text = text.replaceAll("？ ", "?<hr>");
-			text = text.replaceAll("？\"", "?\"<hr>");
-			text = text.replaceAll("？\”", "?\”<hr>");
+			text = text.replaceAll("?\]", "?\]<hr>");
+			text = text.replaceAll("？ ", "？<hr>");
+			text = text.replaceAll("？\"", "？\"<hr>");
+			text = text.replaceAll("？\”", "？\”<hr>");
+			text = text.replaceAll("？\]", "？]”<hr>");
+			text = text.replaceAll("! ", "!<hr>");
+			text = text.replaceAll("!\"", "!\"<hr>");
+			text = text.replaceAll("!\]", "!\]<hr>");
+			text = text.replaceAll("！ ", "！<hr>");
+			text = text.replaceAll("！\"", "！\"<hr>");
+			text = text.replaceAll("！\]", "！\]<hr>");
 			text = text.replaceAll("…\"", "…\"<hr>");
 			text = text.replaceAll("…\”", "…\”<hr>");
 			text = text.replaceAll("•", "<hr>•");
