@@ -146,7 +146,7 @@ div.outputTextAreaRight {
 			
 			<img id="buttonLight" src="button_light.png" onclick="lightUp()" class="imgButton" alt="Light">
 			<img src="button_original.png" onclick="toOriginal()" class="imgButton" alt="Original">
-			<img src="button_separate.png" onclick="toSeparate()" class="imgButton" alt="Separate">
+			<img id="buttonSeparate" src="button_separate.png" onclick="toSeparate()" class="imgButton" alt="Separate">
 			<div id="buttonPaste"></div>
 			
 			<div></div>	
@@ -184,11 +184,31 @@ div.outputTextAreaRight {
 		</div>
 	</div>
 	
+	<div id="myInput">
+	</div>
 	
 	
 	<script>
+		//=================================================
+		// Set up key events
+		//=================================================
+		input = document.getElementById("inputTextArea");
+		input.addEventListener("keyup", function(event) {
+		  // Number 13 is the "Enter" key on the keyboard
+		  if (event.keyCode === 13) {
+			// Cancel the default action, if needed
+			event.preventDefault();
+			// Trigger the button element with a click
+			document.getElementById("buttonSeparate").click();
+		  }
+		}); 
+		
+		//=================================================
+		// Initialize Page
+		//=================================================
 		light = false;
-		googleTranslate = true; 
+		//version
+		googleTranslate = true;
 		leftText = "";
 		rightText = "";
 	
@@ -226,6 +246,9 @@ div.outputTextAreaRight {
 				setTimeout(function () {
 					body = document.getElementById("pageBody");
 					body.style.minHeight = "95%"; 
+					//The code snippet: automatically select zh-CN when initialize the page
+					//The code currently not working
+					//We leave it here for further investigation
 					/*
 					googleTranslateElementSelect = document.getElementById(":0.targetLanguage").children[0]; 
 					langOptions = googleTranslateElementSelect.children; 
@@ -448,9 +471,11 @@ div.outputTextAreaRight {
 			text = text.replaceAll("？\]", "？]”<hr>");
 			text = text.replaceAll("! ", "!<hr>");
 			text = text.replaceAll("!\"", "!\"<hr>");
+			text = text.replaceAll("!\”", "!\”<hr>");
 			text = text.replaceAll("!\]", "!\]<hr>");
 			text = text.replaceAll("！ ", "！<hr>");
 			text = text.replaceAll("！\"", "！\"<hr>");
+			text = text.replaceAll("！\”", "！\”<hr>");
 			text = text.replaceAll("！\]", "！\]<hr>");
 			text = text.replaceAll("…\"", "…\"<hr>");
 			text = text.replaceAll("…\”", "…\”<hr>");

@@ -40,7 +40,8 @@
 /*Div Settings*/
 div.outputTextAreaLeft {
   width: 45.5vw;
-  height: 45vh;	
+  max-width: 45.5vw;
+  height: 44.9vh;	
   overflow: auto;
 }
 
@@ -53,6 +54,7 @@ div.outputTextAreaLeft {
 div.outputTextAreaRight {
   float: right;
   width: 45.5vw;
+  max-width: 45.5vw;
   min-height: 80vh;
   max-height: 80vh;
   overflow: auto;
@@ -62,20 +64,38 @@ div.outputTextAreaRight {
   background-color:orange;
   color:black;
   font-size:20px;
-  width: 46.3vw;
+  height: 10em;
+  width: 40vw;
+  max-width: 40vw;
 }
-
 
 /*Button Settings*/
 .imgButton {
-  max-height: 6.9vh; 
-  max-width: 7vw;
+  max-height: 5.9vh; 
+  max-width: 6vw;
 }
 
 .imgCheckBox {
-  float: right; 
   max-wdith: 6vw; 
   max-height: 2.3vh; 
+}
+
+.imgCheckBoxUpperLeft {
+  max-wdith: 6vw; 
+  max-height: 2.3vh; 
+  float:left;
+  padding:1px;
+}
+
+.imgCheckBoxUpperRight {
+  max-wdith: 6vw; 
+  max-height: 2.3vh; 
+  float:right;
+  padding:1px;
+}
+
+.fontSizeSlider {
+  width:40vw; 
 }
 
 .button {
@@ -99,36 +119,49 @@ div.outputTextAreaRight {
 	<div class="split left">
 		<div>
 			<!-- Button Text Captured at Browser zoom size 125%  -->
-			<!-- <button class="button" type="button" onclick="toOriginal()">Dark</button> -->
+			<!-- <button class="button" type="button" onclick="toOriginal()">Trans Right</button> -->
 			
 			<br>
+			
+			<input type="checkbox" id="showLeftCheckbox" value="showLeft" hidden>
+			<img id="showLeftImg" src="checkbox_show.png" onclick="show(0)" class="imgCheckBoxUpperLeft" alt="Show">
+			<input type="checkbox" id="translateLeftCheckbox" value="translateLeft" hidden>
+			<img id="translateLeftImg" src="checkbox_translate.png" onclick="translateText(0)" class="imgCheckBoxUpperLeft" alt="Translate">
 			
 			<div id="outputTextAreaLeft" class="outputTextAreaLeft round2" translate="no">
-				
+					
 			</div>
 			
-			<br>
+			<br id="leftBr">
+			
+			<div id="googleTranslateContainer">
+				<div id="google_translate_element"></div> 
+				<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
+				</script>
+			</div>
 			
 			<textarea id="inputTextArea" name="w3review" rows="10" class="inputTextArea" translate="no">
-		
+				Text
 			</textarea>
 			
-			<br>
-			
-			<img id="button_light" src="button_light.png" onclick="lightUp()" class="imgButton" alt="Light">
+			<img id="buttonLight" src="button_light.png" onclick="lightUp()" class="imgButton" alt="Light">
 			<img src="button_original.png" onclick="toOriginal()" class="imgButton" alt="Original">
-			<img src="button_separate.png" onclick="toSeparate()" class="imgButton" alt="Separate">
+			<img id="buttonSeparate" src="button_separate.png" onclick="toSeparate()" class="imgButton" alt="Separate">
+			<div id="buttonPaste"></div>
 			
+			<div></div>	
 			
+			<input type="checkbox" id="clearNewlineCheckbox" value="clearNewline" hidden>
+			<img id="clearNewlineImg" src="checkbox_clear_newline.png" onclick="checkClearNewline()" class="imgCheckBox" alt="Clear Newline">
+			<input type="checkbox" id="numberingCheckbox" value="numbering" hidden>
+			<img id="numberingImg" src="checkbox_numbering.png" onclick="checkNumbering()" class="imgCheckBox" alt="Numbering">
 			
-			<input type="checkbox" id="clearNewlineCheckbox" value="mergeEnter" hidden>
-			<img id="clearNewlineImg" src="checkbox_clear_newline.png" onclick="checkClearNewline()" class="imgCheckBox" alt="Merge Enter">
-			<input type="checkbox" id="numberingCheckbox" value="Bike" hidden>
-			<img id="numberingImg" src="checkbox_numbering.png" onclick="checkNumbering()" class="imgCheckBox" alt="Bullet Number">
+			<div></div>	
+			
+			<div id="fontSizeSlider"></div>	
 			
 			<br>
 			
-
 		</div>
 	</div>
 
@@ -137,8 +170,13 @@ div.outputTextAreaRight {
 		
 			<br>
 			
-			<div id="outputTextAreaRight" class="outputTextAreaRight round2">
-				
+			<input type="checkbox" id="translateRightCheckbox" value="translateRight" hidden>
+			<img id="translateRightImg" src="checkbox_translate.png" onclick="translateText(1)" class="imgCheckBoxUpperRight" alt="Translate">
+			<input type="checkbox" id="showRightCheckbox" value="showRight" hidden>
+			<img id="showRightImg" src="checkbox_show.png" onclick="show(1)" class="imgCheckBoxUpperRight" alt="Show">
+			
+			<div id="outputTextAreaRight" class="outputTextAreaRight round2" translate="yes">
+					
 			</div>
 			
 			<br><br><br><br>
@@ -146,18 +184,92 @@ div.outputTextAreaRight {
 		</div>
 	</div>
 	
+	<div id="myInput">
+	</div>
 	
 	
 	<script>
+		//=================================================
+		// Set up key events
+		//=================================================
+		input = document.getElementById("inputTextArea");
+		input.addEventListener("keyup", function(event) {
+		  // Number 13 is the "Enter" key on the keyboard
+		  if (event.keyCode === 13) {
+			// Cancel the default action, if needed
+			event.preventDefault();
+			// Trigger the button element with a click
+			document.getElementById("buttonSeparate").click();
+		  }
+		}); 
+		
+		//=================================================
+		// Initialize Page
+		//=================================================
 		light = false;
+		//version
+		googleTranslate = false;
+		leftText = "";
+		rightText = "";
 	
 		function initialize() {
 			document.getElementById("inputTextArea").innerHTML = "";
 			document.getElementById("outputTextAreaLeft").innerHTML = "";
 			document.getElementById("clearNewlineCheckbox").checked = true;
 			document.getElementById("numberingCheckbox").checked = true;
+			document.getElementById("showLeftCheckbox").checked = true;
+			document.getElementById("showRightCheckbox").checked = true;
+			document.getElementById("translateLeftCheckbox").checked = true;
+			translateText(0);
+			document.getElementById("translateRightCheckbox").checked = true;
 			light = false;
-			document.getElementById("button_light").style.opacity = "0.5";
+			document.getElementById("buttonLight").style.opacity = "0.5";
+			
+		}
+		
+		
+		function googleTranslateElementInit() {
+			if (googleTranslate){
+				//Make <br> between outputTextAreaLeft and inputTextArea hidden
+				document.getElementById("leftBr").outerHTML = "";
+				//Modify inputTextArea rows
+				document.getElementById("inputTextArea").style.height = "8em";
+				//Make buttonPaste visible
+				document.getElementById("buttonPaste").outerHTML = 
+					"<img id=\"buttonPaste\" src=\"button_paste.png\" onclick=\"paste()\" class=\"imgButton\" alt=\"Paste\">";
+				//Make fontSizeSlider visible
+				document.getElementById("fontSizeSlider").outerHTML = 
+					"<input id=\"fontSizeSlider\" type=\"range\" min=\"26\" max=\"50\" value=\"26\" class=\"fontSizeSlider\" oninput=\"fontSizeSliderUpdate()\">"; 
+				//Init translate element
+				new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element'); 
+			//	return;  
+				setTimeout(function () {
+					body = document.getElementById("pageBody");
+					body.style.minHeight = "95%"; 
+					//The code snippet: automatically select zh-CN when initialize the page
+					//The code currently not working
+					//We leave it here for further investigation
+					/*
+					googleTranslateElementSelect = document.getElementById(":0.targetLanguage").children[0]; 
+					langOptions = googleTranslateElementSelect.children; 
+					
+					for(var i = 0; i < langOptions.length; i++){ 
+						currentOption = langOptions[i]; 
+						if(currentOption.value == "zh-CN") {
+							currentOption.outerHTML = "<option value=\"zh-CN\" selected>Chinese (Simplified)</option>"; 
+						}
+					}
+					*/
+				}, 10); 
+			}
+		}
+		
+		function fontSizeSliderUpdate() {
+			fontSizeSlider = document.getElementById("fontSizeSlider"); 
+		//	alert(fontSizeSlider); 
+			fontSize = fontSizeSlider.value; 
+			document.getElementById("outputTextAreaLeft").style.fontSize = fontSize + "px"; 
+			document.getElementById("outputTextAreaRight").style.fontSize = fontSize + "px"; 
 		}
 		
 		
@@ -168,12 +280,12 @@ div.outputTextAreaRight {
 		darkTextColor = "#828282";
 		function lightUp(){	
 			if(light){
-				document.getElementById("button_light").style.opacity = "0.5";
+				document.getElementById("buttonLight").style.opacity = "0.5";
 				
 				document.getElementById("pageBody").style.backgroundColor = darkBackgroundColor
 				document.getElementById("pageBody").style.color = darkTextColor;
 			}else {
-				document.getElementById("button_light").style.opacity = "1.0";
+				document.getElementById("buttonLight").style.opacity = "1.0";
 				
 				document.getElementById("pageBody").style.backgroundColor = lightBackgroundColor
 				document.getElementById("pageBody").style.color = lightTextColor;
@@ -194,6 +306,60 @@ div.outputTextAreaRight {
 			document.getElementById("numberingImg").style.opacity = checkBox.checked? "1.0" : "0.5";
 			toSeparate();
 		}
+
+		
+		function writeToOutputTextArea(sideCode) {
+			side = sideCode == 0 ? "Left" : "Right"; 
+			showCheckBox = document.getElementById("show" + side + "Checkbox"); 
+			
+			document.getElementById("outputTextArea" + side).innerHTML = "";
+			content = showCheckBox.checked ? (sideCode == 0 ? leftText : rightText) : ""; 
+			document.getElementById("outputTextArea" + side).innerHTML = content;
+		}
+		
+		//sideCode = 0: left, 1: right
+		function show(sideCode) { 
+			side = sideCode == 0 ? "Left" : "Right"; 
+			showCheckBox = document.getElementById("show" + side + "Checkbox"); 
+			showCheckBox.checked = showCheckBox.checked ? false : true; 
+			
+			writeToOutputTextArea(sideCode); 
+			
+			document.getElementById("show" + side + "Img").style.opacity = showCheckBox.checked ? "1.0" : "0.5";
+		}
+				
+		//sideCode = 0: left, 1: right
+		//translateCode = 0: no, 1: yes
+		function generateOutputTextAreaDivTag(sideCode, translateCode) { 
+			side = sideCode == 0 ? "Left" : "Right"; 
+			translate = translateCode == 0 ? "no" : "yes"; 
+			div = "<div id=\"outputTextArea" + side + 
+					"\" class=\"outputTextArea" + side + 
+					" round2\" translate=\"" + translate + "\"></div>"; 
+			
+			return div; 
+		}
+		
+		//sideCode = 0: left, 1: right
+		function translateText(sideCode) {
+			side = sideCode == 0 ? "Left" : "Right"; 
+			translateCheckBox = document.getElementById("translate" + side + "Checkbox"); 
+			translateCheckBox.checked = translateCheckBox.checked ? false : true;
+			translateCode = translateCheckBox.checked ? 1 : 0; 
+			
+			newOutputAreaDiv = generateOutputTextAreaDivTag(sideCode, translateCode); 
+			document.getElementById("outputTextArea" + side).outerHTML = newOutputAreaDiv; 
+			//Adjust font size
+			fontSizeSlider = document.getElementById("fontSizeSlider"); 
+			fontSize = fontSizeSlider.value; 
+			document.getElementById("outputTextArea" + side).style.fontSize = fontSize + "px"; 
+			//Write text
+			writeToOutputTextArea(sideCode); 
+			
+			document.getElementById("translate" + side + "Img").style.opacity = translateCheckBox.checked ? "1.0" : "0.5";
+		}
+		
+		
 	
 		function toOriginal() { 
 			//get text from inputTextArea
@@ -201,10 +367,15 @@ div.outputTextAreaRight {
 			
 			//add paddings
 		//	text = "<br>" + text + "<br><br><br><br>"
+			text = text + "&nbsp;" + "<br><br><br><br>";
+			
+			//assign text to leftText and rightText
+			leftText = "";
+			rightText = text;
 			
 			//print text to outputTextAreaRight
-			document.getElementById("outputTextAreaRight").innerHTML = text;
-			document.getElementById("outputTextAreaLeft").innerHTML = "";
+			writeToOutputTextArea(0); 
+			writeToOutputTextArea(1); 
 		}
 		
 		function specialDotStringEscapes() { 
@@ -215,23 +386,43 @@ div.outputTextAreaRight {
 			reg = reg + "(p\\.m)" + "|";	//p.m. 
 			reg = reg + "(i\\.e)" + "|";	//i.e. 
 			reg = reg + "(e\\.g)" + "|";	//e.g. 
-			reg = reg + "(p)" + "|";		//page
-			reg = reg + "(pp)" + "|";		//pages
+			reg = reg + "(Jan)" + "|";		//January
+			reg = reg + "(Feb)" + "|";		//February
+			reg = reg + "(Jun)" + "|";		//June
+			reg = reg + "(Aug)" + "|";		//August
+			reg = reg + "(Sep)" + "|";		//September
+			reg = reg + "(Oct)" + "|";		//October
+			reg = reg + "(Nov)" + "|";		//November
+			reg = reg + "(Dec)" + "|";		//December
+			reg = reg + "(\\sc)" + "|";		//circa
+			reg = reg + "(\\sp)" + "|";		//page
+			reg = reg + "(\\s[A-Z])" + "|";	//Name abbrevation
+			reg = reg + "(\\spp)" + "|";	//pages
 			reg = reg + "(cf)" + "|";		//compare
+			reg = reg + "(\\svs)" + "|";	//vs
+			reg = reg + "(\\sVS)" + "|";	//vs
+			reg = reg + "(Dr)" + "|";		//Dr. 
+			reg = reg + "(DR)" + "|";		//Dr. 
+			reg = reg + "(Mr)" + "|";		//Dr. 
+			reg = reg + "(No)" + "|";		//No. 
+			reg = reg + "(fig)" + "|";		//figure
+			reg = reg + "(Fig)" + "|";		//figure
+			reg = reg + "(figs)" + "|";		//figures
+			reg = reg + "(Figs)" + "|";		//figures
 			reg = reg + "(et\\sal)";		//et al. 
 			reg = reg + ")\\.\\s";
-			return new RegExp(reg, "gi");	//global case-insensitive
+			return new RegExp(reg, "g");	//global case-insensitive
 		} 
 		
 		function toSeparate() { 
 			//convert to original first to avoid translate formatting problems
-			toOriginal(); 
+		//	toOriginal(); 
 		
 			//get whether merge enters "\n"
 			clearNewline = document.getElementById("clearNewlineCheckbox").checked;
 			//get whether include bullet number
 			numbering = document.getElementById("numberingCheckbox").checked
-		
+			
 			//replace all
 			//https://stackoverflow.com/questions/1144783/how-to-replace-all-occurrences-of-a-string-in-javascript
 			//get text from inputTextArea
@@ -247,7 +438,7 @@ div.outputTextAreaRight {
 			//replace dot symbols
 			tmpSymbol = "<tmp&symbl>"
 			text = text.replaceAll(specialDotStringEscapes(), function(x){
-				console.log(x.substring(x.length - 2))
+			//	console.log(x.substring(x.length - 2))
 				return x.substring(0, x.length - 1) + tmpSymbol;
 			});
 			text = text.replaceAll(". ", ".<hr>");
@@ -256,15 +447,39 @@ div.outputTextAreaRight {
 		//	text = text.replaceAll(/(?![et\sal])\.\s/gi, ".<hr>");
 			text = text.replaceAll(".\"", ".\"<hr>");
 			text = text.replaceAll(".\”", ".\"<hr>");
+			text = text.replaceAll(".\]", ".\]<hr>");
 		//	text = text.replaceAll(".\n", ".<hr>");
-			text = text.replaceAll(/\.\[[0-9]+\]/gi, function (x) {
-			  return x + " <hr>";
+			// Wikipedia reference: ".[1][2][3]"
+			text = text.replaceAll(/\.(\[([A-Z]|[a-z]|[0-9]|\s)+\])+/gi, function (x) {
+			  return x + "<hr>";
+			});
+			// Foot annotation index
+			text = text.replaceAll(/([A-Z])\.([0-9])+\s/gi, function (x) {
+			  return x + "<hr>";
 			});
 			text = text.replaceAll("。\"", "。\"<hr>");
 			text = text.replaceAll("。\”", "。\”<hr>");
 			text = text.replaceAll(/。(?![\"|\”])/gi, "。<hr>");
 		//	text = text.replaceAll("。\n", "。<hr>");
 			text = text.replaceAll("? ", "?<hr>");
+			text = text.replaceAll("?\"", "?\"<hr>");
+			text = text.replaceAll("?\”", "?\”<hr>");
+			text = text.replaceAll("?\]", "?\]<hr>");
+			text = text.replaceAll("？ ", "？<hr>");
+			text = text.replaceAll("？\"", "？\"<hr>");
+			text = text.replaceAll("？\”", "？\”<hr>");
+			text = text.replaceAll("？\]", "？]”<hr>");
+			text = text.replaceAll("! ", "!<hr>");
+			text = text.replaceAll("!\"", "!\"<hr>");
+			text = text.replaceAll("!\”", "!\”<hr>");
+			text = text.replaceAll("!\]", "!\]<hr>");
+			text = text.replaceAll("！ ", "！<hr>");
+			text = text.replaceAll("！\"", "！\"<hr>");
+			text = text.replaceAll("！\”", "！\”<hr>");
+			text = text.replaceAll("！\]", "！\]<hr>");
+			text = text.replaceAll("…\"", "…\"<hr>");
+			text = text.replaceAll("…\”", "…\”<hr>");
+			text = text.replaceAll("•", "<hr>•");
 		//	text = text.replaceAll("?\n", "?<hr>");
 			text = text.replaceAll("\n", "<hr>");
 			
@@ -290,12 +505,23 @@ div.outputTextAreaRight {
 			}
 			
 			//add paddings
-			text = text + "&nbsp;";
-			textWithPadding = text + "<br><br><br><br>";
+			text = text + "&nbsp;" + "<br><br><br><br>";
+			
+			//assign text to leftText and rightText
+			leftText = text;
+			rightText = text;
 			
 			//print text to outputTextAreaRight
-			document.getElementById("outputTextAreaRight").innerHTML = textWithPadding;
-			document.getElementById("outputTextAreaLeft").innerHTML = textWithPadding;
+			writeToOutputTextArea(0); 
+			writeToOutputTextArea(1); 
+		}
+		
+		function paste(){
+			navigator.clipboard.readText().then((text) => {
+				document.getElementById("inputTextArea").value = text;
+				toSeparate();
+			});
+			
 		}
 	</script>
 	
