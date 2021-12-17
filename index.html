@@ -396,6 +396,7 @@ div.outputTextAreaRight {
 			reg = reg + "(Dec)" + "|";		//December
 			reg = reg + "(\\sc)" + "|";		//circa
 			reg = reg + "(\\sp)" + "|";		//page
+			reg = reg + "(\\(p)" + "|";		//page
 			reg = reg + "(\\s[A-Z])" + "|";	//Name abbrevation
 			reg = reg + "(\\spp)" + "|";	//pages
 			reg = reg + "(cf)" + "|";		//compare
@@ -404,6 +405,7 @@ div.outputTextAreaRight {
 			reg = reg + "(Dr)" + "|";		//Dr. 
 			reg = reg + "(DR)" + "|";		//Dr. 
 			reg = reg + "(Mr)" + "|";		//Dr. 
+			reg = reg + "(no)" + "|";		//No. 
 			reg = reg + "(No)" + "|";		//No. 
 			reg = reg + "(fig)" + "|";		//figure
 			reg = reg + "(Fig)" + "|";		//figure
@@ -445,12 +447,12 @@ div.outputTextAreaRight {
 			text = text.replaceAll(tmpSymbol, " ");
 			//=====================================================
 		//	text = text.replaceAll(/(?![et\sal])\.\s/gi, ".<hr>");
-			text = text.replaceAll(".\"", ".\"<hr>");
+			text = text.replaceAll(".\" ", ".\"<hr>");
 			text = text.replaceAll(".\”", ".\"<hr>");
 			text = text.replaceAll(".\]", ".\]<hr>");
 		//	text = text.replaceAll(".\n", ".<hr>");
 			// Wikipedia reference: ".[1][2][3]"
-			text = text.replaceAll(/\.(\[([A-Z]|[a-z]|[0-9]|\s)+\])+/gi, function (x) {
+			text = text.replaceAll(/\.(\"){0,1}(\[([A-Z]|[a-z]|[0-9]|\s)+\])+/gi, function (x) {
 			  return x + "<hr>";
 			});
 			// Foot annotation index
@@ -483,26 +485,38 @@ div.outputTextAreaRight {
 		//	text = text.replaceAll("?\n", "?<hr>");
 			text = text.replaceAll("\n", "<hr>");
 			
-			textPieces = text.split("<hr>")
-			textPieces0 = textPieces[0].trim();
+			console.log(text); 
 			
-			lineCount = 1
+			textPieces = text.split("<hr>");
+			textPieces0 = textPieces[0].trim();
+
+			lineCount = 1;
 		//	console.log(textPieces0.length)
 			if(textPieces0.length != 0){ 
-				text = (numbering ? "(" + lineCount + ") " : "") + textPieces[0]
+				text = (numbering ? "(" + lineCount + ") " : "") + textPieces[0]; 
 				lineCount++;
 			}
 			
 			for(i = 1; i < textPieces.length; i++){
 				line = textPieces[i].trim()
+				console.log(line); 
 				if(line.length == 0){
+					console.log("empty"); 
 					continue;
 				}
 				number = numbering ? "(" + lineCount + ") " : "";
 				lineCount++;
 				line = number + line; 
-				text = text + "&nbsp;<hr>" + line
+				if(i == 1 && textPieces0.length == 0){ 
+					//In case of the first piece is empty
+					text = line; 
+				}else {
+					text = text + "&nbsp;<hr>" + line; 
+				}
+				
 			}
+			
+			console.log(text); 
 			
 			//add paddings
 			text = text + "&nbsp;" + "<br><br><br><br>";
