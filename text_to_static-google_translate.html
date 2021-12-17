@@ -479,14 +479,14 @@ div.outputTextAreaRight {
 			text = text.replaceAll("！\]", "！\]<hr>");
 			text = text.replaceAll("…\"", "…\"<hr>");
 			text = text.replaceAll("…\”", "…\”<hr>");
-			text = text.replaceAll("•", "<hr>•");
+		//	text = text.replaceAll("•", "<hr>•");
 		//	text = text.replaceAll("?\n", "?<hr>");
 			text = text.replaceAll("\n", "<hr>");
 			
-			textPieces = text.split("<hr>")
+			textPieces = text.split("<hr>");
 			textPieces0 = textPieces[0].trim();
 			
-			lineCount = 1
+			lineCount = 1;
 		//	console.log(textPieces0.length)
 			if(textPieces0.length != 0){ 
 				text = (numbering ? "(" + lineCount + ") " : "") + textPieces[0]
