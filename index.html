@@ -220,6 +220,16 @@ Text
 			light = false;
 			document.getElementById("buttonLight").style.opacity = "0.5";
 			
+			//disable cookies
+			if(!document.__defineGetter__) {
+				Object.defineProperty(document, 'cookie', {
+					get: function(){return ''},
+					set: function(){return true},
+				});
+			} else {
+				document.__defineGetter__("cookie", function() { return '';} );
+				document.__defineSetter__("cookie", function() {} );
+			}
 		}
 		
 		//-------------------------------------------------
@@ -252,16 +262,6 @@ Text
 		//	console.log(bodyChildren.length);
 			bodyChildren[bodyChildren.length - 1].outerHTML = "";	//remove (bottom) div class=goog-te-spinner-pos 
 			bodyChildren[bodyChildren.length - 1].outerHTML = "";	//remove (bottom) div id=goog-gt-tt 
-			//In case of cookie makes selection
-			if(bodyChildren[0].className != "container") { 
-				bodyChildren[4].outerHTML = ""; //remove iframe
-				bodyChildren[3].outerHTML = ""; //remove iframe
-				bodyChildren[0].outerHTML = ""; //remove top bar
-															
-				//remove google translate css link
-				headTag = document.getElementsByTagName("HEAD")[0];
-				headTag.children[1].outerHTML = ""; 
-			}
 			
 			//remove google translate select class
 			googleTranslateElementSelect.className = "";
