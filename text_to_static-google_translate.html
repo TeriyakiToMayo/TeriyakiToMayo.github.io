@@ -208,7 +208,7 @@ Text
 		rightText = "";
 		
 		function initialize() {
-			document.getElementById("inputTextArea").innerHTML = "";
+			document.getElementById("inputTextArea").innerHTML = "1";
 			document.getElementById("outputTextAreaLeft").innerHTML = "";
 			document.getElementById("clearNewlineCheckbox").checked = true;
 			document.getElementById("numberingCheckbox").checked = true;
@@ -264,7 +264,7 @@ Text
 		//	console.log(googleTranslateElementGadget.childNodes[1]);
 		//	console.log(googleTranslateElementGadget.children.length);
 			
-			googleTranslateElementSelect.value = "";
+			alert(bodyChildren[0].className); 
 			
 			//add event listener to google translate select
 			googleTranslateElementSelect.addEventListener("change", async function(event){
