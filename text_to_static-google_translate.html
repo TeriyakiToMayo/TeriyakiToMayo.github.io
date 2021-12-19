@@ -111,6 +111,11 @@ div.outputTextAreaRight {
   cursor: pointer;
 }
 
+.googleTranslateContainer { 
+  padding-top: 0.8vh; 
+  padding-bottom: 0.8vh; 
+}
+
 </style>
 
 <body id="pageBody" onload="initialize()" class="body">
@@ -134,7 +139,7 @@ div.outputTextAreaRight {
 			
 			<br id="leftBr">
 			
-			<div id="googleTranslateContainer">
+			<div id="googleTranslateContainer" class="googleTranslateContainer">
 				<div id="google_translate_element"></div> 
 				<script type="text/javascript" src="https://translate.google.com/translate_a/element.js?cb=googleTranslateElementInit">
 				</script>
@@ -201,7 +206,7 @@ Text
 		googleTranslate = true; 
 		leftText = "";
 		rightText = "";
-	
+		
 		function initialize() {
 			document.getElementById("inputTextArea").innerHTML = "";
 			document.getElementById("outputTextAreaLeft").innerHTML = "";
@@ -228,7 +233,7 @@ Text
 			//wait until google translate is fully loaded
 			googleTranslateElementSelect = document.getElementById(":0.targetLanguage").children[0]; 
 			langOptions = googleTranslateElementSelect.children; 
-			for(let i = 0; i < 1000; i++) { 
+			for(let i = 0; i < 100; i++) { 
 				await sleep(10); 
 				if(langOptions.length > 0) { 
 				//	console.log("i = " + i);
@@ -244,13 +249,20 @@ Text
 			
 			//remove unnecessary google translate divs
 			bodyChildren = document.getElementById("pageBody").children; 
-			bodyChildren[3].outerHTML = "";	//remove div class=goog-te-spinner-pos
-			bodyChildren[2].outerHTML = "";	//remove div id=goog-gt-tt
+			bodyChildren[3].outerHTML = "";	//remove (bottom) div class=goog-te-spinner-pos 
+			bodyChildren[2].outerHTML = "";	//remove (bottom) div id=goog-gt-tt 
+			
+			//remove google translate gadget text and Logo
+			googleTranslateElementGadget = document.getElementById("google_translate_element").children[0]; 
+			googleTranslateElementGadget.removeChild(googleTranslateElementGadget.childNodes[2]);	//remove Google logo
+			googleTranslateElementGadget.removeChild(googleTranslateElementGadget.childNodes[1]);	//remove "Powered by"
+		//	console.log(googleTranslateElementGadget.childNodes.length);
+		//	console.log(googleTranslateElementGadget.childNodes[1]);
+		//	console.log(googleTranslateElementGadget.children.length);
 			
 			//add event listener to google translate select
 			googleTranslateElementSelect.addEventListener("change", async function(event){
 				bodyChildren = document.getElementById("pageBody").children; 
-				console.log();
 				if(bodyChildren[0].className == "container") {
 					return;
 				} else {
@@ -270,7 +282,7 @@ Text
 						if(translateLeftCheckBox.checked){
 							latestTextLeft = outputTextAreaLeftObj.innerHTML;
 							if(latestTextLeft != originalTextLeft) {
-								console.log("left i = " + i);
+							//	console.log("left i = " + i);
 								break;
 							}
 						}
@@ -278,7 +290,7 @@ Text
 						if(translateRightCheckBox.checked){
 							latestTextRight = outputTextAreaRightObj.innerHTML;
 							if(latestTextRight != originalTextRight) {
-								console.log("right i = " + i);
+							//	console.log("right i = " + i);
 								break;
 							}
 						}	
@@ -288,6 +300,11 @@ Text
 					bodyChildren[4].outerHTML = ""; //remove iframe
 					bodyChildren[3].outerHTML = ""; //remove iframe
 					bodyChildren[0].outerHTML = ""; //remove top bar
+					
+								
+					//remove google translate css link
+					headTag = document.getElementsByTagName("HEAD")[0];
+					headTag.children[1].outerHTML = ""; 
 				}
 				
 			});
