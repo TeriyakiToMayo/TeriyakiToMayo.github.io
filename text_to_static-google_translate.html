@@ -234,7 +234,7 @@ Text
 		async function asyncRemoveTopBar() { 
 			needToRemove = false;
 			bodyChildren = document.getElementById("pageBody").children; 
-			for(let i = 0; i < 100; i++) { 
+			for(let i = 0; i < 1000; i++) { 
 				await sleep(10); 
 				if(bodyChildren[0].className != "container") { 
 					needToRemove = true; 
@@ -247,7 +247,7 @@ Text
 				bodyChildren[4].outerHTML = ""; //remove iframe
 				bodyChildren[3].outerHTML = ""; //remove iframe
 				bodyChildren[0].outerHTML = ""; //remove top bar
-															
+				
 				//remove google translate css link
 				headTag = document.getElementsByTagName("HEAD")[0];
 				headTag.children[1].outerHTML = ""; 
