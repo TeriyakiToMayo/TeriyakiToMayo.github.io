@@ -208,7 +208,7 @@ Text
 		rightText = "";
 		
 		function initialize() {
-			document.getElementById("inputTextArea").innerHTML = "3";
+			document.getElementById("inputTextArea").innerHTML = "4";
 			document.getElementById("outputTextAreaLeft").innerHTML = "";
 			document.getElementById("clearNewlineCheckbox").checked = true;
 			document.getElementById("numberingCheckbox").checked = true;
@@ -269,7 +269,8 @@ Text
 				bodyChildren[4].outerHTML = ""; //remove iframe
 				bodyChildren[3].outerHTML = ""; //remove iframe
 				bodyChildren[0].outerHTML = ""; //remove top bar
-															
+				alert(bodyChildren[0].className); 
+				
 				//remove google translate css link
 				headTag = document.getElementsByTagName("HEAD")[0];
 				headTag.children[1].outerHTML = ""; 
