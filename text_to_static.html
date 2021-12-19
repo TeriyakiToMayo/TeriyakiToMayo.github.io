@@ -260,6 +260,11 @@ Text
 		//	console.log(googleTranslateElementGadget.childNodes[1]);
 		//	console.log(googleTranslateElementGadget.children.length);
 			
+											
+			//remove google translate css link
+			headTag = document.getElementsByTagName("HEAD")[0];
+			headTag.children[1].outerHTML = ""; 
+			
 			//add event listener to google translate select
 			googleTranslateElementSelect.addEventListener("change", async function(event){
 				bodyChildren = document.getElementById("pageBody").children; 
@@ -301,10 +306,6 @@ Text
 					bodyChildren[3].outerHTML = ""; //remove iframe
 					bodyChildren[0].outerHTML = ""; //remove top bar
 					
-								
-					//remove google translate css link
-					headTag = document.getElementsByTagName("HEAD")[0];
-					headTag.children[1].outerHTML = ""; 
 				}
 				
 			});
