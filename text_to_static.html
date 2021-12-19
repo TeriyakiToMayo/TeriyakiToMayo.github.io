@@ -203,7 +203,7 @@ Text
 		//-------------------------------------------------
 		light = false;
 		//version
-		googleTranslate = false;
+		googleTranslate = true; 
 		leftText = "";
 		rightText = "";
 		
@@ -265,16 +265,17 @@ Text
 		//	console.log(googleTranslateElementGadget.children.length);
 			
 			document.getElementById("inputTextArea").innerHTML = bodyChildren[0].className;
-			bodyChildren[0].outerHTML = ""; //remove top bar
+		//	bodyChildren[0].outerHTML = ""; //remove top bar
 			
+		//	console.log(bodyChildren[0].className != "container"); 
 			if(bodyChildren[0].className == "container") {
 				
 			} else {
 		//		alert(bodyChildren[0].className); 
-				bodyChildren[4].outerHTML = ""; //remove iframe
-				bodyChildren[3].outerHTML = ""; //remove iframe
-				bodyChildren[0].outerHTML = ""; //remove top bar
-				alert(bodyChildren[0].className); 
+			//	bodyChildren[4].outerHTML = ""; //remove iframe
+			//	bodyChildren[3].outerHTML = ""; //remove iframe
+			//	bodyChildren[0].outerHTML = ""; //remove top bar
+			//	alert(bodyChildren[0].className); 
 				
 				//remove google translate css link
 				headTag = document.getElementsByTagName("HEAD")[0];
