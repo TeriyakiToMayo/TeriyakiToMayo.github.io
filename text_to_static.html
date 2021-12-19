@@ -249,8 +249,19 @@ Text
 			
 			//remove unnecessary google translate divs
 			bodyChildren = document.getElementById("pageBody").children; 
-			bodyChildren[3].outerHTML = "";	//remove (bottom) div class=goog-te-spinner-pos 
-			bodyChildren[2].outerHTML = "";	//remove (bottom) div id=goog-gt-tt 
+		//	console.log(bodyChildren.length);
+			bodyChildren[bodyChildren.length - 1].outerHTML = "";	//remove (bottom) div class=goog-te-spinner-pos 
+			bodyChildren[bodyChildren.length - 1].outerHTML = "";	//remove (bottom) div id=goog-gt-tt 
+			//In case of cookie makes selection
+			if(bodyChildren[0].className != "container") { 
+				bodyChildren[4].outerHTML = ""; //remove iframe
+				bodyChildren[3].outerHTML = ""; //remove iframe
+				bodyChildren[0].outerHTML = ""; //remove top bar
+															
+				//remove google translate css link
+				headTag = document.getElementsByTagName("HEAD")[0];
+				headTag.children[1].outerHTML = ""; 
+			}
 			
 			//remove google translate select class
 			googleTranslateElementSelect.className = "";
