@@ -201,7 +201,7 @@ Text
 		googleTranslate = false; 
 		leftText = "";
 		rightText = "";
-	
+		
 		function initialize() {
 			document.getElementById("inputTextArea").innerHTML = "";
 			document.getElementById("outputTextAreaLeft").innerHTML = "";
@@ -254,12 +254,40 @@ Text
 				if(bodyChildren[0].className == "container") {
 					return;
 				} else {
-					await sleep(100); 
+					//wait until translation complete
+					translateLeftCheckBox = document.getElementById("translateLeftCheckbox"); 
+					translateRightCheckBox = document.getElementById("translateRightCheckbox"); 
+					
+					outputTextAreaLeftObj = document.getElementById("outputTextAreaLeft");
+					originalTextLeft = translateLeftCheckBox.checked ? outputTextAreaLeftObj.innerHTML : null;
+					
+					outputTextAreaRightObj = document.getElementById("outputTextAreaRight"); 
+					originalTextRight = translateRightCheckBox.checked ? outputTextAreaRightObj.innerHTML : null; 
+					
+					for(let i = 0; i < 100; i++) { 
+						await sleep(10); 
+						
+						if(translateLeftCheckBox.checked){
+							latestTextLeft = outputTextAreaLeftObj.innerHTML;
+							if(latestTextLeft != originalTextLeft) {
+								console.log("left i = " + i);
+								break;
+							}
+						}
+						
+						if(translateRightCheckBox.checked){
+							latestTextRight = outputTextAreaRightObj.innerHTML;
+							if(latestTextRight != originalTextRight) {
+								console.log("right i = " + i);
+								break;
+							}
+						}	
+					}
+					
 				//	console.log(bodyChildren.length);
 					bodyChildren[4].outerHTML = ""; //remove iframe
 					bodyChildren[3].outerHTML = ""; //remove iframe
 					bodyChildren[0].outerHTML = ""; //remove top bar
-					
 				}
 				
 			});
