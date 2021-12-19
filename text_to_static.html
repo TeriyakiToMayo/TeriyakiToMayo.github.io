@@ -119,7 +119,7 @@ div.outputTextAreaRight {
 </style>
 
 <body id="pageBody" onload="initialize()" class="body">
-<div class="container">
+<div id="pageBodyContainer" class="container">
 	
 	<div class="split left">
 		<div>
@@ -203,7 +203,7 @@ Text
 		//-------------------------------------------------
 		light = false;
 		//version
-		googleTranslate = true; 
+		googleTranslate = false;
 		leftText = "";
 		rightText = "";
 		
@@ -225,6 +225,38 @@ Text
 		//-------------------------------------------------
 		// Initialize Google translate 
 		//-------------------------------------------------
+		function removeUnusedGoogleTranslateComponents() { 
+			bodyTag = document.getElementById("pageBody"); 
+			//remove from front
+			while(true){
+				if(bodyTag.childNodes[0].id != "pageBodyContainer") { 
+				//	console.log(bodyTag.childNodes[0].outerHTML); 
+					bodyTag.removeChild(bodyTag.childNodes[0]);
+				}else { 
+					break; 
+				}
+			}
+			
+			//remove from back
+			while(true){
+				if(bodyTag.childNodes[bodyTag.childNodes.length - 1].id != "pageBodyContainer") { 
+				//	console.log(bodyTag.childNodes[bodyTag.childNodes.length - 1].outerHTML); 
+					bodyTag.removeChild(bodyTag.childNodes[bodyTag.childNodes.length - 1]);
+				}else { 
+					break; 
+				}
+			}
+			
+			//remove CSS
+			headTag = document.getElementsByTagName("HEAD")[0];
+			for(let i = 0; i < headTag.childNodes.length; i++) { 
+			//	console.log(headTag.childNodes[i].tagName); 
+				if(headTag.childNodes[i].tagName == "LINK") {
+					headTag.removeChild(headTag.childNodes[i]); 
+				}
+			}
+		}
+		
 		function sleep(ms) {
 			return new Promise(resolve => setTimeout(resolve, ms));
 		}
@@ -247,12 +279,6 @@ Text
 			body = document.getElementById("pageBody");
 			body.style.minHeight = "90%"; 
 			
-			//remove unnecessary google translate divs
-			bodyChildren = document.getElementById("pageBody").children; 
-		//	console.log(bodyChildren.length);
-			bodyChildren[bodyChildren.length - 1].outerHTML = "";	//remove (bottom) div class=goog-te-spinner-pos 
-			bodyChildren[bodyChildren.length - 1].outerHTML = "";	//remove (bottom) div id=goog-gt-tt 
-			
 			//remove google translate select class
 			googleTranslateElementSelect.className = "";
 			//remove google translate gadget class, text and Logo
@@ -264,26 +290,15 @@ Text
 		//	console.log(googleTranslateElementGadget.childNodes[1]);
 		//	console.log(googleTranslateElementGadget.children.length);
 			
-			if(bodyChildren[0].className != "container") {
-				document.getElementById("inputTextArea").innerHTML = bodyChildren[0].className;
-		//		alert(bodyChildren[0].className); 
-			//	bodyChildren[4].outerHTML = ""; //remove iframe
-			//	bodyChildren[3].outerHTML = ""; //remove iframe
-				setTimeout(function(){
-					bodyChildren[0].outerHTML = ""; //remove top bar
-				}, 1000);
-				
-			//	alert(bodyChildren[0].className); 
-				
-				//remove google translate css link
-			//	headTag = document.getElementsByTagName("HEAD")[0];
-			//	headTag.children[1].outerHTML = ""; 
-			}
+			//remove everything in body but container
+			setTimeout(function(){
+				removeUnusedGoogleTranslateComponents(); 
+			}, 1000);
 			
 			//add event listener to google translate select
 			googleTranslateElementSelect.addEventListener("change", async function(event){
 				bodyChildren = document.getElementById("pageBody").children; 
-				if(bodyChildren[0].className == "container") {
+				if(bodyChildren.length == 1) {
 					return;
 				} else {
 					//wait until translation complete
@@ -315,16 +330,9 @@ Text
 							}
 						}	
 					}
-					
-				//	console.log(bodyChildren.length);
-					bodyChildren[4].outerHTML = ""; //remove iframe
-					bodyChildren[3].outerHTML = ""; //remove iframe
-					bodyChildren[0].outerHTML = ""; //remove top bar
-																
-					//remove google translate css link
-					headTag = document.getElementsByTagName("HEAD")[0];
-					headTag.children[1].outerHTML = ""; 
-					
+
+					removeUnusedGoogleTranslateComponents(); 
+																	
 				}
 				
 			});
@@ -665,7 +673,5 @@ Text
 	</script>
 	
 </div>
-<script>
-</script>
 </body>
 </html>
