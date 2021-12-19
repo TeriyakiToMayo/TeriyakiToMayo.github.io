@@ -252,18 +252,16 @@ Text
 			bodyChildren[3].outerHTML = "";	//remove (bottom) div class=goog-te-spinner-pos 
 			bodyChildren[2].outerHTML = "";	//remove (bottom) div id=goog-gt-tt 
 			
-			//remove google translate gadget text and Logo
+			//remove google translate select class
+			googleTranslateElementSelect.className = "";
+			//remove google translate gadget class, text and Logo
 			googleTranslateElementGadget = document.getElementById("google_translate_element").children[0]; 
+			googleTranslateElementGadget.className = "";
 			googleTranslateElementGadget.removeChild(googleTranslateElementGadget.childNodes[2]);	//remove Google logo
 			googleTranslateElementGadget.removeChild(googleTranslateElementGadget.childNodes[1]);	//remove "Powered by"
 		//	console.log(googleTranslateElementGadget.childNodes.length);
 		//	console.log(googleTranslateElementGadget.childNodes[1]);
 		//	console.log(googleTranslateElementGadget.children.length);
-			
-											
-			//remove google translate css link
-			headTag = document.getElementsByTagName("HEAD")[0];
-			headTag.children[1].outerHTML = ""; 
 			
 			//add event listener to google translate select
 			googleTranslateElementSelect.addEventListener("change", async function(event){
@@ -305,6 +303,10 @@ Text
 					bodyChildren[4].outerHTML = ""; //remove iframe
 					bodyChildren[3].outerHTML = ""; //remove iframe
 					bodyChildren[0].outerHTML = ""; //remove top bar
+																
+					//remove google translate css link
+					headTag = document.getElementsByTagName("HEAD")[0];
+					headTag.children[1].outerHTML = ""; 
 					
 				}
 				
