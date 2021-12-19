@@ -208,7 +208,7 @@ Text
 		rightText = "";
 		
 		function initialize() {
-			document.getElementById("inputTextArea").innerHTML = "4";
+			document.getElementById("inputTextArea").innerHTML = "5";
 			document.getElementById("outputTextAreaLeft").innerHTML = "";
 			document.getElementById("clearNewlineCheckbox").checked = true;
 			document.getElementById("numberingCheckbox").checked = true;
@@ -264,7 +264,10 @@ Text
 		//	console.log(googleTranslateElementGadget.childNodes[1]);
 		//	console.log(googleTranslateElementGadget.children.length);
 			
-			if(bodyChildren[0].className != "container") {
+			if(bodyChildren[0].className == "container") {
+		
+				
+			} else {
 		//		alert(bodyChildren[0].className); 
 				bodyChildren[4].outerHTML = ""; //remove iframe
 				bodyChildren[3].outerHTML = ""; //remove iframe
@@ -274,7 +277,6 @@ Text
 				//remove google translate css link
 				headTag = document.getElementsByTagName("HEAD")[0];
 				headTag.children[1].outerHTML = ""; 
-				
 			}
 			
 			//add event listener to google translate select
