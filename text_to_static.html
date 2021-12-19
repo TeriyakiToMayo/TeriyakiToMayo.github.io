@@ -220,8 +220,6 @@ Text
 			light = false;
 			document.getElementById("buttonLight").style.opacity = "0.5";
 			
-			//remove top bar in case of cookies auto-select
-			asyncRemoveTopBar(); 
 		}
 		
 		//-------------------------------------------------
@@ -229,29 +227,6 @@ Text
 		//-------------------------------------------------
 		function sleep(ms) {
 			return new Promise(resolve => setTimeout(resolve, ms));
-		}
-		
-		async function asyncRemoveTopBar() { 
-			needToRemove = false;
-			bodyChildren = document.getElementById("pageBody").children; 
-			for(let i = 0; i < 1000; i++) { 
-				await sleep(10); 
-				if(bodyChildren[0].className != "container") { 
-					needToRemove = true; 
-				//	alert(bodyChildren[0].className); 
-					break;
-				}
-			}
-			
-			if(needToRemove) { 
-				bodyChildren[4].outerHTML = ""; //remove iframe
-				bodyChildren[3].outerHTML = ""; //remove iframe
-				bodyChildren[0].outerHTML = ""; //remove top bar
-															
-				//remove google translate css link
-				headTag = document.getElementsByTagName("HEAD")[0];
-				headTag.children[1].outerHTML = ""; 
-			}
 		}
 		
 		async function waitForGoogleTranslateFullyLoaded() {
@@ -288,6 +263,8 @@ Text
 		//	console.log(googleTranslateElementGadget.childNodes.length);
 		//	console.log(googleTranslateElementGadget.childNodes[1]);
 		//	console.log(googleTranslateElementGadget.children.length);
+			
+			googleTranslateElementSelect.value = "";
 			
 			//add event listener to google translate select
 			googleTranslateElementSelect.addEventListener("change", async function(event){
