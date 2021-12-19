@@ -231,7 +231,7 @@ Text
 			return new Promise(resolve => setTimeout(resolve, ms));
 		}
 		
-		function asyncRemoveTopBar() { 
+		async function asyncRemoveTopBar() { 
 			needToRemove = false;
 			bodyChildren = document.getElementById("pageBody").children; 
 			for(let i = 0; i < 100; i++) { 
