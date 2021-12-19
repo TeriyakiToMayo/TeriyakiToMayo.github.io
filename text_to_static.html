@@ -141,7 +141,7 @@ div.outputTextAreaRight {
 			</div>
 			
 			<textarea id="inputTextArea" name="w3review" rows="10" class="inputTextArea" translate="no">
-				Text
+Text
 			</textarea>
 			
 			<img id="buttonLight" src="button_light.png" onclick="lightUp()" class="imgButton" alt="Light">
@@ -189,26 +189,16 @@ div.outputTextAreaRight {
 	
 	
 	<script>
-		//=================================================
-		// Set up key events
-		//=================================================
-		input = document.getElementById("inputTextArea");
-		input.addEventListener("keyup", function(event) {
-		  // Number 13 is the "Enter" key on the keyboard
-		  if (event.keyCode === 13) {
-			// Cancel the default action, if needed
-			event.preventDefault();
-			// Trigger the button element with a click
-			document.getElementById("buttonSeparate").click();
-		  }
-		}); 
-		
+
 		//=================================================
 		// Initialize Page
 		//=================================================
+		//-------------------------------------------------
+		// General Initialization
+		//-------------------------------------------------
 		light = false;
 		//version
-		googleTranslate = false;
+		googleTranslate = false; 
 		leftText = "";
 		rightText = "";
 	
@@ -227,7 +217,70 @@ div.outputTextAreaRight {
 			
 		}
 		
+		//-------------------------------------------------
+		// Initialize Google translate 
+		//-------------------------------------------------
+		function sleep(ms) {
+			return new Promise(resolve => setTimeout(resolve, ms));
+		}
 		
+		async function waitForGoogleTranslateFullyLoaded() {
+			//wait until google translate is fully loaded
+			googleTranslateElementSelect = document.getElementById(":0.targetLanguage").children[0]; 
+			langOptions = googleTranslateElementSelect.children; 
+			for(let i = 0; i < 1000; i++) { 
+				await sleep(10); 
+				if(langOptions.length > 0) { 
+				//	console.log("i = " + i);
+					break; 
+				} 
+			}
+		
+			//after fully loaded
+			
+			//adjust body styles
+			body = document.getElementById("pageBody");
+			body.style.minHeight = "95%"; 
+			
+			//remove unnecessary google translate divs
+			bodyChildren = document.getElementById("pageBody").children; 
+			bodyChildren[3].outerHTML = "";	//remove div class=goog-te-spinner-pos
+			bodyChildren[2].outerHTML = "";	//remove div id=goog-gt-tt
+			
+			//add event listener to google translate select
+			googleTranslateElementSelect.addEventListener("change", async function(event){
+				bodyChildren = document.getElementById("pageBody").children; 
+				console.log();
+				if(bodyChildren[0].className == "container") {
+					return;
+				} else {
+					await sleep(100); 
+				//	console.log(bodyChildren.length);
+					bodyChildren[4].outerHTML = ""; //remove iframe
+					bodyChildren[3].outerHTML = ""; //remove iframe
+					bodyChildren[0].outerHTML = ""; //remove top bar
+					
+				}
+				
+			});
+			
+			//The code snippet: automatically select zh-CN when initialize the page
+			//The code currently not working
+			//We leave it here for further investigation
+			/*
+			googleTranslateElementSelect = document.getElementById(":0.targetLanguage").children[0]; 
+			langOptions = googleTranslateElementSelect.children; 
+			
+			for(var i = 0; i < langOptions.length; i++){ 
+				currentOption = langOptions[i]; 
+				if(currentOption.value == "zh-CN") {
+					currentOption.outerHTML = "<option value=\"zh-CN\" selected>Chinese (Simplified)</option>"; 
+				}
+			}
+			*/
+			
+		}
+
 		function googleTranslateElementInit() {
 			if (googleTranslate){
 				//Make <br> between outputTextAreaLeft and inputTextArea hidden
@@ -242,27 +295,32 @@ div.outputTextAreaRight {
 					"<input id=\"fontSizeSlider\" type=\"range\" min=\"26\" max=\"60\" value=\"26\" class=\"fontSizeSlider\" oninput=\"fontSizeSliderUpdate()\">"; 
 				//Init translate element
 				new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element'); 
-			//	return;  
-				setTimeout(function () {
-					body = document.getElementById("pageBody");
-					body.style.minHeight = "95%"; 
-					//The code snippet: automatically select zh-CN when initialize the page
-					//The code currently not working
-					//We leave it here for further investigation
-					/*
-					googleTranslateElementSelect = document.getElementById(":0.targetLanguage").children[0]; 
-					langOptions = googleTranslateElementSelect.children; 
-					
-					for(var i = 0; i < langOptions.length; i++){ 
-						currentOption = langOptions[i]; 
-						if(currentOption.value == "zh-CN") {
-							currentOption.outerHTML = "<option value=\"zh-CN\" selected>Chinese (Simplified)</option>"; 
-						}
-					}
-					*/
-				}, 10); 
+ 
+				waitForGoogleTranslateFullyLoaded(); 
+				
+//				return; 	
 			}
 		}
+		
+
+		//=================================================
+		// Set up key events
+		//=================================================
+		input = document.getElementById("inputTextArea");
+		input.addEventListener("keyup", function(event) {
+		  // Number 13 is the "Enter" key on the keyboard
+		  if (event.keyCode === 13) {
+			// Cancel the default action, if needed
+			event.preventDefault();
+			// Trigger the button element with a click
+			document.getElementById("buttonSeparate").click();
+		  }
+		}); 
+				
+		
+		//=================================================
+		// Buttons
+		//=================================================
 		
 		function fontSizeSliderUpdate() {
 			fontSizeSlider = document.getElementById("fontSizeSlider"); 
@@ -485,7 +543,7 @@ div.outputTextAreaRight {
 		//	text = text.replaceAll("?\n", "?<hr>");
 			text = text.replaceAll("\n", "<hr>");
 			
-			console.log(text); 
+//			console.log(text); 
 			
 			textPieces = text.split("<hr>");
 			textPieces0 = textPieces[0].trim();
@@ -499,9 +557,9 @@ div.outputTextAreaRight {
 			
 			for(i = 1; i < textPieces.length; i++){
 				line = textPieces[i].trim()
-				console.log(line); 
+			//	console.log(line); 
 				if(line.length == 0){
-					console.log("empty"); 
+				//	console.log("empty"); 
 					continue;
 				}
 				number = numbering ? "(" + lineCount + ") " : "";
@@ -516,7 +574,7 @@ div.outputTextAreaRight {
 				
 			}
 			
-			console.log(text); 
+		//	console.log(text); 
 			
 			//add paddings
 			text = text + "&nbsp;" + "<br><br><br><br>";
