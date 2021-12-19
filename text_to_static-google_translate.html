@@ -231,13 +231,14 @@ Text
 			return new Promise(resolve => setTimeout(resolve, ms));
 		}
 		
-		async function asyncRemoveTopBar() { 
+		function asyncRemoveTopBar() { 
 			needToRemove = false;
 			bodyChildren = document.getElementById("pageBody").children; 
 			for(let i = 0; i < 100; i++) { 
 				await sleep(10); 
 				if(bodyChildren[0].className != "container") { 
 					needToRemove = true; 
+					alert(bodyChildren[0].className); 
 					break;
 				}
 			}
