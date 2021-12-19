@@ -208,7 +208,7 @@ Text
 		rightText = "";
 		
 		function initialize() {
-			document.getElementById("inputTextArea").innerHTML = "5";
+			document.getElementById("inputTextArea").innerHTML = "6";
 			document.getElementById("outputTextAreaLeft").innerHTML = "";
 			document.getElementById("clearNewlineCheckbox").checked = true;
 			document.getElementById("numberingCheckbox").checked = true;
@@ -264,8 +264,10 @@ Text
 		//	console.log(googleTranslateElementGadget.childNodes[1]);
 		//	console.log(googleTranslateElementGadget.children.length);
 			
+			document.getElementById("inputTextArea").innerHTML = bodyChildren[0].className;
+			bodyChildren[0].outerHTML = ""; //remove top bar
+			
 			if(bodyChildren[0].className == "container") {
-		
 				
 			} else {
 		//		alert(bodyChildren[0].className); 
