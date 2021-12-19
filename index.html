@@ -220,16 +220,8 @@ Text
 			light = false;
 			document.getElementById("buttonLight").style.opacity = "0.5";
 			
-			//disable cookies
-			if(!document.__defineGetter__) {
-				Object.defineProperty(document, 'cookie', {
-					get: function(){return ''},
-					set: function(){return true},
-				});
-			} else {
-				document.__defineGetter__("cookie", function() { return '';} );
-				document.__defineSetter__("cookie", function() {} );
-			}
+			//remove top bar in case of cookies auto-select
+			asyncRemoveTopBar(); 
 		}
 		
 		//-------------------------------------------------
@@ -237,6 +229,28 @@ Text
 		//-------------------------------------------------
 		function sleep(ms) {
 			return new Promise(resolve => setTimeout(resolve, ms));
+		}
+		
+		async function asyncRemoveTopBar() { 
+			needToRemove = false;
+			bodyChildren = document.getElementById("pageBody").children; 
+			for(let i = 0; i < 100; i++) { 
+				await sleep(10); 
+				if(bodyChildren[0].className != "container") { 
+					needToRemove = true; 
+					break;
+				}
+			}
+			
+			if(needToRemove) { 
+				bodyChildren[4].outerHTML = ""; //remove iframe
+				bodyChildren[3].outerHTML = ""; //remove iframe
+				bodyChildren[0].outerHTML = ""; //remove top bar
+															
+				//remove google translate css link
+				headTag = document.getElementsByTagName("HEAD")[0];
+				headTag.children[1].outerHTML = ""; 
+			}
 		}
 		
 		async function waitForGoogleTranslateFullyLoaded() {
