@@ -234,7 +234,7 @@ Text
 			}
 		} 
 		
-		function removeUnusedGoogleTranslateComponents(removeCSS) { 
+		function removeUnusedGoogleTranslateComponents() { 
 			bodyTag = document.getElementById("pageBody"); 
 			//remove from front
 			while(true){
@@ -254,20 +254,18 @@ Text
 				}else { 
 					break; 
 				}
-			}
-			
-			//remove CSS
-			if(removeCSS) { 
-				headTag = document.getElementsByTagName("HEAD")[0];
-				for(let i = 0; i < headTag.childNodes.length; i++) { 
-				//	console.log(headTag.childNodes[i].tagName); 
-					if(headTag.childNodes[i].tagName == "LINK") {
-						headTag.removeChild(headTag.childNodes[i]); 
-					}
+			}		
+		}
+		
+		function removeGoogleTranslateCSS() { 
+			headTag = document.getElementsByTagName("HEAD")[0];
+			for(let i = 0; i < headTag.childNodes.length; i++) { 
+			//	console.log(headTag.childNodes[i].tagName); 
+				if(headTag.childNodes[i].tagName == "LINK") {
+					headTag.removeChild(headTag.childNodes[i]); 
 				}
 			}
-			
-		}
+		} 
 		
 		function sleep(ms) {
 			return new Promise(resolve => setTimeout(resolve, ms));
@@ -307,15 +305,13 @@ Text
 			//remove everything in body but container and remove google css 
 			setTimeout(function(){
 				//wait until mobile browser cookies finish loading
-				removeUnusedGoogleTranslateComponents(false); 
+				removeUnusedGoogleTranslateComponents(); 
 			}, 1000);
 			
 			//add event listener to google translate select
 			googleTranslateElementSelect.addEventListener("change", async function(event){
 				bodyChildren = document.getElementById("pageBody").children; 
-				if(bodyChildren.length == 1) {
-					return;
-				} else {
+				if(bodyChildren.length >= 2) { 
 					//hide everything in body but container (not working)
 				//	hideUnusedGoogleTranslateComponents(); 
 				
@@ -349,11 +345,17 @@ Text
 						}	
 					}
 					
-					
 					//remove everything in body but container and remove google css 
-					removeUnusedGoogleTranslateComponents(true); 
+					removeUnusedGoogleTranslateComponents(); 
 																	
 				}
+				
+				//remove google translate css
+				headTag = document.getElementsByTagName("HEAD")[0];
+			//	console.log(headTag.children.length);
+				if(headTag.children.length >= 3) { 
+					removeGoogleTranslateCSS(); 
+				} 
 				
 			});
 			
