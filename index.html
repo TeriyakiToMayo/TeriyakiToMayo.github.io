@@ -203,7 +203,7 @@ Text
 		//-------------------------------------------------
 		light = false;
 		//version
-		googleTranslate = true; 
+		googleTranslate = 1 == 1; //1 == 1, true; 1 == 0, false 
 		leftText = "";
 		rightText = "";
 		
@@ -225,7 +225,16 @@ Text
 		//-------------------------------------------------
 		// Initialize Google translate 
 		//-------------------------------------------------
-		function removeUnusedGoogleTranslateComponents() { 
+		function hideUnusedGoogleTranslateComponents() { 
+			bodyTag = document.getElementById("pageBody"); 
+			for(let i = 0; i < bodyTag.children.length; i++) { 
+				if(bodyTag.children[i].id != "pageBodyContainer") { 
+					bodyTag.children[i].style.display = "none"; 
+				}
+			}
+		} 
+		
+		function removeUnusedGoogleTranslateComponents(removeCSS) { 
 			bodyTag = document.getElementById("pageBody"); 
 			//remove from front
 			while(true){
@@ -248,13 +257,16 @@ Text
 			}
 			
 			//remove CSS
-			headTag = document.getElementsByTagName("HEAD")[0];
-			for(let i = 0; i < headTag.childNodes.length; i++) { 
-			//	console.log(headTag.childNodes[i].tagName); 
-				if(headTag.childNodes[i].tagName == "LINK") {
-					headTag.removeChild(headTag.childNodes[i]); 
+			if(removeCSS) { 
+				headTag = document.getElementsByTagName("HEAD")[0];
+				for(let i = 0; i < headTag.childNodes.length; i++) { 
+				//	console.log(headTag.childNodes[i].tagName); 
+					if(headTag.childNodes[i].tagName == "LINK") {
+						headTag.removeChild(headTag.childNodes[i]); 
+					}
 				}
 			}
+			
 		}
 		
 		function sleep(ms) {
@@ -290,9 +302,12 @@ Text
 		//	console.log(googleTranslateElementGadget.childNodes[1]);
 		//	console.log(googleTranslateElementGadget.children.length);
 			
-			//remove everything in body but container
+			//hide everything in body but container (not working)
+		//	hideUnusedGoogleTranslateComponents(); 
+			//remove everything in body but container and remove google css 
 			setTimeout(function(){
-				removeUnusedGoogleTranslateComponents(); 
+				//wait until mobile browser cookies finish loading
+				removeUnusedGoogleTranslateComponents(false); 
 			}, 1000);
 			
 			//add event listener to google translate select
@@ -301,6 +316,9 @@ Text
 				if(bodyChildren.length == 1) {
 					return;
 				} else {
+					//hide everything in body but container (not working)
+				//	hideUnusedGoogleTranslateComponents(); 
+				
 					//wait until translation complete
 					translateLeftCheckBox = document.getElementById("translateLeftCheckbox"); 
 					translateRightCheckBox = document.getElementById("translateRightCheckbox"); 
@@ -330,8 +348,10 @@ Text
 							}
 						}	
 					}
-
-					removeUnusedGoogleTranslateComponents(); 
+					
+					
+					//remove everything in body but container and remove google css 
+					removeUnusedGoogleTranslateComponents(true); 
 																	
 				}
 				
