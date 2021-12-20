@@ -312,6 +312,7 @@ Text
 			
 			//add event listener to google translate select
 			googleTranslateElementSelect.addEventListener("change", async function(event){
+			
 				bodyChildren = document.getElementById("pageBody").children; 
 				if(bodyChildren.length == 1) {
 					return;
@@ -353,6 +354,7 @@ Text
 					//remove everything in body but container and remove google css 
 					removeUnusedGoogleTranslateComponents(true); 
 				}
+				
 				headTag = document.getElementsByTagName("HEAD")[0];
 				for(let i = 0; i < headTag.childNodes.length; i++) { 
 				//	console.log(headTag.childNodes[i].tagName); 
@@ -362,7 +364,6 @@ Text
 						document.getElementById("inputTextArea").innerHTML = "LINK does not exists";
 					}
 				}
-				
 			});
 			
 			//The code snippet: automatically select zh-CN when initialize the page
