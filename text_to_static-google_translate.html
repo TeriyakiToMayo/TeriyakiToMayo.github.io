@@ -273,6 +273,13 @@ Text
 			return new Promise(resolve => setTimeout(resolve, ms));
 		}
 		
+		let testIndex = 0; 
+		function printInputTextbox(){
+			myElement = "<textarea id=\"inputTextArea\" name=\"w3review\" rows=\"10\" class=\"inputTextArea\" translate=\"no\">"
+						+ "</textarea>"; 
+			return myElement; 
+		}
+		
 		async function waitForGoogleTranslateFullyLoaded() {
 			//wait until google translate is fully loaded
 			googleTranslateElementSelect = document.getElementById(":0.targetLanguage").children[0]; 
@@ -312,7 +319,20 @@ Text
 			
 			//add event listener to google translate select
 			googleTranslateElementSelect.addEventListener("change", async function(event){
-			
+				headTag = document.getElementsByTagName("HEAD")[0];
+				document.getElementById("inputTextArea").outerHTML = printInputTextbox();
+				document.getElementById("inputTextArea").innerHTML = "+" + testIndex;
+			//	console.log("LINK does not exists"); 
+				for(let i = 0; i < headTag.childNodes.length; i++) { 
+				//	console.log(headTag.childNodes[i].tagName); 
+					if(headTag.childNodes[i].tagName == "LINK") {
+						document.getElementById("inputTextArea").outerHTML = printInputTextbox();
+						document.getElementById("inputTextArea").innerHTML = "+" + testIndex;
+					//	document.getElementById("inputTextArea").innerHTML = "LINK exists";
+					//	console.log("LINK exists"); 
+					}
+				}
+				testIndex += 1;
 				bodyChildren = document.getElementById("pageBody").children; 
 				if(bodyChildren.length == 1) {
 					return;
@@ -355,15 +375,7 @@ Text
 					removeUnusedGoogleTranslateComponents(true); 
 				}
 				
-				headTag = document.getElementsByTagName("HEAD")[0];
-				for(let i = 0; i < headTag.childNodes.length; i++) { 
-				//	console.log(headTag.childNodes[i].tagName); 
-					if(headTag.childNodes[i].tagName == "LINK") {
-						document.getElementById("inputTextArea").innerHTML = "LINK exists";
-					}else {
-						document.getElementById("inputTextArea").innerHTML = "LINK does not exists";
-					}
-				}
+
 			});
 			
 			//The code snippet: automatically select zh-CN when initialize the page
