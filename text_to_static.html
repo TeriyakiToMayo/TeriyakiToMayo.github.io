@@ -129,9 +129,9 @@ div.outputTextAreaRight {
 			<br>
 			
 			<input type="checkbox" id="showLeftCheckbox" value="showLeft" hidden>
-			<img id="showLeftImg" src="checkbox_show.png" onclick="show(0)" class="imgCheckBoxUpperLeft" alt="Show">
+			<img id="showLeftImg" src="buttons\checkbox_show.png" onclick="show(0)" class="imgCheckBoxUpperLeft" alt="Show">
 			<input type="checkbox" id="translateLeftCheckbox" value="translateLeft" hidden>
-			<img id="translateLeftImg" src="checkbox_translate.png" onclick="translateText(0)" class="imgCheckBoxUpperLeft" alt="Translate">
+			<img id="translateLeftImg" src="buttons\checkbox_translate.png" onclick="translateText(0)" class="imgCheckBoxUpperLeft" alt="Translate">
 			
 			<div id="outputTextAreaLeft" class="outputTextAreaLeft round2" translate="no">
 					
@@ -149,17 +149,20 @@ div.outputTextAreaRight {
 Text
 			</textarea>
 			
-			<img id="buttonLight" src="button_light.png" onclick="lightUp()" class="imgButton" alt="Light">
-			<img src="button_original.png" onclick="toOriginal()" class="imgButton" alt="Original">
-			<img id="buttonSeparate" src="button_separate.png" onclick="toSeparate()" class="imgButton" alt="Separate">
+			<img id="buttonLight" src="buttons\button_light.png" onclick="lightUp()" class="imgButton" alt="Light">
+			<img src="buttons\button_original.png" onclick="toOriginal()" class="imgButton" alt="Original">
+			<img id="buttonSeparate" src="buttons\button_separate.png" onclick="toSeparate()" class="imgButton" alt="Separate">
 			<div id="buttonPaste"></div>
 			
 			<div></div>	
 			
 			<input type="checkbox" id="clearNewlineCheckbox" value="clearNewline" hidden>
-			<img id="clearNewlineImg" src="checkbox_clear_newline.png" onclick="checkClearNewline()" class="imgCheckBox" alt="Clear Newline">
+			<img id="clearNewlineImg" src="buttons\checkbox_clear_newline.png" onclick="checkClearNewline()" class="imgCheckBox" alt="Clear Newline">
 			<input type="checkbox" id="numberingCheckbox" value="numbering" hidden>
-			<img id="numberingImg" src="checkbox_numbering.png" onclick="checkNumbering()" class="imgCheckBox" alt="Numbering">
+			<img id="numberingImg" src="buttons\checkbox_numbering.png" onclick="checkNumbering()" class="imgCheckBox" alt="Numbering">
+			<input type="checkbox" id="lineCopyCheckbox" value="lineCopy" hidden>
+			<img id="lineCopyImg" src="buttons\checkbox_line_copy.png" onclick="checkLineCopy()" class="imgCheckBox" alt="Line Copy">
+			
 			
 			<div></div>	
 			
@@ -176,9 +179,9 @@ Text
 			<br>
 			
 			<input type="checkbox" id="translateRightCheckbox" value="translateRight" hidden>
-			<img id="translateRightImg" src="checkbox_translate.png" onclick="translateText(1)" class="imgCheckBoxUpperRight" alt="Translate">
+			<img id="translateRightImg" src="buttons\checkbox_translate.png" onclick="translateText(1)" class="imgCheckBoxUpperRight" alt="Translate">
 			<input type="checkbox" id="showRightCheckbox" value="showRight" hidden>
-			<img id="showRightImg" src="checkbox_show.png" onclick="show(1)" class="imgCheckBoxUpperRight" alt="Show">
+			<img id="showRightImg" src="buttons\checkbox_show.png" onclick="show(1)" class="imgCheckBoxUpperRight" alt="Show">
 			
 			<div id="outputTextAreaRight" class="outputTextAreaRight round2" translate="yes">
 					
@@ -212,6 +215,11 @@ Text
 			document.getElementById("outputTextAreaLeft").innerHTML = "";
 			document.getElementById("clearNewlineCheckbox").checked = true;
 			document.getElementById("numberingCheckbox").checked = true;
+			
+			//Uncheck line copy button
+			document.getElementById("lineCopyCheckbox").checked = true;
+			checkLineCopy();
+			
 			document.getElementById("showLeftCheckbox").checked = true;
 			document.getElementById("showRightCheckbox").checked = true;
 			document.getElementById("translateLeftCheckbox").checked = true;
@@ -386,7 +394,7 @@ Text
 				document.getElementById("inputTextArea").style.height = "8em";
 				//Make buttonPaste visible
 				document.getElementById("buttonPaste").outerHTML = 
-					"<img id=\"buttonPaste\" src=\"button_paste.png\" onclick=\"paste()\" class=\"imgButton\" alt=\"Paste\">";
+					"<img id=\"buttonPaste\" src=\"buttons\\button_paste.png\" onclick=\"paste()\" class=\"imgButton\" alt=\"Paste\">";
 				//Make fontSizeSlider visible
 				document.getElementById("fontSizeSlider").outerHTML = 
 					"<input id=\"fontSizeSlider\" type=\"range\" min=\"26\" max=\"60\" value=\"26\" class=\"fontSizeSlider\" oninput=\"fontSizeSliderUpdate()\">"; 
@@ -428,7 +436,7 @@ Text
 		}
 		
 		
-		lightButtonImg = "button_light.png";
+		lightButtonImg = "buttons\button_light.png"; 
 		lightBackgroundColor = "#FFE599";
 		darkBackgroundColor = "#323233";
 		lightTextColor = "black";
@@ -459,6 +467,13 @@ Text
 			checkBox = document.getElementById("numberingCheckbox");
 			checkBox.checked = checkBox.checked ? false : true;
 			document.getElementById("numberingImg").style.opacity = checkBox.checked? "1.0" : "0.5";
+			toSeparate();
+		}
+		
+		function checkLineCopy() {
+			checkBox = document.getElementById("lineCopyCheckbox");
+			checkBox.checked = checkBox.checked ? false : true;
+			document.getElementById("lineCopyImg").style.opacity = checkBox.checked? "1.0" : "0.5";
 			toSeparate();
 		}
 
@@ -550,6 +565,7 @@ Text
 			reg = reg + "(Nov)" + "|";		//November
 			reg = reg + "(Dec)" + "|";		//December
 			reg = reg + "(\\sc)" + "|";		//circa
+			reg = reg + "(\\(c)" + "|";		//circa
 			reg = reg + "(\\sp)" + "|";		//page
 			reg = reg + "(\\(p)" + "|";		//page
 			reg = reg + "(\\s[A-Z])" + "|";	//Name abbrevation
@@ -672,6 +688,22 @@ Text
 			}
 			
 		//	console.log(text); 
+			
+			checkBox = document.getElementById("lineCopyCheckbox");
+			if(checkBox.checked) { 
+				//Duplicate lines
+				textPieces = text.split("<hr>");
+				textDup = ""; 
+				for(let i = 0; i < textPieces.length; i++) { 
+					line = textPieces[i]; 
+					textDup = textDup + "<div translate='no'>" + line + "</div>" + "<hr>" + line + "<hr>"; 
+				}
+				textDup = textDup.substring(0, textDup.length - 4);
+				
+			//	console.log(textDup); 
+				
+				text = textDup; 
+			}
 			
 			//add paddings
 			text = text + "&nbsp;" + "<br><br><br><br>";
