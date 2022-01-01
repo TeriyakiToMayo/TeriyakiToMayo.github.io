@@ -690,7 +690,7 @@ Text
 		//	console.log(text); 
 			
 			checkBox = document.getElementById("lineCopyCheckbox");
-			if(checkBox.checked) { 
+			if(checkBox.checked && text != "") { 
 				//Duplicate lines
 				textPieces = text.split("<hr>");
 				textDup = ""; 
