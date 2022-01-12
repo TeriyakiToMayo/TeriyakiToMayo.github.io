@@ -594,17 +594,29 @@ Text
 			//get whether merge enters "\n"
 			clearNewline = document.getElementById("clearNewlineCheckbox").checked;
 			//get whether include bullet number
-			numbering = document.getElementById("numberingCheckbox").checked
+			numbering = document.getElementById("numberingCheckbox").checked 
+			//get whether copy lines
+			lineCopy = document.getElementById("lineCopyCheckbox").checked;
 			
 			//replace all
 			//https://stackoverflow.com/questions/1144783/how-to-replace-all-occurrences-of-a-string-in-javascript
 			//get text from inputTextArea
 			let text = document.getElementById("inputTextArea").value;
 			
-			//replace symbols
+			//replace square brackets
+			text = text.replaceAll("<", "{"); 
+			text = text.replaceAll(">", "}"); 
+			
+			//replace other symbols
 			if(clearNewline){
 				text = text.replaceAll("\n", " ");
 			}
+			
+			if(lineCopy){ 
+				//remove timesamp
+				text = text.replaceAll(/([0-9]){2}\:([0-9]){2}\s/gi, " ");
+			}
+			
 			text = text.replaceAll(": ", ":<hr>");
 			text = text.replaceAll(";", ";<hr>");
 			//=====================================================
@@ -620,6 +632,7 @@ Text
 		//	text = text.replaceAll(/(?![et\sal])\.\s/gi, ".<hr>");
 			text = text.replaceAll(".\" ", ".\"<hr>");
 			text = text.replaceAll(".\”", ".\"<hr>");
+			text = text.replaceAll(".\'", ".\'<hr>");
 			text = text.replaceAll(".\]", ".\]<hr>");
 		//	text = text.replaceAll(".\n", ".<hr>");
 			// Wikipedia reference: ".[1][2][3]"
@@ -689,8 +702,7 @@ Text
 			
 		//	console.log(text); 
 			
-			checkBox = document.getElementById("lineCopyCheckbox");
-			if(checkBox.checked && text != "") { 
+			if(lineCopy && text != "") { 
 				//Duplicate lines
 				textPieces = text.split("<hr>");
 				textDup = ""; 

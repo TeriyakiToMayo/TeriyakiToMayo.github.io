@@ -632,6 +632,7 @@ Text
 		//	text = text.replaceAll(/(?![et\sal])\.\s/gi, ".<hr>");
 			text = text.replaceAll(".\" ", ".\"<hr>");
 			text = text.replaceAll(".\”", ".\"<hr>");
+			text = text.replaceAll(".\'", ".\'<hr>");
 			text = text.replaceAll(".\]", ".\]<hr>");
 		//	text = text.replaceAll(".\n", ".<hr>");
 			// Wikipedia reference: ".[1][2][3]"
