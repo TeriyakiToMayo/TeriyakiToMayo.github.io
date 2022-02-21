@@ -587,6 +587,10 @@ Text
 			return new RegExp(reg, "g");	//global case-insensitive
 		} 
 		
+		function writeNumbering(numbering) {
+			return numbering ? "<i translate=\"no\">(" + lineCount + ")</i>&nbsp; " : ""; 
+		} 
+		
 		function toSeparate() { 
 			//convert to original first to avoid translate formatting problems
 		//	toOriginal(); 
@@ -677,7 +681,7 @@ Text
 			lineCount = 1;
 		//	console.log(textPieces0.length)
 			if(textPieces0.length != 0){ 
-				text = (numbering ? "(" + lineCount + ") " : "") + textPieces[0]; 
+				text = writeNumbering(numbering) + textPieces[0]; 
 				lineCount++;
 			}
 			
@@ -688,7 +692,7 @@ Text
 				//	console.log("empty"); 
 					continue;
 				}
-				number = numbering ? "(" + lineCount + ") " : "";
+				number = writeNumbering(numbering); 
 				lineCount++;
 				line = number + line; 
 				if(i == 1 && textPieces0.length == 0){ 
