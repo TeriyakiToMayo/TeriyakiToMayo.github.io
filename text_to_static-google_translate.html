@@ -550,41 +550,42 @@ Text
 		
 		function specialDotStringEscapes() { 
 			reg = "(";
-			reg = reg + "(U\\.S)" + "|";	//U.S. 
-			reg = reg + "(U\\.K)" + "|";	//U.K. 
-			reg = reg + "(a\\.m)" + "|";	//a.m. 
-			reg = reg + "(p\\.m)" + "|";	//p.m. 
-			reg = reg + "(i\\.e)" + "|";	//i.e. 
-			reg = reg + "(e\\.g)" + "|";	//e.g. 
-			reg = reg + "(Jan)" + "|";		//January
-			reg = reg + "(Feb)" + "|";		//February
-			reg = reg + "(Jun)" + "|";		//June
-			reg = reg + "(Aug)" + "|";		//August
-			reg = reg + "(Sep)" + "|";		//September
-			reg = reg + "(Oct)" + "|";		//October
-			reg = reg + "(Nov)" + "|";		//November
-			reg = reg + "(Dec)" + "|";		//December
-			reg = reg + "(\\sc)" + "|";		//circa
-			reg = reg + "(\\(c)" + "|";		//circa
-			reg = reg + "(\\sp)" + "|";		//page
-			reg = reg + "(\\(p)" + "|";		//page
-			reg = reg + "(\\s[A-Z])" + "|";	//Name abbrevation
-			reg = reg + "(\\spp)" + "|";	//pages
-			reg = reg + "(cf)" + "|";		//compare
-			reg = reg + "(\\svs)" + "|";	//vs
-			reg = reg + "(\\sVS)" + "|";	//vs
-			reg = reg + "(Dr)" + "|";		//Dr. 
-			reg = reg + "(DR)" + "|";		//Dr. 
-			reg = reg + "(Mr)" + "|";		//Dr. 
-			reg = reg + "(no)" + "|";		//No. 
-			reg = reg + "(No)" + "|";		//No. 
-			reg = reg + "(fig)" + "|";		//figure
-			reg = reg + "(Fig)" + "|";		//figure
-			reg = reg + "(figs)" + "|";		//figures
-			reg = reg + "(Figs)" + "|";		//figures
-			reg = reg + "(et\\sal)";		//et al. 
+			reg = reg + "(U\\.S)" + "|";		//U.S. 
+			reg = reg + "(U\\.K)" + "|";		//U.K. 
+			reg = reg + "(a\\.m)" + "|";		//a.m. 
+			reg = reg + "(p\\.m)" + "|";		//p.m. 
+			reg = reg + "(i\\.e)" + "|";		//i.e. 
+			reg = reg + "(e\\.g)" + "|";		//e.g. 
+			reg = reg + "(Jan)" + "|";			//January
+			reg = reg + "(Feb)" + "|";			//February
+			reg = reg + "(Jun)" + "|";			//June
+			reg = reg + "(Aug)" + "|";			//August
+			reg = reg + "(Sep)" + "|";			//September
+			reg = reg + "(Oct)" + "|";			//October
+			reg = reg + "(Nov)" + "|";			//November
+			reg = reg + "(Dec)" + "|";			//December
+			reg = reg + "(\\sc)" + "|";			//circa
+			reg = reg + "(\\(c)" + "|";			//circa
+			reg = reg + "(\\sp)" + "|";			//page
+			reg = reg + "(\\(p)" + "|";			//page
+			reg = reg + "(\\s[A-Z])" + "|";		//Name abbrevation
+			reg = reg + "(\\spp)" + "|";		//pages
+			reg = reg + "(cf)" + "|";			//compare
+			reg = reg + "(\\svs)" + "|";		//vs
+			reg = reg + "(\\sVS)" + "|";		//vs
+			reg = reg + "(Dr)" + "|";			//Dr. 
+			reg = reg + "(DR)" + "|";			//Dr. 
+			reg = reg + "(Mr)" + "|";			//Dr. 
+			reg = reg + "(no)" + "|";			//No. 
+			reg = reg + "(No)" + "|";			//No. 
+			reg = reg + "(fig)" + "|";			//figure
+			reg = reg + "(Fig)" + "|";			//figure
+			reg = reg + "(figs)" + "|";			//figures
+			reg = reg + "(Figs)" + "|";			//figures
+			reg = reg + "(w\\.r\\.t)" + "|";	//w.r.t. 
+			reg = reg + "(et\\sal)";			//et al. 
 			reg = reg + ")\\.\\s";
-			return new RegExp(reg, "g");	//global case-insensitive
+			return new RegExp(reg, "g");		//global case-insensitive
 		} 
 		
 		function writeNumbering(numbering) {
