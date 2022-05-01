@@ -66,7 +66,8 @@ div.outputTextAreaRight {
   font-size:20px;
   height: 10em;
   width: 40vw;
-  max-width: 40vw;
+  max-width: 40vw; 
+  resize: none; 
 }
 
 /*Button Settings*/
@@ -304,66 +305,45 @@ Text
 			googleTranslateElementGadget.className = "";
 			googleTranslateElementGadget.removeChild(googleTranslateElementGadget.childNodes[2]);	//remove Google logo
 			googleTranslateElementGadget.removeChild(googleTranslateElementGadget.childNodes[1]);	//remove "Powered by"
-		//	console.log(googleTranslateElementGadget.childNodes.length);
-		//	console.log(googleTranslateElementGadget.childNodes[1]);
-		//	console.log(googleTranslateElementGadget.children.length);
 			
-			//hide everything in body but container (not working)
-		//	hideUnusedGoogleTranslateComponents(); 
 			//remove everything in body but container and remove google css 
 			setTimeout(function(){
 				//wait until mobile browser cookies finish loading
 				removeUnusedGoogleTranslateComponents(); 
-			}, 1000);
-			
-			//add event listener to google translate select
-			googleTranslateElementSelect.addEventListener("change", async function(event){
-				bodyChildren = document.getElementById("pageBody").children; 
-				if(bodyChildren.length >= 2) { 
-					//hide everything in body but container (not working)
-				//	hideUnusedGoogleTranslateComponents(); 
 				
-					//wait until translation complete
-					translateLeftCheckBox = document.getElementById("translateLeftCheckbox"); 
-					translateRightCheckBox = document.getElementById("translateRightCheckbox"); 
-					
-					outputTextAreaLeftObj = document.getElementById("outputTextAreaLeft");
-					originalTextLeft = translateLeftCheckBox.checked ? outputTextAreaLeftObj.innerHTML : null;
-					
-					outputTextAreaRightObj = document.getElementById("outputTextAreaRight"); 
-					originalTextRight = translateRightCheckBox.checked ? outputTextAreaRightObj.innerHTML : null; 
-					
-					for(let i = 0; i < 100; i++) { 
-						await sleep(10); 
-						
-						if(translateLeftCheckBox.checked){
-							latestTextLeft = outputTextAreaLeftObj.innerHTML;
-							if(latestTextLeft != originalTextLeft) {
-							//	console.log("left i = " + i);
-								break;
-							}
-						}
-						
-						if(translateRightCheckBox.checked){
-							latestTextRight = outputTextAreaRightObj.innerHTML;
-							if(latestTextRight != originalTextRight) {
-							//	console.log("right i = " + i);
-								break;
-							}
-						}	
-					}
-					
-					//remove everything in body but container and remove google css 
-					removeUnusedGoogleTranslateComponents(); 
-																	
-				}
+				//google translate loading has two phases 
+				//phase 1 
+				//	- triggered by 
+				//		new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element');  
+				//	- loads all possible options in google translate select 
+				//	- loads css files, which affects the heads-up in phase 2 
+				//phase 2: triggered by 
+				//	- triggered by selecting a language 
+				//		- case 1: selected manually, then it happens after we add the event listener 
+				//		- case 2: selected automatically, then it happens before we add the event listner, 
+				//				  and it has already happens here 
+				//	- loads a heads-up 
 				
-				//remove google translate css
-				headTag = document.getElementsByTagName("HEAD")[0];
-			//	console.log(headTag.children.length);
-				if(headTag.children.length >= 3) { 
+				//if phase 2 happens automatically, 
+				//then we simply remove the css 
+				if(googleTranslateElementSelect.value != "") { 
+					//remove google translate css
 					removeGoogleTranslateCSS(); 
 				} 
+			}, 1000);
+			
+			//if phase 2 happens manually, then 
+			//we add event listener to google translate select
+			googleTranslateElementSelect.addEventListener("change", async function(event){
+				
+				//wait until the heads-up finishes loading 	
+				await sleep(1000);
+					
+				//remove everything in body but container and remove google css 
+				removeUnusedGoogleTranslateComponents(); 
+				
+				//remove google translate css
+				removeGoogleTranslateCSS(); 
 				
 			});
 			
@@ -550,41 +530,46 @@ Text
 		
 		function specialDotStringEscapes() { 
 			reg = "(";
-			reg = reg + "(U\\.S)" + "|";	//U.S. 
-			reg = reg + "(U\\.K)" + "|";	//U.K. 
-			reg = reg + "(a\\.m)" + "|";	//a.m. 
-			reg = reg + "(p\\.m)" + "|";	//p.m. 
-			reg = reg + "(i\\.e)" + "|";	//i.e. 
-			reg = reg + "(e\\.g)" + "|";	//e.g. 
-			reg = reg + "(Jan)" + "|";		//January
-			reg = reg + "(Feb)" + "|";		//February
-			reg = reg + "(Jun)" + "|";		//June
-			reg = reg + "(Aug)" + "|";		//August
-			reg = reg + "(Sep)" + "|";		//September
-			reg = reg + "(Oct)" + "|";		//October
-			reg = reg + "(Nov)" + "|";		//November
-			reg = reg + "(Dec)" + "|";		//December
-			reg = reg + "(\\sc)" + "|";		//circa
-			reg = reg + "(\\(c)" + "|";		//circa
-			reg = reg + "(\\sp)" + "|";		//page
-			reg = reg + "(\\(p)" + "|";		//page
-			reg = reg + "(\\s[A-Z])" + "|";	//Name abbrevation
-			reg = reg + "(\\spp)" + "|";	//pages
-			reg = reg + "(cf)" + "|";		//compare
-			reg = reg + "(\\svs)" + "|";	//vs
-			reg = reg + "(\\sVS)" + "|";	//vs
-			reg = reg + "(Dr)" + "|";		//Dr. 
-			reg = reg + "(DR)" + "|";		//Dr. 
-			reg = reg + "(Mr)" + "|";		//Dr. 
-			reg = reg + "(no)" + "|";		//No. 
-			reg = reg + "(No)" + "|";		//No. 
-			reg = reg + "(fig)" + "|";		//figure
-			reg = reg + "(Fig)" + "|";		//figure
-			reg = reg + "(figs)" + "|";		//figures
-			reg = reg + "(Figs)" + "|";		//figures
-			reg = reg + "(et\\sal)";		//et al. 
+			reg = reg + "(U\\.S)" + "|";		//U.S. 
+			reg = reg + "(U\\.K)" + "|";		//U.K. 
+			reg = reg + "(a\\.m)" + "|";		//a.m. 
+			reg = reg + "(p\\.m)" + "|";		//p.m. 
+			reg = reg + "(i\\.e)" + "|";		//i.e. 
+			reg = reg + "(e\\.g)" + "|";		//e.g. 
+			reg = reg + "(Jan)" + "|";			//January
+			reg = reg + "(Feb)" + "|";			//February
+			reg = reg + "(Jun)" + "|";			//June
+			reg = reg + "(Aug)" + "|";			//August
+			reg = reg + "(Sep)" + "|";			//September
+			reg = reg + "(Oct)" + "|";			//October
+			reg = reg + "(Nov)" + "|";			//November
+			reg = reg + "(Dec)" + "|";			//December
+			reg = reg + "(\\sc)" + "|";			//circa
+			reg = reg + "(\\(c)" + "|";			//circa
+			reg = reg + "(\\sp)" + "|";			//page
+			reg = reg + "(\\(p)" + "|";			//page
+			reg = reg + "(\\s[A-Z])" + "|";		//Name abbrevation
+			reg = reg + "(\\spp)" + "|";		//pages
+			reg = reg + "(cf)" + "|";			//compare
+			reg = reg + "(\\svs)" + "|";		//vs
+			reg = reg + "(\\sVS)" + "|";		//vs
+			reg = reg + "(Dr)" + "|";			//Dr. 
+			reg = reg + "(DR)" + "|";			//Dr. 
+			reg = reg + "(Mr)" + "|";			//Dr. 
+			reg = reg + "(no)" + "|";			//No. 
+			reg = reg + "(No)" + "|";			//No. 
+			reg = reg + "(fig)" + "|";			//figure
+			reg = reg + "(Fig)" + "|";			//figure
+			reg = reg + "(figs)" + "|";			//figures
+			reg = reg + "(Figs)" + "|";			//figures
+			reg = reg + "(w\\.r\\.t)" + "|";	//w.r.t. 
+			reg = reg + "(et\\sal)";			//et al. 
 			reg = reg + ")\\.\\s";
-			return new RegExp(reg, "g");	//global case-insensitive
+			return new RegExp(reg, "g");		//global case-insensitive
+		} 
+		
+		function writeNumbering(numbering) {
+			return numbering ? "<i translate=\"no\">(" + lineCount + ")</i>&nbsp; " : ""; 
 		} 
 		
 		function toSeparate() { 
@@ -594,17 +579,29 @@ Text
 			//get whether merge enters "\n"
 			clearNewline = document.getElementById("clearNewlineCheckbox").checked;
 			//get whether include bullet number
-			numbering = document.getElementById("numberingCheckbox").checked
+			numbering = document.getElementById("numberingCheckbox").checked 
+			//get whether copy lines
+			lineCopy = document.getElementById("lineCopyCheckbox").checked;
 			
 			//replace all
 			//https://stackoverflow.com/questions/1144783/how-to-replace-all-occurrences-of-a-string-in-javascript
 			//get text from inputTextArea
 			let text = document.getElementById("inputTextArea").value;
 			
-			//replace symbols
+			//replace square brackets
+			text = text.replaceAll("<", "{"); 
+			text = text.replaceAll(">", "}"); 
+			
+			//replace other symbols
 			if(clearNewline){
 				text = text.replaceAll("\n", " ");
 			}
+			
+			if(lineCopy){ 
+				//remove timesamp
+				text = text.replaceAll(/([0-9]){2}\:([0-9]){2}\s/gi, " ");
+			}
+			
 			text = text.replaceAll(": ", ":<hr>");
 			text = text.replaceAll(";", ";<hr>");
 			//=====================================================
@@ -620,6 +617,7 @@ Text
 		//	text = text.replaceAll(/(?![et\sal])\.\s/gi, ".<hr>");
 			text = text.replaceAll(".\" ", ".\"<hr>");
 			text = text.replaceAll(".\”", ".\"<hr>");
+			text = text.replaceAll(".\'", ".\'<hr>");
 			text = text.replaceAll(".\]", ".\]<hr>");
 		//	text = text.replaceAll(".\n", ".<hr>");
 			// Wikipedia reference: ".[1][2][3]"
@@ -664,7 +662,7 @@ Text
 			lineCount = 1;
 		//	console.log(textPieces0.length)
 			if(textPieces0.length != 0){ 
-				text = (numbering ? "(" + lineCount + ") " : "") + textPieces[0]; 
+				text = writeNumbering(numbering) + textPieces[0]; 
 				lineCount++;
 			}
 			
@@ -675,7 +673,7 @@ Text
 				//	console.log("empty"); 
 					continue;
 				}
-				number = numbering ? "(" + lineCount + ") " : "";
+				number = writeNumbering(numbering); 
 				lineCount++;
 				line = number + line; 
 				if(i == 1 && textPieces0.length == 0){ 
@@ -689,8 +687,7 @@ Text
 			
 		//	console.log(text); 
 			
-			checkBox = document.getElementById("lineCopyCheckbox");
-			if(checkBox.checked && text != "") { 
+			if(lineCopy && text != "") { 
 				//Duplicate lines
 				textPieces = text.split("<hr>");
 				textDup = ""; 
@@ -729,3 +726,4 @@ Text
 </div>
 </body>
 </html>
+
