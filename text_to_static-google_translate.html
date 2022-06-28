@@ -234,11 +234,7 @@ Text
 			document.getElementById("translateRightCheckbox").checked = true;
 			light = false;
 			document.getElementById("buttonLight").style.opacity = "0.5"; 
-			
-			$(window).bind('keydown.ctrl_s keydown.meta_s', function(event) {
-				event.preventDefault();
-				// Do something here
-			});
+
 		}
 
 		
@@ -417,6 +413,26 @@ Text
 		});  
 		
 		pageBody = document.getElementById("pageBody");
+		$(document).on("keyup", function(event){
+			if (event.ctrlKey && (event.which === 67 ) ) {
+				input.value = input.value + " "; 
+				input.focus(); 
+			} 
+			
+			if (event.ctrlKey && event.which === 86) { 
+				// Number 86 - "V" 
+				
+				if(!(input === document.activeElement)){ 
+				//	alert("not"); 
+					input.value = ""; 
+					input.focus(); 
+				}else{
+				//	alert("yes");
+					input.blur(); 
+				}
+			} 
+		});  
+		/*
 		pageBody.addEventListener("keyup", async function(event) { 
 			
 			if(!quick){return;} 
@@ -442,6 +458,7 @@ Text
 				}
 			} 
 		});   
+		*/
 		
 		
 		
