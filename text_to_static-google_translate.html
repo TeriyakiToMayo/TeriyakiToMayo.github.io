@@ -208,9 +208,6 @@ Text
 		// General Initialization
 		//-------------------------------------------------
 		light = false; 
-		//if quick is true, 
-		//- use Ctrl + V + V to clean up textbox and paste and separate 
-		//- use Ctrl + C + V to add extra content to textbox and separate 
 		quick = true; 
 		//version
 		googleTranslate = 1 == 1; //1 == 1, true; 1 == 0, false 
@@ -420,17 +417,34 @@ Text
 		});  
 		
 		pageBody = document.getElementById("pageBody");
-		$(document).on("keyup", function(event){
+		pageBody.addEventListener("keyup", async function(event) { 
 			
-			// Number 67 - C 
-			// Number 91 - Command (MacOS)  
-			if (event.ctrlKey && (event.which === 67) || event.which === 91 && (event.which === 67)) {
+			//if quick is true, 
+			//- to clean up textbox and paste and separate 
+			//	- use Ctrl + V + V 
+			//- to add extra content to textbox and separate 
+			//	- use Ctrl + V + V for the 1st part 
+			//	- use Ctrl + C + V for the following parts 
+			
+			if(!quick){return;} 
+			
+			//Keep pressing Ctrl + C will only add more space to the end 
+			if (event.ctrlKey && event.keyCode === 67 || event.metaKey && event.keyCode === 67) { 
+				// Number 67 - C 
+				
+				await sleep(10); 
+				
+				//add a space to prevent concatenating two sentences 
 				input.value = input.value + " "; 
 				input.focus(); 
 			} 
 			
-			// Number 86 - V 
-			if (event.ctrlKey && event.which === 86 || event.which === 91 && (event.which === 86) ) { 
+			//we must use Ctrl + V to prevent browser asks for clipboard permission all the time 
+			//Keep pressing Ctrl + V will only clean up content and paste it again  
+			if (event.ctrlKey && event.keyCode === 86 || event.metaKey && event.keyCode === 86) { 
+				// Number 86 - V 
+				
+				await sleep(10); 
 				
 				if(!(input === document.activeElement)){ 
 				//	alert("not"); 
@@ -442,36 +456,7 @@ Text
 					toSeparate(); 
 				}
 			} 
-		});  
-		/*
-		pageBody.addEventListener("keyup", async function(event) { 
-			
-			if(!quick){return;} 
-			
-			if (event.ctrlKey && event.keyCode === 67) { 
-				// Number 67 - "C" 
-				//add a space to prevent concatenating two sentences
-				input.value = input.value + " "; 
-				input.focus(); 
-			} 
-			
-			//we must use Ctrl + V to prevent browser asks for clipboard permission all the time 
-			if (event.ctrlKey && event.keyCode === 86) { 
-				// Number 86 - "V" 
-				
-				if(!(input === document.activeElement)){ 
-				//	alert("not"); 
-					input.value = ""; 
-					input.focus(); 
-				}else{
-				//	alert("yes");
-					input.blur(); 
-				}
-			} 
 		});   
-		*/
-		
-		
 		
 			
 		
