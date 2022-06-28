@@ -402,10 +402,12 @@ Text
 		//	toSeparate(); 
 		}); 
 		
-		window.addEventListener("focus", function(event) 
+		window.addEventListener("focus", async function(event) 
 		{ 	
 			if(!quick){return;} 
-		
+			
+			await sleep(10); 
+			
 			input.blur(); 
 		});  
 		
@@ -425,6 +427,10 @@ Text
 			//- to add extra content to textbox and separate 
 			//	- use Ctrl + V + V for the 1st part 
 			//	- use Ctrl + C + V for the following parts 
+			//key combination selection 
+			//- dont use Ctrl + C or Ctrl + V as the starting key combination for AutoHotKey, 
+			//  otherwise the translate page's hotkey will be hindered  
+			//- best combination for AutoHotKey is Ctrl + X + C 
 			
 			if(!quick){return;} 
 			
