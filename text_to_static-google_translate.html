@@ -151,9 +151,11 @@ Text
 			</textarea>
 			
 			<img id="buttonLight" src="buttons\button_light.png" onclick="lightUp()" class="imgButton" alt="Light">
+			<img id="buttonQuick" src="buttons\button_quick.png" onclick="swichQuick()" class="imgButton" alt="Quick">
 			<img src="buttons\button_original.png" onclick="toOriginal()" class="imgButton" alt="Original">
 			<img id="buttonSeparate" src="buttons\button_separate.png" onclick="toSeparate()" class="imgButton" alt="Separate">
 			<div id="buttonPaste"></div>
+			
 			
 			<div></div>	
 			
@@ -205,7 +207,11 @@ Text
 		//-------------------------------------------------
 		// General Initialization
 		//-------------------------------------------------
-		light = false;
+		light = false; 
+		//if quick is true, 
+		//- use Ctrl + V + V to clean up textbox and paste and separate 
+		//- use Ctrl + C + V to add extra content to textbox and separate 
+		quick = true; 
 		//version
 		googleTranslate = 1 == 1; //1 == 1, true; 1 == 0, false 
 		leftText = "";
@@ -227,9 +233,11 @@ Text
 			translateText(0);
 			document.getElementById("translateRightCheckbox").checked = true;
 			light = false;
-			document.getElementById("buttonLight").style.opacity = "0.5";
+			document.getElementById("buttonLight").style.opacity = "0.5"; 
+			
 			
 		}
+
 		
 		//-------------------------------------------------
 		// Initialize Google translate 
@@ -389,19 +397,52 @@ Text
 		
 
 		//=================================================
-		// Set up key events
-		//=================================================
+		// Set up events
+		//================================================= 
 		input = document.getElementById("inputTextArea");
-		input.addEventListener("keyup", function(event) {
-		  // Number 13 is the "Enter" key on the keyboard
-		  if (event.ctrlKey && event.keyCode === 13) {
-			// Cancel the default action, if needed
-			event.preventDefault();
-			// Trigger the button element with a click
-			document.getElementById("buttonSeparate").click();
-		  }
+		input.addEventListener("change", function(event) {
+			if(!quick){return;} 
+			
+			toSeparate(); 
 		}); 
+		
+		window.addEventListener("blur", function(event) 
+		{ 	
+			if(!quick){return;} 
+		
+			input.blur(); 
+		});  
+		
+		pageBody = document.getElementById("pageBody");
+		pageBody.addEventListener("keyup", async function(event) { 
+			
+			if(!quick){return;} 
+			
+			if (event.ctrlKey && event.keyCode === 67) { 
+				// Number 67 - "C" 
+				//add a space to prevent concatenating two sentences
+				input.value = input.value + " "; 
+				input.focus(); 
+			} 
+			
+			//we must use Ctrl + V to prevent browser asks for clipboard permission all the time 
+			if (event.ctrlKey && event.keyCode === 86) { 
+				// Number 86 - "V" 
 				
+				if(!(input === document.activeElement)){ 
+				//	alert("not"); 
+					input.value = ""; 
+					input.focus(); 
+				}else{
+				//	alert("yes");
+					input.blur(); 
+				}
+			} 
+		});   
+		
+		
+		
+			
 		
 		//=================================================
 		// Buttons
@@ -434,6 +475,15 @@ Text
 				document.getElementById("pageBody").style.color = lightTextColor;
 			}
 			light = light ? false : true;
+		}
+		
+		function swichQuick(){
+			if(quick){
+				document.getElementById("buttonQuick").style.opacity = "0.5";
+			}else {
+				document.getElementById("buttonQuick").style.opacity = "1.0";
+			} 
+			quick = quick ? false : true;
 		}
 		
 		function checkClearNewline() {
