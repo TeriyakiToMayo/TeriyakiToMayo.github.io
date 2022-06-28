@@ -402,8 +402,15 @@ Text
 		input.addEventListener("change", function(event) {
 			if(!quick){return;} 
 			
-			toSeparate(); 
+		//	toSeparate(); 
 		}); 
+		
+		window.addEventListener("focus", function(event) 
+		{ 	
+			if(!quick){return;} 
+		
+			input.blur(); 
+		});  
 		
 		window.addEventListener("blur", function(event) 
 		{ 	
@@ -414,13 +421,16 @@ Text
 		
 		pageBody = document.getElementById("pageBody");
 		$(document).on("keyup", function(event){
-			if (event.ctrlKey && (event.which === 67 ) ) {
+			
+			// Number 67 - C 
+			// Number 91 - Command (MacOS)  
+			if (event.ctrlKey && (event.which === 67) || event.which === 91 && (event.which === 67)) {
 				input.value = input.value + " "; 
 				input.focus(); 
 			} 
 			
-			if (event.ctrlKey && event.which === 86) { 
-				// Number 86 - "V" 
+			// Number 86 - V 
+			if (event.ctrlKey && event.which === 86 || event.which === 91 && (event.which === 86) ) { 
 				
 				if(!(input === document.activeElement)){ 
 				//	alert("not"); 
@@ -429,6 +439,7 @@ Text
 				}else{
 				//	alert("yes");
 					input.blur(); 
+					toSeparate(); 
 				}
 			} 
 		});  
