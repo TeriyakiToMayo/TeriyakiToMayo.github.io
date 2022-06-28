@@ -198,7 +198,7 @@ Text
 	<div id="myInput">
 	</div>
 	
-	
+	<script src="libs\jquery-3.6.0.min.js"></script> 
 	<script>
 
 		//=================================================
@@ -235,7 +235,10 @@ Text
 			light = false;
 			document.getElementById("buttonLight").style.opacity = "0.5"; 
 			
-			
+			$(window).bind('keydown.ctrl_s keydown.meta_s', function(event) {
+				event.preventDefault();
+				// Do something here
+			});
 		}
 
 		
