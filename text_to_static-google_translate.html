@@ -513,7 +513,10 @@ Text
 			
 			if(event.shiftKey == true){
 			//	console.log(event.deltaY);   
-				fontSizeSliderUpdate(event.deltaY);  
+				deltaY = event.deltaY; 
+				deltaX = event.deltaX; 
+				delta = deltaY != 0 ? deltaY : (deltaX != 0 ? deltaX : 0); 
+				fontSizeSliderUpdate(delta);  
 			} 
 			
 		});   
