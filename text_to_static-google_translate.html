@@ -464,6 +464,16 @@ Text
 			} 
 		});   
 		
+		//press q to switch Quick 
+		pageBody.addEventListener("keyup", function(event) { 
+			
+			if (event.keyCode === 81) { 
+				if(!(input === document.activeElement)) {
+					swichQuick(); 
+				} 
+			} 
+		});   
+		
 			
 		
 		//=================================================
