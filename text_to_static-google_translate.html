@@ -369,7 +369,9 @@ Text
 			*/
 			
 		}
-
+		
+		fontSizeSliderMin = 26; 
+		fontSizeSliderMax = 60; 
 		function googleTranslateElementInit() {
 			if (googleTranslate){
 				//Make <br> between outputTextAreaLeft and inputTextArea hidden
@@ -381,7 +383,7 @@ Text
 					"<img id=\"buttonPaste\" src=\"buttons\\button_paste.png\" onclick=\"paste()\" class=\"imgButton\" alt=\"Paste\">";
 				//Make fontSizeSlider visible
 				document.getElementById("fontSizeSlider").outerHTML = 
-					"<input id=\"fontSizeSlider\" type=\"range\" min=\"26\" max=\"60\" value=\"26\" class=\"fontSizeSlider\" oninput=\"fontSizeSliderUpdate()\">"; 
+					"<input id=\"fontSizeSlider\" type=\"range\" min=\"" + fontSizeSliderMin + "\" max=\"" + fontSizeSliderMax + "\" value=\"" + fontSizeSliderMin + "\" class=\"fontSizeSlider\" oninput=\"fontSizeSliderUpdate(0)\">"; 
 				//Init translate element
 				new google.translate.TranslateElement({pageLanguage: 'en'}, 'google_translate_element'); 
  
@@ -505,15 +507,45 @@ Text
 			} 
 		});   
 		
+		
+		//press shift and scroll to change size  
+		document.getElementById("pageBody").addEventListener("wheel", function(event) { 
+			
+			if(event.shiftKey == true){
+			//	console.log(event.deltaY);   
+				fontSizeSliderUpdate(event.deltaY);  
+			} 
+			
+		});   
+		
 			
 		
 		//=================================================
 		// Buttons
 		//=================================================
 		
-		function fontSizeSliderUpdate() {
+		function fontSizeSliderUpdate(wheelStep) { 
+		
 			fontSizeSlider = document.getElementById("fontSizeSlider"); 
-		//	alert(fontSizeSlider); 
+		
+			if(wheelStep != 0) { 
+				
+				//wheelstep < 0: scroll down 
+				//wheelstep > 0: scroll up  
+				sign = wheelStep < 0 ? 1 : -1; 
+				newFontSizeValue = parseInt(fontSizeSlider.value) + sign * 5; 
+				if(newFontSizeValue < fontSizeSliderMin) {
+					fontSizeSlider.value = fontSizeSliderMin; 
+				} else if (newFontSizeValue > fontSizeSliderMax) { 
+					fontSizeSlider.value = fontSizeSliderMax; 
+				} else {
+					fontSizeSlider.value = newFontSizeValue; 
+				} 
+				
+			//	console.log(fontSizeSlider.value);  
+				
+			}  
+			
 			fontSize = fontSizeSlider.value; 
 			document.getElementById("outputTextAreaLeft").style.fontSize = fontSize + "px"; 
 			document.getElementById("outputTextAreaRight").style.fontSize = fontSize + "px"; 
