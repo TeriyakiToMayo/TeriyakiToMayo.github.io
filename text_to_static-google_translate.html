@@ -515,7 +515,7 @@ Text
 			//	console.log(event.deltaY);   
 				deltaY = event.deltaY; 
 				deltaX = event.deltaX; 
-				delta = deltaY != 0 ? deltaY : (deltaX != 0 ? deltaX : 0); 
+				delta = deltaY != 0 ? deltaY : (deltaX != 0 ? -deltaX : 0); 
 				fontSizeSliderUpdate(delta);  
 			} 
 			
