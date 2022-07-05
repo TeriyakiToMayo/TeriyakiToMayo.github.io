@@ -395,15 +395,18 @@ Text
 		//=================================================
 		// Set up events
 		//================================================= 
-		input = document.getElementById("inputTextArea");
-		input.addEventListener("change", function(event) {
+		
+		document.getElementById("inputTextArea").addEventListener("change", function(event) { 
 			if(!quick){return;} 
 			
 		//	toSeparate(); 
 		}); 
 		
+		//cancel focus on inputTextArea when get back to the page 
 		window.addEventListener("focus", async function(event) 
 		{ 	
+			input = document.getElementById("inputTextArea"); 
+		
 			if(!quick){return;} 
 			
 			await sleep(10); 
@@ -411,15 +414,38 @@ Text
 			input.blur(); 
 		});  
 		
+		//cancel focus on inputTextArea when get away from the page 
 		window.addEventListener("blur", function(event) 
 		{ 	
-			if(!quick){return;} 
+			input = document.getElementById("inputTextArea"); 
 		
+			if(!quick){return;} 
+			
 			input.blur(); 
 		});  
 		
-		pageBody = document.getElementById("pageBody");
-		pageBody.addEventListener("keydown", async function(event) { 
+		//process paste shortcuts 
+		permanentInputTextAreaBackgroundColor = "orange";  
+		tempInputTextAreaBackgroundColor = "#ffc400"; 
+		function switchInputTextAreaBackgroundColor(){
+		
+			input = document.getElementById("inputTextArea"); 
+			
+			if(input.style.backgroundColor == "") {
+				input.style.backgroundColor = permanentInputTextAreaBackgroundColor; 
+			} 
+			
+			if(input.style.backgroundColor == permanentInputTextAreaBackgroundColor) {
+				input.style.backgroundColor = tempInputTextAreaBackgroundColor; 
+			} else {
+				input.style.backgroundColor = permanentInputTextAreaBackgroundColor; 
+			} 
+			
+		}
+		
+		document.getElementById("pageBody").addEventListener("keydown", async function(event) { 
+			
+			input = document.getElementById("inputTextArea"); 
 			
 			//if quick is true, 
 			//- to clean up textbox and paste and separate 
@@ -442,6 +468,7 @@ Text
 				
 				//add a space to prevent concatenating two sentences 
 				input.value = input.value + " "; 
+				switchInputTextAreaBackgroundColor(); 
 				input.focus(); 
 			} 
 			
@@ -455,17 +482,21 @@ Text
 				if(!(input === document.activeElement)){ 
 				//	alert("not"); 
 					input.value = ""; 
+					switchInputTextAreaBackgroundColor(); 
 					input.focus(); 
 				}else{
 				//	alert("yes");
 					input.blur(); 
+					switchInputTextAreaBackgroundColor(); 
 					toSeparate(); 
 				}
 			} 
 		});   
 		
 		//press q to switch Quick 
-		pageBody.addEventListener("keyup", function(event) { 
+		document.getElementById("pageBody").addEventListener("keyup", function(event) { 
+			
+			input = document.getElementById("inputTextArea"); 
 			
 			if (event.keyCode === 81) { 
 				if(!(input === document.activeElement)) {
@@ -493,17 +524,26 @@ Text
 		lightBackgroundColor = "#FFE599";
 		darkBackgroundColor = "#323233";
 		lightTextColor = "black";
-		darkTextColor = "#828282";
+		darkTextColor = "#828282"; 
+		function backgroundColor(isReverse){ 
+			if(isReverse) {
+				return light ? darkBackgroundColor : lightBackgroundColor; 
+			} else {
+				return light ? lightBackgroundColor : darkBackgroundColor; 
+			} 
+			
+		}
+		
 		function lightUp(){	
 			if(light){
 				document.getElementById("buttonLight").style.opacity = "0.5";
 				
-				document.getElementById("pageBody").style.backgroundColor = darkBackgroundColor
+				document.getElementById("pageBody").style.backgroundColor = backgroundColor(true); 
 				document.getElementById("pageBody").style.color = darkTextColor;
 			}else {
 				document.getElementById("buttonLight").style.opacity = "1.0";
 				
-				document.getElementById("pageBody").style.backgroundColor = lightBackgroundColor
+				document.getElementById("pageBody").style.backgroundColor = backgroundColor(true); 
 				document.getElementById("pageBody").style.color = lightTextColor;
 			}
 			light = light ? false : true;
