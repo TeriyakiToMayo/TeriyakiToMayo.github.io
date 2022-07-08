@@ -207,7 +207,6 @@ Text
 		//-------------------------------------------------
 		// General Initialization
 		//-------------------------------------------------
-		light = false; 
 		quick = true; 
 		//version
 		googleTranslate = 1 == 1; //1 == 1, true; 1 == 0, false 
@@ -228,9 +227,12 @@ Text
 			document.getElementById("showRightCheckbox").checked = true;
 			document.getElementById("translateLeftCheckbox").checked = true;
 			translateText(0);
-			document.getElementById("translateRightCheckbox").checked = true;
-			light = false;
-			document.getElementById("buttonLight").style.opacity = "0.5"; 
+			document.getElementById("translateRightCheckbox").checked = true; 
+			
+			//initialize light 
+			lightUpInitial(true); 
+		//	light = false;
+		//	document.getElementById("buttonLight").style.opacity = "0.5"; 
 
 		}
 
@@ -569,13 +571,27 @@ Text
 			
 		}
 		
-		function lightUp(){	
+		light = true; 
+		function lightUpInitial(initial){	
+			
+			//to set initial light to be true, 
+			//you need to set it to be the previous status, 
+			//that is, light = false 
+			light = !initial; 
+			lightUp(); 
+			
+		} 
+		
+		function lightUp() {
+		
 			if(light){
+				console.log("1");  
 				document.getElementById("buttonLight").style.opacity = "0.5";
 				
 				document.getElementById("pageBody").style.backgroundColor = backgroundColor(true); 
 				document.getElementById("pageBody").style.color = darkTextColor;
 			}else {
+				console.log("2");  
 				document.getElementById("buttonLight").style.opacity = "1.0";
 				
 				document.getElementById("pageBody").style.backgroundColor = backgroundColor(true); 
