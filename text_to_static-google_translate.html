@@ -152,9 +152,9 @@ Text
 			
 			<img id="buttonLight" src="buttons\button_light.png" onclick="lightUp()" class="imgButton" alt="Light">
 			<img id="buttonQuick" src="buttons\button_quick.png" onclick="swichQuick()" class="imgButton" alt="Quick">
-			<img src="buttons\button_original.png" onclick="toOriginal()" class="imgButton" alt="Original">
-			<img id="buttonSeparate" src="buttons\button_separate.png" onclick="toSeparate()" class="imgButton" alt="Separate">
-			<div id="buttonPaste"></div>
+			<img id="buttonFormat" src="buttons\button_original.png" onclick="switchFormat()" class="imgButton" alt="Format">
+			<img id="buttonProcess" src="buttons\button_process.png" onclick="processText()" class="imgButton" alt="Process">
+			<div id="buttonPaste"></div> 
 			
 			
 			<div></div>	
@@ -229,8 +229,9 @@ Text
 			translateText(0);
 			document.getElementById("translateRightCheckbox").checked = true; 
 			
-			//initialize light 
+			//initialize buttons  
 			lightUpInitial(true); 
+			switchFormatInitial(false);  
 		//	light = false;
 		//	document.getElementById("buttonLight").style.opacity = "0.5"; 
 
@@ -400,9 +401,15 @@ Text
 		// Set up events
 		//================================================= 
 		
-		document.getElementById("inputTextArea").addEventListener("change", function(event) { 
+		document.getElementById("inputTextArea").addEventListener("blur", async function(event) { 
 			if(!quick){return;} 
 			
+			await sleep(10);  
+			
+			//if inputTextArea is blurred while quick shortcuts 
+			if(inputTextAreaStatus == 1) { 
+				switchInputTextAreaBackgroundColor(); 
+			}  
 		//	toSeparate(); 
 		}); 
 		
@@ -447,6 +454,9 @@ Text
 			
 		}
 		
+		//0: not activatetd by quick shortcuts 
+		//1: activated by quick shortcuts 
+		inputTextAreaStatus = 0; 
 		document.getElementById("pageBody").addEventListener("keydown", async function(event) { 
 			
 			input = document.getElementById("inputTextArea"); 
@@ -456,7 +466,7 @@ Text
 			//	- use Ctrl + V + V 
 			//- to add extra content to textbox and separate 
 			//	- use Ctrl + V + V for the 1st part 
-			//	- use Ctrl + C + V for the following parts 
+			//	- use C → Ctrl + V for the following parts 
 			//key combination selection 
 			//- dont use Ctrl + C or Ctrl + V as the starting key combination for AutoHotKey, 
 			//  otherwise the translate page's hotkey will be hindered  
@@ -464,16 +474,23 @@ Text
 			
 			if(!quick){return;} 
 			
-			//Keep pressing Ctrl + C will only add more space to the end 
-			if (event.ctrlKey && event.keyCode === 67 || event.metaKey && event.keyCode === 67) { 
+			//Keep pressing C will only add more space to the end 
+			if (event.keyCode === 67) { 
 				// Number 67 - C 
+				
+				if(input === document.activeElement){ 
+					return; 
+				} 
 				
 				await sleep(10); 
 				
 				//add a space to prevent concatenating two sentences 
 				input.value = input.value + " "; 
+				inputTextAreaStatus = 1; 
 				switchInputTextAreaBackgroundColor(); 
 				input.focus(); 
+				
+				return; 
 			} 
 			
 			//we must use Ctrl + V to prevent browser asks for clipboard permission all the time 
@@ -486,14 +503,18 @@ Text
 				if(!(input === document.activeElement)){ 
 				//	alert("not"); 
 					input.value = ""; 
+					inputTextAreaStatus = 1; 
 					switchInputTextAreaBackgroundColor(); 
 					input.focus(); 
 				}else{
 				//	alert("yes");
 					input.blur(); 
+					inputTextAreaStatus = 0; 
 					switchInputTextAreaBackgroundColor(); 
-					toSeparate(); 
-				}
+					processText(); 
+				} 
+				
+				return; 
 			} 
 		});   
 		
@@ -585,13 +606,11 @@ Text
 		function lightUp() {
 		
 			if(light){
-				console.log("1");  
 				document.getElementById("buttonLight").style.opacity = "0.5";
 				
 				document.getElementById("pageBody").style.backgroundColor = backgroundColor(true); 
 				document.getElementById("pageBody").style.color = darkTextColor;
-			}else {
-				console.log("2");  
+			}else { 
 				document.getElementById("buttonLight").style.opacity = "1.0";
 				
 				document.getElementById("pageBody").style.backgroundColor = backgroundColor(true); 
@@ -607,27 +626,45 @@ Text
 				document.getElementById("buttonQuick").style.opacity = "1.0";
 			} 
 			quick = quick ? false : true;
-		}
+		} 
+		
+		original = false; 
+		function switchFormatInitial(initial) { 
+			original = !initial;  
+			switchFormat(); 
+		} 
+		
+		function switchFormat() { 
+			if(original){ 
+			//	document.getElementById("buttonFormat").src = "buttons\\button_separate.png"; 
+				document.getElementById("buttonFormat").style.opacity = "0.5";
+			}else { 
+			//	document.getElementById("buttonFormat").src = "buttons\\button_original.png";  
+				document.getElementById("buttonFormat").style.opacity = "1.0"; 
+			} 
+			original = original ? false : true; 
+			processText(); 
+		} 
 		
 		function checkClearNewline() {
 			checkBox = document.getElementById("clearNewlineCheckbox");
 			checkBox.checked = checkBox.checked ? false : true;
 			document.getElementById("clearNewlineImg").style.opacity = checkBox.checked? "1.0" : "0.5";
-			toSeparate();
+			processText();
 		}
 		
 		function checkNumbering() {
 			checkBox = document.getElementById("numberingCheckbox");
 			checkBox.checked = checkBox.checked ? false : true;
 			document.getElementById("numberingImg").style.opacity = checkBox.checked? "1.0" : "0.5";
-			toSeparate();
+			processText();
 		}
 		
 		function checkLineCopy() {
 			checkBox = document.getElementById("lineCopyCheckbox");
 			checkBox.checked = checkBox.checked ? false : true;
 			document.getElementById("lineCopyImg").style.opacity = checkBox.checked? "1.0" : "0.5";
-			toSeparate();
+			processText();
 		}
 
 		
@@ -682,7 +719,13 @@ Text
 			document.getElementById("translate" + side + "Img").style.opacity = translateCheckBox.checked ? "1.0" : "0.5";
 		}
 		
-		
+		function processText() { 
+			if(original) { 
+				toOriginal(); 
+			} else {
+				toSeparate();  
+			} 
+		} 
 	
 		function toOriginal() { 
 			//get text from inputTextArea
@@ -890,7 +933,7 @@ Text
 		function paste(){
 			navigator.clipboard.readText().then((text) => {
 				document.getElementById("inputTextArea").value = text;
-				toSeparate();
+				processText();
 			});
 			
 		}
