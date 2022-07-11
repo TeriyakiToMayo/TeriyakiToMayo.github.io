@@ -407,10 +407,18 @@ Text
 			await sleep(10);  
 			
 			//if inputTextArea is blurred while quick shortcuts 
-			if(inputTextAreaStatus == 1) { 
-				switchInputTextAreaBackgroundColor(); 
-			}  
-		//	toSeparate(); 
+			switchInputTextAreaStatus(); 
+			
+		}); 
+		
+		document.getElementById("inputTextArea").addEventListener("focus", async function(event) { 
+			if(!quick){return;} 
+			
+			await sleep(10);  
+			
+			//if inputTextArea is blurred while quick shortcuts 
+			switchInputTextAreaStatus(); 
+			
 		}); 
 		
 		//cancel focus on inputTextArea when get back to the page 
@@ -438,19 +446,19 @@ Text
 		//process paste shortcuts 
 		permanentInputTextAreaBackgroundColor = "orange";  
 		tempInputTextAreaBackgroundColor = "#ffc400"; 
-		function switchInputTextAreaBackgroundColor(){
+		function switchInputTextAreaStatus(){
 		
 			input = document.getElementById("inputTextArea"); 
 			
-			if(input.style.backgroundColor == "") {
+			if(inputTextAreaStatus == 0) {
+				input.style.backgroundColor = tempInputTextAreaBackgroundColor; 
+				
+			} else if(inputTextAreaStatus == 1) {
 				input.style.backgroundColor = permanentInputTextAreaBackgroundColor; 
 			} 
 			
-			if(input.style.backgroundColor == permanentInputTextAreaBackgroundColor) {
-				input.style.backgroundColor = tempInputTextAreaBackgroundColor; 
-			} else {
-				input.style.backgroundColor = permanentInputTextAreaBackgroundColor; 
-			} 
+			inputTextAreaStatus = inputTextAreaStatus == 1 ? 0 : 1; 
+		//	console.log(inputTextAreaStatus); 
 			
 		}
 		
@@ -467,6 +475,7 @@ Text
 			//- to add extra content to textbox and separate 
 			//	- use Ctrl + V + V for the 1st part 
 			//	- use C → Ctrl + V for the following parts 
+			//		- or click → Ctrl + V 
 			//key combination selection 
 			//- dont use Ctrl + C or Ctrl + V as the starting key combination for AutoHotKey, 
 			//  otherwise the translate page's hotkey will be hindered  
@@ -486,8 +495,6 @@ Text
 				
 				//add a space to prevent concatenating two sentences 
 				input.value = input.value + " "; 
-				inputTextAreaStatus = 1; 
-				switchInputTextAreaBackgroundColor(); 
 				input.focus(); 
 				
 				return; 
@@ -503,14 +510,10 @@ Text
 				if(!(input === document.activeElement)){ 
 				//	alert("not"); 
 					input.value = ""; 
-					inputTextAreaStatus = 1; 
-					switchInputTextAreaBackgroundColor(); 
 					input.focus(); 
 				}else{
 				//	alert("yes");
 					input.blur(); 
-					inputTextAreaStatus = 0; 
-					switchInputTextAreaBackgroundColor(); 
 					processText(); 
 				} 
 				
