@@ -469,13 +469,15 @@ Text
 			
 			input = document.getElementById("inputTextArea"); 
 			
-			//if quick is true, 
-			//- to clean up textbox and paste and separate 
-			//	- use Ctrl + V + V 
-			//- to add extra content to textbox and separate 
-			//	- use Ctrl + V + V for the 1st part 
-			//	- use C → Ctrl + V for the following parts 
-			//		- or click → Ctrl + V 
+			//in quick mode, 
+			//- press following to enter input mode 
+			//	- Ctrl + V 
+			//	  OR 
+			//	  click 
+			//		- this will clear the content of the inputTextArea 
+			//	- C 
+			// 		- this will not clear the content, and will add a space to the area
+			//- then press Ctrl + V to paste new content 
 			//key combination selection 
 			//- dont use Ctrl + C or Ctrl + V as the starting key combination for AutoHotKey, 
 			//  otherwise the translate page's hotkey will be hindered  
