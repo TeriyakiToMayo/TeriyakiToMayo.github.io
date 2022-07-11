@@ -409,6 +409,10 @@ Text
 			//if inputTextArea is blurred while quick shortcuts 
 			switchInputTextAreaStatus(); 
 			
+			if(document.hasFocus()) { 
+				processText(); 
+			} 
+			
 		}); 
 		
 		document.getElementById("inputTextArea").addEventListener("focus", async function(event) { 
@@ -477,7 +481,11 @@ Text
 			//		- this will clear the content of the inputTextArea 
 			//	- C 
 			// 		- this will not clear the content, and will add a space to the area
-			//- then press Ctrl + V to paste new content 
+			//- then press following to process content 
+			//	- Ctrl + V
+			//		- paste content and process it 
+			//	- click somewhere else 
+			//		- directly prceess content 
 			//key combination selection 
 			//- dont use Ctrl + C or Ctrl + V as the starting key combination for AutoHotKey, 
 			//  otherwise the translate page's hotkey will be hindered  
@@ -516,7 +524,7 @@ Text
 				}else{
 				//	alert("yes");
 					input.blur(); 
-					processText(); 
+				//	processText(); 
 				} 
 				
 				return; 
