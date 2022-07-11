@@ -413,7 +413,7 @@ Text
 			
 			
 			if(document.hasFocus()) { 
-				processText(); 
+			//	processText(); 
 			} 
 			
 		}); 
@@ -527,21 +527,29 @@ Text
 				}else{
 				//	alert("yes");
 					input.blur(); 
-				//	processText(); 
+					processText(); 
 				} 
 				
 				return; 
 			} 
 		});   
 		
-		//press q to switch Quick 
+		
 		document.getElementById("pageBody").addEventListener("keyup", function(event) { 
 			
 			input = document.getElementById("inputTextArea"); 
 			
+			//press q to switch Quick 
 			if (event.keyCode === 81) { 
 				if(!(input === document.activeElement)) {
 					swichQuick(); 
+				} 
+			} 
+			
+			//press a to processText 
+			if (event.keyCode === 65) { 
+				if(!(input === document.activeElement)) {
+					processText(); 
 				} 
 			} 
 		});   
