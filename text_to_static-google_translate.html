@@ -402,12 +402,15 @@ Text
 		//================================================= 
 		
 		document.getElementById("inputTextArea").addEventListener("blur", async function(event) { 
-			if(!quick){return;} 
+			if(quick){
 			
-			await sleep(10);  
+				await sleep(10);  
 			
-			//if inputTextArea is blurred while quick shortcuts 
-			switchInputTextAreaStatus(); 
+				//if inputTextArea is blurred while quick shortcuts 
+				switchInputTextAreaStatus(); 	
+				
+			} 
+			
 			
 			if(document.hasFocus()) { 
 				processText(); 
