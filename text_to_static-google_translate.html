@@ -736,11 +736,25 @@ Text
 		}
 		
 		function processText() { 
+			
+			//remove spaces & \n in inputTextArea 
+			text = document.getElementById("inputTextArea").value; 
+			clearNewline = document.getElementById("clearNewlineCheckbox").checked; 
+			if(clearNewline){
+				text = text.replaceAll("\n", " "); 
+			}
+			text = text.replace(/\s\s+/g, ' '); 
+			document.getElementById("inputTextArea").value = text; 
+			
+			// console.log(text);  
+			
+			//process text 
 			if(original) { 
 				toOriginal(); 
 			} else {
 				toSeparate();  
 			} 
+		
 		} 
 	
 		function toOriginal() { 
@@ -824,10 +838,12 @@ Text
 			text = text.replaceAll("<", "{"); 
 			text = text.replaceAll(">", "}"); 
 			
-			//replace other symbols
+			//replace other symbols 
+			/*
 			if(clearNewline){
 				text = text.replaceAll("\n", " ");
-			}
+			} 
+			*/ 
 			
 			if(lineCopy){ 
 				//remove timesamp
