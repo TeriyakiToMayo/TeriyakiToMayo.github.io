@@ -5,9 +5,5 @@ Google Translate Version: https://teriyakitomayo.github.io/text_to_static-google
 
 Dev version: https://teriyakitomayo.github.io/text_to_static.html
 
-![High_Variability](images/High_Variability.png)
-
-
-
 
 
