@@ -1,2 +1,2 @@
-![High Variability](images/High Variability.png)
+![High Variability](images/High_Variability.png)
 
