@@ -7,14 +7,30 @@
 
 	<body>
 		
-		<div id="myDiv"> 
-			
-		</div> 
+		<div id="progressImg0" style="font-size:50px"> </div> 
+		<div id="progressImg1" style="font-size:50px"> </div> 
+		<div id="progressImg2" style="font-size:50px"> </div> 
+		<div id="progressImg3" style="font-size:50px"> </div> 
+		<div id="progressImg4" style="font-size:50px"> </div> 
+		<div id="progressImg5" style="font-size:50px"> </div> 
 		
-		<div id="progress" style="font-size:50px"> </div>
+		<div id="img0"></div> 
+		<div id="img1"></div> 
+		<div id="img2"></div> 
+		<div id="img3"></div> 
+		<div id="img4"></div> 
+		<div id="img5"></div> 
+		
 			
-	<script>
-		Image.prototype.load = function(url){
+	<script> 
+		imgUrls = ["https://raw.githubusercontent.com/wencanz/HumanLikeSimulator/main/10/T_0.png", 
+				   "https://raw.githubusercontent.com/wencanz/HumanLikeSimulator/main/10/T_1.png", 
+				   "https://raw.githubusercontent.com/wencanz/HumanLikeSimulator/main/10/T_2.png", 
+				   "https://raw.githubusercontent.com/wencanz/HumanLikeSimulator/main/10/T_3.png", 
+				   "https://raw.githubusercontent.com/wencanz/HumanLikeSimulator/main/10/T_4.png", 
+				   "https://raw.githubusercontent.com/wencanz/HumanLikeSimulator/main/10/T_5.png"] 
+	
+		Image.prototype.load = function(url, imgIndex){
 			var thisImg = this;
 			var xmlHTTP = new XMLHttpRequest();
 			xmlHTTP.open('GET', url,true);
@@ -24,8 +40,9 @@
 				thisImg.src = window.URL.createObjectURL(blob);
 			};
 			xmlHTTP.onprogress = function(e) {
-				thisImg.completedPercentage = parseInt((e.loaded / e.total) * 100);
-				document.getElementById("progress").innerHTML = thisImg.completedPercentage;  
+				thisImg.completedPercentage = parseInt((e.loaded / e.total) * 100); 
+				progressDivID = "progressImg" + imgIndex; 
+				document.getElementById(progressDivID).innerHTML = progressDivID + " " + thisImg.completedPercentage + "%";  
 			};
 			xmlHTTP.onloadstart = function() {
 				thisImg.completedPercentage = 0;
@@ -35,10 +52,16 @@
 
 		Image.prototype.completedPercentage = 0; 
 		
-		var img = new Image(); 
-		imgUrl = "https://raw.githubusercontent.com/wencanz/HumanLikeSimulator/main/10/T_0.png"; 
-		img.load(imgUrl); 
-		document.getElementById("myDiv").appendChild(img); 
+		
+		for(i = 0; i < imgUrls.length; i++) { 
+			var img = new Image(); 
+			img.load(imgUrls[i], i); 
+			imgDivID = "img" + i; 
+			document.getElementById(imgDivID).appendChild(img); 
+		} 
+		
+		
+		
 	</script>
 	
 </div>
