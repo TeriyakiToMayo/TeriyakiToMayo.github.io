@@ -7,3 +7,5 @@ Dev version: https://teriyakitomayo.github.io/text_to_static.html
 
 
 
+img loading test: https://teriyakitomayo.github.io/image_loading_test 
+
