@@ -7,12 +7,14 @@
 
 	<body>
 		
-		<div id="progressImg0" style="font-size:50px"> </div> 
-		<div id="progressImg1" style="font-size:50px"> </div> 
-		<div id="progressImg2" style="font-size:50px"> </div> 
-		<div id="progressImg3" style="font-size:50px"> </div> 
-		<div id="progressImg4" style="font-size:50px"> </div> 
-		<div id="progressImg5" style="font-size:50px"> </div> 
+		<div id="progressGlobal" style="font-size:50px"> </div> 
+		
+		<div id="progressImg0" style="font-size:30px"> </div> 
+		<div id="progressImg1" style="font-size:30px"> </div> 
+		<div id="progressImg2" style="font-size:30px"> </div> 
+		<div id="progressImg3" style="font-size:30px"> </div> 
+		<div id="progressImg4" style="font-size:30px"> </div> 
+		<div id="progressImg5" style="font-size:30px"> </div> 
 		
 		<img id="img0" src="https://raw.githubusercontent.com/wencanz/HumanLikeSimulator/main/10/T_0.png"/> 
 		<img id="img1" src="https://raw.githubusercontent.com/wencanz/HumanLikeSimulator/main/10/T_1.png"/> 
@@ -24,8 +26,11 @@
 			
 	<script> 
 		
+		totalImageNum = 6; 
+		imageLoaded = 0; 
+		
 		window.addEventListener("load", event => {	
-			for(i = 0; i <= 5; i++) { 
+			for(i = 0; i < totalImageNum; i++) { 
 				imgDivID = "img" + i; 
 				var image = document.getElementById(imgDivID); 
 				var isLoaded = image.complete && image.naturalHeight !== 0; 
@@ -33,7 +38,12 @@
 				if(isLoaded) { 
 					progressDivID = "progressImg" + i; 
 					document.getElementById(progressDivID).innerHTML = "completed"; 
+					imageLoaded = imageLoaded + 1; 
 				} 
+			} 
+			
+			if(imageLoaded == totalImageNum) { 
+				document.getElementById("progressGlobal").innerHTML = "All Completed";  
 			} 
 			
 		});
