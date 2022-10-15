@@ -16,3 +16,9 @@ Symbols:
 	Ellipsis: 
 		...
 	
+Add 
+- tooltip 
+	- descriptions of buttons 
+	- shortcut keys 
+
+
