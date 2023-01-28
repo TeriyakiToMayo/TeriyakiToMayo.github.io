@@ -11,12 +11,13 @@ Ebooks
 
 - 纪录
   - 西洋世界军事史
-    - https://teriyakitomayo.github.io/ebooks/west_military 
-
+    - https://teriyakitomayo.github.io/ebooks/documents/west_military 
+  - 文明的故事
+    - https://teriyakitomayo.github.io/ebooks/documents/story_of_civilization 
+  
 - 小说
   - 刘慈欣 
-    - https://teriyakitomayo.github.io/ebooks/liu 
-
+    - https://teriyakitomayo.github.io/ebooks/novels/liu_cixin 
 
 
 
