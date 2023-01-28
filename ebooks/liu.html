@@ -22,23 +22,27 @@
 	<body class="body" onload="initialize()"> 
 	
 		<!-- Navigation Bar (top) --> 
-		<button class="button" onclick="previous()">Previous</button>
-		<div class="pageText" style="display:inline;" id="pageNum"></div> 
-		<button class="button" onclick="next()">Next</button> 
-		
-		<input class="pageText" size="1" type="text" id="pageNumInput1"> 
-		<button class="button" onclick="go(&quot;pageNumInput1&quot;)">Go</button> 
+		<div> 
+			<button class="button" onclick="previous()">Previous</button>
+			<div class="pageText" style="display:inline;" name="pageNum"></div> 
+			<button class="button" onclick="next()">Next</button> 
+			
+			<input class="pageText" size="1" type="text" id="pageNumInput1"> 
+			<button class="button" onclick="go(&quot;pageNumInput1&quot;)">Go</button> 
+		</div> 
 		
 		<div id="contentHolder"> 
 		</div>  
 		
 		<!-- Navigation Bar (bottom) --> 
-		<button class="button" onclick="previous()">Previous</button>
-		<div class="pageText" style="display:inline;" id="pageNum"></div> 
-		<button class="button" onclick="next()">Next</button> 
-		
-		<input class="pageText" size="1" type="text" id="pageNumInput2"> 
-		<button class="button" onclick="go(&quot;pageNumInput2&quot;)">Go</button> 
+		<div> 
+			<button class="button" onclick="previous()">Previous</button>
+			<div class="pageText" style="display:inline;" name="pageNum"></div> 
+			<button class="button" onclick="next()">Next</button> 
+			
+			<input class="pageText" size="1" type="text" id="pageNumInput2"> 
+			<button class="button" onclick="go(&quot;pageNumInput2&quot;)">Go</button> 
+		</div> 
 	</body>
 
 	<script>
@@ -17824,7 +17828,7 @@
 		}
 		
 		function renderPage(page) { 
-			currentPage = page; 
+			currentPage = parseInt(page); 
 		
 			beginningIndex = (page - 1) * pageLength; 
 			
@@ -17833,7 +17837,10 @@
 				contentHTML = contentHTML + content[i] + "<br>"; 
 			}  
 			
-			document.getElementById("pageNum").innerHTML = page + "/" + totalPages; 
+			pageNumElements = document.getElementsByName("pageNum") 
+			for(i = 0; i < pageNumElements.length; i++) {
+				pageNumElements[i].innerHTML = page + "/" + totalPages; 
+			}
 			document.getElementById("contentHolder").innerHTML = contentHTML; 
 		} 
 		
