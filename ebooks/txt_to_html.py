@@ -41,10 +41,10 @@ def txt_to_html (input_file_name, output_file_name):
     print(output_file_name, "complete") 
 
 
-txt_to_html("input/liu_cixin.txt", "output/liu_cixin.html") 
-txt_to_html("input/west_military.txt", "output/west_military.html") 
-txt_to_html("input/story_of_civilization.txt", "output/story_of_civilization.html") 
+# txt_to_html("input/liu_cixin.txt", "output/liu_cixin.html") 
+# txt_to_html("input/west_military.txt", "output/west_military.html") 
+# txt_to_html("input/story_of_civilization.txt", "output/story_of_civilization.html") 
 
 
-
-
+txt_to_html("input/best_rest.txt", "output/best_rest.html") 
+txt_to_html("input/predictably_irrational.txt", "output/predictably_irrational.html") 
