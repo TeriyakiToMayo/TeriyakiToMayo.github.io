@@ -18,10 +18,13 @@ Ebooks
     - https://teriyakitomayo.github.io/ebooks/output/predictably_irrational 
   - 最高休息法 
     - https://teriyakitomayo.github.io/ebooks/output/best_rest
-  
+
 - 小说
   - 刘慈欣 
     - https://teriyakitomayo.github.io/ebooks/output/liu_cixin 
+- Beta 
+  - https://teriyakitomayo.github.io/ebooks/beta/text_test
+
 
 
 

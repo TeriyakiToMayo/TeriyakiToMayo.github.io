@@ -22,8 +22,6 @@ README
 	-------------------------------------------------------------
 	[Things to improve] 
 		
-		Flow navigation bar 
-		
-		Larger font 
+		Load external txt file 
 		
 		
