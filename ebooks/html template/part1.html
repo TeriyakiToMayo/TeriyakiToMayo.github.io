@@ -1,12 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<style>
+			.navbar {
+				background-color: rgba(249, 228, 115); 
+				bottom: 0;
+				width: 100%; 
+				position: fixed; 
+				padding: 10px; 
+				text-align: center; 
+			}
+
 			.body{
+				margin-left: 0px; 
+				padding-bottom: 50px; 
 				background-color:#f9e473;
 				font-family: Tahoma, sans-serif;
 				font-size:30px;
 			} 
+			
+			.contentHolder{
+				margin: 16px; 
+			}
 			.pageText {
 				font-size:30px;
 			}
@@ -20,28 +36,22 @@
 	</head>
 	<body class="body" id="pageBody" onload="initialize()"> 
 	
-		<!-- Navigation Bar (top) --> 
-		<div> 
+		<!-- Navigation Bar (bottom-right corner) --> 
+		<div class="navbar"> 
 			<a class="link" onclick="previous()">Previous</a>
 			<div class="pageText" style="display:inline;" name="pageNum"></div> 
 			<a class="link" onclick="next()">Next</a> 
 			
-			<input class="pageText" size="3" type="text" id="pageNumInput1"> 
-			<a class="link" onclick="go(&quot;pageNumInput1&quot;)">Go</a> 
+			<input class="pageText" size="3" type="text" id="pageNumInputStart"> 
+			-
+			<input class="pageText" size="3" type="text" id="pageNumInputEnd"> 
+			<a class="link" onclick="go(&quot;pageNumInputStart&quot;, &quot;pageNumInputEnd&quot;)">Go</a> 
 		</div> 
 		
-		<div id="contentHolder"> 
+		<div class="contentHolder" id="contentHolder"> 
 		</div>  
 		
-		<!-- Navigation Bar (bottom) --> 
-		<div> 
-			<a class="link" onclick="previous()">Previous</a>
-			<div class="pageText" style="display:inline;" name="pageNum"></div> 
-			<a class="link" onclick="next()">Next</a> 
-			
-			<input class="pageText" size="3" type="text" id="pageNumInput2"> 
-			<a class="link" onclick="go(&quot;pageNumInput2&quot;)">Go</a> 
-		</div> 
+
 	</body>
 
 	<script>

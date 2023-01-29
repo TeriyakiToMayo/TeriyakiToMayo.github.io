@@ -1,12 +1,28 @@
 <!DOCTYPE html>
 <html lang="en">
 	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<style>
+			.navbar {
+				background-color: rgba(249, 228, 115); 
+				bottom: 0;
+				width: 100%; 
+				position: fixed; 
+				padding: 10px; 
+				text-align: center; 
+			}
+
 			.body{
+				margin-left: 0px; 
+				padding-bottom: 50px; 
 				background-color:#f9e473;
 				font-family: Tahoma, sans-serif;
 				font-size:30px;
 			} 
+			
+			.contentHolder{
+				margin: 16px; 
+			}
 			.pageText {
 				font-size:30px;
 			}
@@ -20,28 +36,22 @@
 	</head>
 	<body class="body" id="pageBody" onload="initialize()"> 
 	
-		<!-- Navigation Bar (top) --> 
-		<div> 
+		<!-- Navigation Bar (bottom-right corner) --> 
+		<div class="navbar"> 
 			<a class="link" onclick="previous()">Previous</a>
 			<div class="pageText" style="display:inline;" name="pageNum"></div> 
 			<a class="link" onclick="next()">Next</a> 
 			
-			<input class="pageText" size="3" type="text" id="pageNumInput1"> 
-			<a class="link" onclick="go(&quot;pageNumInput1&quot;)">Go</a> 
+			<input class="pageText" size="3" type="text" id="pageNumInputStart"> 
+			-
+			<input class="pageText" size="3" type="text" id="pageNumInputEnd"> 
+			<a class="link" onclick="go(&quot;pageNumInputStart&quot;, &quot;pageNumInputEnd&quot;)">Go</a> 
 		</div> 
 		
-		<div id="contentHolder"> 
+		<div class="contentHolder" id="contentHolder"> 
 		</div>  
 		
-		<!-- Navigation Bar (bottom) --> 
-		<div> 
-			<a class="link" onclick="previous()">Previous</a>
-			<div class="pageText" style="display:inline;" name="pageNum"></div> 
-			<a class="link" onclick="next()">Next</a> 
-			
-			<input class="pageText" size="3" type="text" id="pageNumInput2"> 
-			<a class="link" onclick="go(&quot;pageNumInput2&quot;)">Go</a> 
-		</div> 
+
 	</body>
 
 	<script>
@@ -5203,21 +5213,29 @@
 			renderPage((currentPage == totalPages ? totalPages : currentPage + 1)); 
 		} 
 		
-		function go(elementId) {
-			page = document.getElementById(elementId).value; 
-			if(!isNaN(parseInt(page)) && (page >= 1 && page <= totalPages)) {
-				renderPage(page); 
+		function go(elementId1, elementId2) {
+			page1 = document.getElementById(elementId1).value.trim(); 
+			page2 = document.getElementById(elementId2).value.trim(); 
+			if(!isNaN(parseInt(page1))) { 
+				if(page2 == "") {
+					renderPage(page1); 
+				} else if(!isNaN(parseInt(page2)) && 
+							(page1 >= 1 && page1 <= page2 - 1 && page2 <= totalPages)) {
+					totalPagesToRender = page2 - page1 + 1; 
+					renderPage(page1, totalPagesToRender); 
+				}  
 			} 
 		} 
 		
-		function renderPage(page) { 
+		function renderPage(page, totalPagesToRender=1) { 
 			currentPage = parseInt(page); 
 			
 			//Render new page 
 			beginningIndex = (page - 1) * pageLength; 
+			totalPageLength = totalPagesToRender * pageLength; 
 			
 			contentHTML = ""; 
-			for(i = beginningIndex; i < beginningIndex + pageLength; i++) {
+			for(i = beginningIndex; i < beginningIndex + totalPageLength; i++) {
 				contentHTML = contentHTML + "<p>" + content[i] + "</p>"; 
 			}  
 			
@@ -5243,7 +5261,7 @@
 		document.getElementById("pageBody").addEventListener("keyup", async function(event) { 
 			if (event.keyCode === 13) { 
 				// When Enter is pressed 
-				go("pageNumInput1") 
+				go("pageNumInputStart", "pageNumInputEnd") 
 			} 
 		}); 
 		

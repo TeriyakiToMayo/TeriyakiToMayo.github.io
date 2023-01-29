@@ -16,21 +16,29 @@
 			renderPage((currentPage == totalPages ? totalPages : currentPage + 1)); 
 		} 
 		
-		function go(elementId) {
-			page = document.getElementById(elementId).value; 
-			if(!isNaN(parseInt(page)) && (page >= 1 && page <= totalPages)) {
-				renderPage(page); 
+		function go(elementId1, elementId2) {
+			page1 = document.getElementById(elementId1).value.trim(); 
+			page2 = document.getElementById(elementId2).value.trim(); 
+			if(!isNaN(parseInt(page1))) { 
+				if(page2 == "") {
+					renderPage(page1); 
+				} else if(!isNaN(parseInt(page2)) && 
+							(page1 >= 1 && page1 <= page2 - 1 && page2 <= totalPages)) {
+					totalPagesToRender = page2 - page1 + 1; 
+					renderPage(page1, totalPagesToRender); 
+				}  
 			} 
 		} 
 		
-		function renderPage(page) { 
+		function renderPage(page, totalPagesToRender=1) { 
 			currentPage = parseInt(page); 
 			
 			//Render new page 
 			beginningIndex = (page - 1) * pageLength; 
+			totalPageLength = totalPagesToRender * pageLength; 
 			
 			contentHTML = ""; 
-			for(i = beginningIndex; i < beginningIndex + pageLength; i++) {
+			for(i = beginningIndex; i < beginningIndex + totalPageLength; i++) {
 				contentHTML = contentHTML + "<p>" + content[i] + "</p>"; 
 			}  
 			
@@ -56,7 +64,7 @@
 		document.getElementById("pageBody").addEventListener("keyup", async function(event) { 
 			if (event.keyCode === 13) { 
 				// When Enter is pressed 
-				go("pageNumInput1") 
+				go("pageNumInputStart", "pageNumInputEnd") 
 			} 
 		}); 
 		
