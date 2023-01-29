@@ -1,11 +1,27 @@
 <!DOCTYPE html>
 <html>
 <body>
-
-<embed src="test.txt">
-
-<script>
+	<div id="log"></div> 
+<script> 
 	
+	console.log(document.location.href);  
+	
+	var url = "https://teriyakitomayo.github.io/ebooks/beta/sample_text.txt";
+	var storedText;
+
+	fetch(url)
+		.then(function(response) {
+			response.text().then(function(text) {
+			storedText = text;
+			done();
+		});
+	 });
+
+	function done() {
+		document.getElementById('log').textContent =
+			"Here's what I got! \n" + storedText;
+		console.log(storedText); 
+	}
 </script>
 
 </body>
