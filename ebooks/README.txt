@@ -21,8 +21,6 @@ README
 			 
 	-------------------------------------------------------------
 	[Things to improve] 
-	
-		Enter to Go 
 		
 		Flow navigation bar 
 		

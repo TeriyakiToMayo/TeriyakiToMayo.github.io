@@ -50,5 +50,15 @@
 			document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
 		} 
 		
+		//=================================================
+		// Set up events
+		//================================================= 
+		document.getElementById("pageBody").addEventListener("keyup", async function(event) { 
+			if (event.keyCode === 13) { 
+				// When Enter is pressed 
+				go("pageNumInput1") 
+			} 
+		}); 
+		
 	</script>  
 </html>

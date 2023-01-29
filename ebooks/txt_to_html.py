@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 
 # import sys 
+import re
 
 def txt_to_html (input_file_name, output_file_name): 
     input_file = open(input_file_name, "r", encoding='utf-8') 
@@ -22,7 +23,7 @@ def txt_to_html (input_file_name, output_file_name):
         if len(line) == 0: continue 
         
         line = line.replace("\"", "\\\"")
-        line = line.replace("……", "......")
+        line = "\\\"......\\\"" if line == "……" else line 
         line = "\t\tcontent.push(\"" + str(line)  + "\"); \n" 
         # print(line)
         output_file.write(line)
