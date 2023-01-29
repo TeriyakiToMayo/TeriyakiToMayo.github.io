@@ -26,4 +26,6 @@ README
 		
 		Flow navigation bar 
 		
+		Larger font 
+		
 		
