@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<style>
+			.body{
+				background-color:#f9e473;
+				font-family: Tahoma, sans-serif;
+				font-size:20px;
+			} 
+			.pageText {
+				font-size:26px;
+			}
+			.link {
+				color: blue; 
+				font-size:26px; 
+				text-decoration: underline; 
+				cursor: pointer; 
+			} 
+		</style>
+	</head>
+	<body class="body" onload="initialize()"> 
+	
+		<!-- Navigation Bar (top) --> 
+		<div> 
+			<a class="link" onclick="previous()">Previous</a>
+			<div class="pageText" style="display:inline;" name="pageNum"></div> 
+			<a class="link" onclick="next()">Next</a> 
+			
+			<input class="pageText" size="3" type="text" id="pageNumInput1"> 
+			<a class="link" onclick="go(&quot;pageNumInput1&quot;)">Go</a> 
+		</div> 
+		
+		<div id="contentHolder"> 
+		</div>  
+		
+		<!-- Navigation Bar (bottom) --> 
+		<div> 
+			<a class="link" onclick="previous()">Previous</a>
+			<div class="pageText" style="display:inline;" name="pageNum"></div> 
+			<a class="link" onclick="next()">Next</a> 
+			
+			<input class="pageText" size="3" type="text" id="pageNumInput2"> 
+			<a class="link" onclick="go(&quot;pageNumInput2&quot;)">Go</a> 
+		</div> 
+	</body>
+
+	<script>
+		content = []; 

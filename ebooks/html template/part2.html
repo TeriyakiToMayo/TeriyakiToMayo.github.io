@@ -1,0 +1,54 @@
+
+		pageLength = 100 
+		totalPages = Math.ceil(content.length / pageLength); 
+		
+		currentPage = 1 
+		
+		function initialize() {
+			renderPage(currentPage); 
+		} 
+		
+		function previous() {
+			renderPage((currentPage == 1 ? 1 : currentPage - 1)); 
+		} 
+		
+		function next() {
+			renderPage((currentPage == totalPages ? totalPages : currentPage + 1)); 
+		} 
+		
+		function go(elementId) {
+			page = document.getElementById(elementId).value; 
+			if(!isNaN(parseInt(page)) && (page >= 1 && page <= totalPages)) {
+				renderPage(page); 
+			} 
+		} 
+		
+		function renderPage(page) { 
+			currentPage = parseInt(page); 
+			
+			//Render new page 
+			beginningIndex = (page - 1) * pageLength; 
+			
+			contentHTML = ""; 
+			for(i = beginningIndex; i < beginningIndex + pageLength; i++) {
+				contentHTML = contentHTML + "<p>" + content[i] + "</p>"; 
+			}  
+			
+			//Update navigation bar 
+			pageNumElements = document.getElementsByName("pageNum") 
+			for(i = 0; i < pageNumElements.length; i++) {
+				pageNumElements[i].innerHTML = page + "/" + totalPages; 
+			}
+			document.getElementById("contentHolder").innerHTML = contentHTML; 
+			
+			//Back to page top 
+			topFunction(); 
+		} 
+		
+		function topFunction() {
+			document.body.scrollTop = 0; // For Safari
+			document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+		} 
+		
+	</script>  
+</html>
