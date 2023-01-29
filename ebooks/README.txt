@@ -19,4 +19,11 @@ README
 			   (change inputs in code) 
 			  
 			 
-
+	-------------------------------------------------------------
+	[Things to improve] 
+	
+		Enter to Go 
+		
+		Flow navigation bar 
+		
+		
