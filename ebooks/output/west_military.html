@@ -3,6 +3,10 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<style>
+			:root{
+				--text-size: 20px; 
+			} 
+		
 			.navbar {
 				background-color: rgba(249, 228, 115); 
 				bottom: 0;
@@ -17,18 +21,18 @@
 				padding-bottom: 50px; 
 				background-color:#f9e473;
 				font-family: Tahoma, sans-serif;
-				font-size:30px;
+				font-size: var(--text-size);
 			} 
 			
 			.contentHolder{
 				margin: 16px; 
 			}
 			.pageText {
-				font-size:30px;
+				font-size: var(--text-size);
 			}
 			.link {
 				color: blue; 
-				font-size:30px; 
+				font-size: var(--text-size); 
 				text-decoration: underline; 
 				cursor: pointer; 
 			} 
@@ -55,6 +59,8 @@
 	</body>
 
 	<script>
+		
+	
 		content = []; 
 		content.push("简介"); 
 		content.push("本书为当代战史大师富勒将军的传世之作，也被公认为西方军事 通史上的典范巨著。作者穷30年之工，成就了这部卷帙浩繁的西方战 争通史。全书以西方历史上的决定性会战为主结构，详细描述了其经 过与影响，同时以大事记串联各会战间的政治发展与战争的由来。会 战各章好像海浪的高峰，而大事纪则像其间所夹着的低谷。这样高低 起伏就形成了3500年的战争史。"); 

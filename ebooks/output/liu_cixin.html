@@ -3,6 +3,10 @@
 	<head>
 		<meta name="viewport" content="width=device-width, initial-scale=1">
 		<style>
+			:root{
+				--text-size: 20px; 
+			} 
+		
 			.navbar {
 				background-color: rgba(249, 228, 115); 
 				bottom: 0;
@@ -17,18 +21,18 @@
 				padding-bottom: 50px; 
 				background-color:#f9e473;
 				font-family: Tahoma, sans-serif;
-				font-size:30px;
+				font-size: var(--text-size);
 			} 
 			
 			.contentHolder{
 				margin: 16px; 
 			}
 			.pageText {
-				font-size:30px;
+				font-size: var(--text-size);
 			}
 			.link {
 				color: blue; 
-				font-size:30px; 
+				font-size: var(--text-size); 
 				text-decoration: underline; 
 				cursor: pointer; 
 			} 
@@ -55,6 +59,8 @@
 	</body>
 
 	<script>
+		
+	
 		content = []; 
 		content.push("目录"); 
 		content.push("球状闪电"); 
