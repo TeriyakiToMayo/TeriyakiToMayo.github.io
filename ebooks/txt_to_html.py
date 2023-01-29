@@ -21,9 +21,9 @@ def txt_to_html (input_file_name, output_file_name):
     for line in lines: 
         line = str(line).strip() 
         if len(line) == 0: continue 
+        if line == "……": continue 
         
-        line = line.replace("\"", "\\\"")
-        line = "\\\"......\\\"" if line == "……" else line 
+        line = line.replace("\"", "\\\"") 
         line = "\t\tcontent.push(\"" + str(line)  + "\"); \n" 
         # print(line)
         output_file.write(line)
