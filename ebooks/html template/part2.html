@@ -1,6 +1,7 @@
 
 		pageLength = 100 
 		totalPages = Math.ceil(content.length / pageLength); 
+		totalLines = content.length; 
 		
 		currentPage = 1 
 		
@@ -36,9 +37,11 @@
 			//Render new page 
 			beginningIndex = (page - 1) * pageLength; 
 			totalPageLength = totalPagesToRender * pageLength; 
+			endingIndex = beginningIndex + totalPageLength 
+			endingIndex = endingIndex < totalLines ? endingIndex : totalLines 
 			
 			contentHTML = ""; 
-			for(i = beginningIndex; i < beginningIndex + totalPageLength; i++) {
+			for(i = beginningIndex; i < endingIndex; i++) {
 				contentHTML = contentHTML + "<p>" + content[i] + "</p>"; 
 			}  
 			
