@@ -22,7 +22,19 @@ Usage
 			- when you translate text in an element for the first time, the format will be incorrect
 		- Solution: 
 			- press show twice
-
+	
+	
+	-------------------------------------------------------------
+	[Shortcuts]
+		
+		q					toggle quick paste 
+		f					process text 
+		
+		ctrl + v + v		quick paste (this will clear input textbox) 
+		ctrl + v + c		continue pasting (this will not clear input textbox) 
+		
+		shift + scroll		change font size 
+		
 		
 
 ====================================================================
