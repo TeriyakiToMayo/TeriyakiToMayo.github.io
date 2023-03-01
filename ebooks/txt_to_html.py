@@ -52,7 +52,10 @@ def txt_to_html (input_file_name, output_file_name):
 # txt_to_html("input/the_end_of_history_and_the_last_man.txt", "output/the_end_of_history_and_the_last_man.html") 
 # txt_to_html("input/poor_economics.txt", "output/poor_economics.html") 
 
-txt_to_html("input/low_desire_society.txt", "output/low_desire_society.html") 
+# txt_to_html("input/low_desire_society.txt", "output/low_desire_society.html") 
+
+txt_to_html("input/egypt_4000_years.txt", "output/egypt_4000_years.html") 
+txt_to_html("input/egypt_revolutionary_archaeology.txt", "output/egypt_revolutionary_archaeology.html") 
 
 
 

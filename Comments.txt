@@ -20,5 +20,6 @@ Add
 - tooltip 
 	- descriptions of buttons 
 	- shortcut keys 
+	- history 
 
 

@@ -24,6 +24,10 @@ Ebooks
     - https://teriyakitomayo.github.io/ebooks/output/poor_economics 
   - 低欲望社会 
     - https://teriyakitomayo.github.io/ebooks/output/low_desire_society 
+  - 埃及四千年 
+    - https://teriyakitomayo.github.io/ebooks/output/egypt_4000_years
+  - 埃及的革命考古学 
+    - https://teriyakitomayo.github.io/ebooks/output/egypt_revolutionary_archaeology
   
 - 小说
   - 刘慈欣 
