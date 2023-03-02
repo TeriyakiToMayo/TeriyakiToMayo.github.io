@@ -46,7 +46,7 @@ def txt_to_html (input_file_name, output_file_name):
 # txt_to_html("input/story_of_civilization.txt", "output/story_of_civilization.html") 
 
 
-# txt_to_html("input/best_rest.txt", "output/best_rest.html") 
+txt_to_html("input/best_rest.txt", "output/best_rest.html") 
 # txt_to_html("input/predictably_irrational.txt", "output/predictably_irrational.html") 
 
 # txt_to_html("input/the_end_of_history_and_the_last_man.txt", "output/the_end_of_history_and_the_last_man.html") 
@@ -54,11 +54,11 @@ def txt_to_html (input_file_name, output_file_name):
 
 # txt_to_html("input/low_desire_society.txt", "output/low_desire_society.html") 
 
-txt_to_html("input/egypt_4000_years.txt", "output/egypt_4000_years.html") 
-txt_to_html("input/egypt_revolutionary_archaeology.txt", "output/egypt_revolutionary_archaeology.html") 
+# txt_to_html("input/egypt_4000_years.txt", "output/egypt_4000_years.html") 
+# txt_to_html("input/egypt_revolutionary_archaeology.txt", "output/egypt_revolutionary_archaeology.html") 
 
 
-
+txt_to_html("input/fang_long_3_books.txt", "output/fang_long_3_books.html") 
 
 
 
