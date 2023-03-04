@@ -34,6 +34,8 @@ Ebooks
 - 小说
   - 刘慈欣 
     - https://teriyakitomayo.github.io/ebooks/output/liu_cixin 
+  - 著名译著 
+    - https://teriyakitomayo.github.io/ebooks/output/great_books_translation
 - Beta 
   - https://teriyakitomayo.github.io/ebooks/beta/text_test
 
