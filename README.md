@@ -30,6 +30,10 @@ Ebooks
     - https://teriyakitomayo.github.io/ebooks/output/egypt_revolutionary_archaeology
   - 房龙三部曲
     - https://teriyakitomayo.github.io/ebooks/output/fang_long_3_books
+  - 你的灯亮着吗？发现问题的真正所在 
+    -  https://teriyakitomayo.github.io/ebooks/output/are_your_lights_on
+  - 学会提问 
+    - https://teriyakitomayo.github.io/ebooks/output/asking_the_right_questions
   
 - 小说
   - 刘慈欣 

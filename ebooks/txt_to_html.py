@@ -60,6 +60,12 @@ def txt_to_html (input_file_name, output_file_name):
 
 # txt_to_html("input/fang_long_3_books.txt", "output/fang_long_3_books.html") 
 
-txt_to_html("input/great_books_translation.txt", "output/great_books_translation.html") 
+# txt_to_html("input/great_books_translation.txt", "output/great_books_translation.html") 
+
+txt_to_html("input/are_your_lights_on.txt", "output/are_your_lights_on.html") 
+txt_to_html("input/asking_the_right_questions.txt", "output/asking_the_right_questions.html") 
+
+
+
 
 
