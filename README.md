@@ -41,6 +41,7 @@ Ebooks
   - 著名译著 
     - https://teriyakitomayo.github.io/ebooks/output/great_books_translation
     - https://teriyakitomayo.github.io/ebooks/output/great_books_translation/index
+    - https://teriyakitomayo.github.io/ebooks/output/great_books_translation_no_image/index
 - Beta 
   - https://teriyakitomayo.github.io/ebooks/beta/text_test
 
