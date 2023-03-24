@@ -34,6 +34,7 @@ Ebooks
     -  https://teriyakitomayo.github.io/ebooks/output/are_your_lights_on
   - 学会提问 
     - https://teriyakitomayo.github.io/ebooks/output/asking_the_right_questions
+    - https://teriyakitomayo.github.io/ebooks/output/asking_the_right_questions/index
   
 - 小说
   - 刘慈欣 
