@@ -40,6 +40,7 @@ Ebooks
     - https://teriyakitomayo.github.io/ebooks/output/liu_cixin 
   - 著名译著 
     - https://teriyakitomayo.github.io/ebooks/output/great_books_translation
+    - https://teriyakitomayo.github.io/ebooks/output/great_books_translation/index
 - Beta 
   - https://teriyakitomayo.github.io/ebooks/beta/text_test
 
