@@ -1,0 +1,18 @@
+<?xml version='1.0' encoding='utf-8'?>
+<package xmlns="http://www.idpf.org/2007/opf" unique-identifier="uuid_id" version="2.0">
+    <metadata xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:opf="http://www.idpf.org/2007/opf">
+        <dc:identifier opf:scheme="calibre" id="calibre_id">8f211e9b-d47d-4924-8dda-c125b126433d</dc:identifier>
+        <dc:identifier opf:scheme="uuid" id="uuid_id">8f211e9b-d47d-4924-8dda-c125b126433d</dc:identifier>
+        <dc:title>探索星球系列：太空全书+太阳全书(套装共2册)</dc:title>
+        <dc:creator opf:file-as="詹姆斯•特赖菲尔 &amp; 李昂•戈拉伯" opf:role="aut">詹姆斯•特赖菲尔</dc:creator>
+        <dc:creator opf:file-as="詹姆斯•特赖菲尔 &amp; 李昂•戈拉伯" opf:role="aut">李昂•戈拉伯</dc:creator>
+        <dc:contributor opf:file-as="calibre" opf:role="bkp">calibre (6.14.1) [https://calibre-ebook.com]</dc:contributor>
+        <dc:date>2019-02-15T16:00:00+00:00</dc:date>
+        <dc:publisher>amazon</dc:publisher>
+        <dc:language>en</dc:language>
+        <meta name="calibre:author_link_map" content="{}"/>
+    </metadata>
+    <guide>
+        <reference type="cover" title="Cover" href="cover.jpg"/>
+    </guide>
+</package>

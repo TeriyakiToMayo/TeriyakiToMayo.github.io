@@ -35,6 +35,8 @@ Ebooks
   - 学会提问 
     - https://teriyakitomayo.github.io/ebooks/output/asking_the_right_questions
     - https://teriyakitomayo.github.io/ebooks/output/asking_the_right_questions/index
+  - 探索星球系列
+    - https://teriyakitomayo.github.io/ebooks/output/explore_planets/index
   
 - 小说
   - 刘慈欣 
