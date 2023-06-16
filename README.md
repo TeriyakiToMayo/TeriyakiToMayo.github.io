@@ -9,9 +9,12 @@ Dev version: https://teriyakitomayo.github.io/text_to_static.html
 
 English Listening Practice 
 
+- Vocabulary 
+  - https://teriyakitomayo.github.io/ebooks/output/english/english_vocab_list
+
 - Ancient Egypt Wikipedia 
-  - https://teriyakitomayo.github.io/ebooks/output/english_ancient_egypt
-  - https://teriyakitomayo.github.io/ebooks/output/english_ramesses_ii_repeated
+  - https://teriyakitomayo.github.io/ebooks/output/english/english_ancient_egypt
+  - https://teriyakitomayo.github.io/ebooks/output/english/english_ramesses_ii_repeated
 
 Ebooks 
 

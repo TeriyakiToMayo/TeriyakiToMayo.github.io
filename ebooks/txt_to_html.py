@@ -94,7 +94,10 @@ def repeat_sections_in_file(input_file_name):
 # repeat_sections_in_file("english_ancient_egypt")
 # txt_to_html("english_ancient_egypt_repeated") 
 
-repeat_sections_in_file("english_ramesses_ii")
-txt_to_html("english_ramesses_ii" + "_repeated") 
+# repeat_sections_in_file("english_ramesses_ii")
+# txt_to_html("english_ramesses_ii" + "_repeated") 
+
+txt_to_html("english_vocab_list") 
+
 
 

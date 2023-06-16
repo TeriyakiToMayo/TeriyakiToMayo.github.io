@@ -1,0 +1,370 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			:root{
+				--text-size: 20px; 
+			} 
+		
+			.navbar {
+				background-color: rgba(249, 228, 115); 
+				bottom: 0;
+				width: 100%; 
+				position: fixed; 
+				padding: 10px; 
+				text-align: center; 
+			}
+
+			.body{
+				margin-left: 0px; 
+				padding-bottom: 50px; 
+				background-color:#f9e473;
+				font-family: Tahoma, sans-serif;
+				font-size: var(--text-size);
+			} 
+			
+			.contentHolder{
+				margin: 16px; 
+			}
+			.pageText {
+				font-size: var(--text-size);
+			}
+			.link {
+				color: blue; 
+				font-size: var(--text-size); 
+				text-decoration: underline; 
+				cursor: pointer; 
+			} 
+		</style>
+	</head>
+	<body class="body" id="pageBody" onload="initialize()"> 
+	
+		<!-- Navigation Bar (bottom-right corner) --> 
+		<div class="navbar"> 
+			<a class="link" onclick="previous()">Previous</a>
+			<div class="pageText" style="display:inline;" name="pageNum"></div> 
+			<a class="link" onclick="next()">Next</a> 
+			
+			<input class="pageText" size="3" type="text" id="pageNumInputStart"> 
+			-
+			<input class="pageText" size="3" type="text" id="pageNumInputEnd"> 
+			<a class="link" onclick="go(&quot;pageNumInputStart&quot;, &quot;pageNumInputEnd&quot;)">Go</a> 
+		</div> 
+		
+		<div class="contentHolder" id="contentHolder"> 
+		</div>  
+		
+
+	</body>
+
+	<script>
+		
+	
+		content = []; 
+		content.push("precipitate 引发了"); 
+		content.push("His reckless actions precipitated a series of unpleasant consequences."); 
+		content.push("His reckless actions precipitated a series of unpleasant consequences."); 
+		content.push("他的鲁莽行为引发了一系列不愉快的后果。"); 
+		content.push("His reckless actions precipitated a series of unpleasant consequences."); 
+		content.push("serene 宁静的"); 
+		content.push("Her face wore a serene and beautiful smile."); 
+		content.push("Her face wore a serene and beautiful smile."); 
+		content.push("她的脸上洋溢着宁静而美丽的微笑。"); 
+		content.push("Her face wore a serene and beautiful smile."); 
+		content.push("The village has a serene atmosphere that makes one feel comfortable."); 
+		content.push("The village has a serene atmosphere that makes one feel comfortable."); 
+		content.push("这个小村庄有一种宁静的氛围，让人感到舒适。"); 
+		content.push("The village has a serene atmosphere that makes one feel comfortable."); 
+		content.push("tepid 微温的"); 
+		content.push("This coffee is tepid. Can you please heat it up?"); 
+		content.push("This coffee is tepid. Can you please heat it up?"); 
+		content.push("这杯咖啡不够热。你能把它再加热一下吗？"); 
+		content.push("This coffee is tepid. Can you please heat it up?"); 
+		content.push("tepid 冷淡的"); 
+		content.push("He had a tepid response to the plan, seeming not very interested."); 
+		content.push("He had a tepid response to the plan, seeming not very interested."); 
+		content.push("他对这个计划的反应很冷淡，似乎并不是很感兴趣。"); 
+		content.push("He had a tepid response to the plan, seeming not very interested."); 
+		content.push("tempest 暴风雨"); 
+		content.push("A tempest is brewing on the horizon, dark clouds gathering ominously."); 
+		content.push("A tempest is brewing on the horizon, dark clouds gathering ominously."); 
+		content.push("暴风雨正在地平线上酝酿，乌云阴沉地聚集着。"); 
+		content.push("A tempest is brewing on the horizon, dark clouds gathering ominously."); 
+		content.push("troposphere 对流层"); 
+		content.push("The troposphere is the lowest layer of the Earth's atmosphere."); 
+		content.push("The troposphere is the lowest layer of the Earth's atmosphere."); 
+		content.push("对流层是地球大气层中最低的一层。"); 
+		content.push("The troposphere is the lowest layer of the Earth's atmosphere."); 
+		content.push("Reformation 宗教改革"); 
+		content.push("The Reformation was a period of religious reform in Europe during the 16th century."); 
+		content.push("The Reformation was a period of religious reform in Europe during the 16th century."); 
+		content.push("宗教改革是16世纪欧洲的宗教改革时期。"); 
+		content.push("The Reformation was a period of religious reform in Europe during the 16th century."); 
+		content.push("Paganism 异教，异教徒信仰"); 
+		content.push("Paganism refers to various non-Abrahamic religious or spiritual traditions."); 
+		content.push("Paganism refers to various non-Abrahamic religious or spiritual traditions."); 
+		content.push("异教指的是各种非亚伯拉罕教派的宗教或灵修传统。"); 
+		content.push("Paganism refers to various non-Abrahamic religious or spiritual traditions."); 
+		content.push("calf 小牛"); 
+		content.push("The farmer has a newborn calf on his farm."); 
+		content.push("The farmer has a newborn calf on his farm."); 
+		content.push("农场主在他的农场上有一只新生的小牛。"); 
+		content.push("The farmer has a newborn calf on his farm."); 
+		content.push("calf 小腿"); 
+		content.push("She pulled a muscle in her calf while running."); 
+		content.push("She pulled a muscle in her calf while running."); 
+		content.push("她在跑步时小腿拉伤了肌肉。"); 
+		content.push("She pulled a muscle in her calf while running."); 
+		content.push("antelope 羚羊"); 
+		content.push("We spotted a herd of antelopes grazing in the distance."); 
+		content.push("We spotted a herd of antelopes grazing in the distance."); 
+		content.push("我们看到了一群羚羊在远处吃草。"); 
+		content.push("We spotted a herd of antelopes grazing in the distance."); 
+		content.push("gazelle 瞪羚"); 
+		content.push("The graceful gazelle bounded across the savanna."); 
+		content.push("The graceful gazelle bounded across the savanna."); 
+		content.push("优雅的瞪羚在大草原上腾跃而过。"); 
+		content.push("The graceful gazelle bounded across the savanna."); 
+		content.push("Reindeer 驯鹿"); 
+		content.push("Reindeer are native to the Arctic regions and are known for their distinctive antlers."); 
+		content.push("驯鹿是北极地区的原生动物，以其独特的鹿角而闻名。"); 
+		content.push("Reindeer are native to the Arctic regions and are known for their distinctive antlers."); 
+		content.push("Reindeer 圣诞鹿"); 
+		content.push("Santa Claus travels with his reindeer to deliver presents on Christmas Eve."); 
+		content.push("Santa Claus travels with his reindeer to deliver presents on Christmas Eve."); 
+		content.push("圣诞老人在圣诞夜驾着他的驯鹿送礼物。"); 
+		content.push("Santa Claus travels with his reindeer to deliver presents on Christmas Eve."); 
+		content.push("dromedary 单峰驼"); 
+		content.push("The dromedary, also known as the Arabian camel, is a large mammal with a single hump on its back."); 
+		content.push("The dromedary, also known as the Arabian camel, is a large mammal with a single hump on its back."); 
+		content.push("单峰驼，也被称为阿拉伯骆驼，是一种背上有一个驼峰的大型哺乳动物。"); 
+		content.push("The dromedary, also known as the Arabian camel, is a large mammal with a single hump on its back."); 
+		content.push("rhinoceros 犀牛"); 
+		content.push("The rhinoceros is a large, herbivorous mammal with a characteristic horn on its snout."); 
+		content.push("The rhinoceros is a large, herbivorous mammal with a characteristic horn on its snout."); 
+		content.push("犀牛是一种大型的草食性哺乳动物，具有独特的角在鼻子上。"); 
+		content.push("The rhinoceros is a large, herbivorous mammal with a characteristic horn on its snout."); 
+		content.push("beaver 海狸"); 
+		content.push("The beaver is a semi-aquatic mammal known for its ability to build dams and lodges."); 
+		content.push("The beaver is a semi-aquatic mammal known for its ability to build dams and lodges."); 
+		content.push("海狸是一种半水生哺乳动物，以其筑坝和建造栖息地的能力而闻名。"); 
+		content.push("The beaver is a semi-aquatic mammal known for its ability to build dams and lodges."); 
+		content.push("hedgehog 刺猬"); 
+		content.push("The hedgehog is a small spiny mammal with a rounded body covered in sharp spines."); 
+		content.push("The hedgehog is a small spiny mammal with a rounded body covered in sharp spines."); 
+		content.push("刺猬是一种小型多刺哺乳动物，身体呈圆形，覆盖着尖锐的刺。"); 
+		content.push("The hedgehog is a small spiny mammal with a rounded body covered in sharp spines."); 
+		content.push("walrus 海象"); 
+		content.push("The walrus is a large marine mammal known for its prominent tusks and blubbery body."); 
+		content.push("The walrus is a large marine mammal known for its prominent tusks and blubbery body."); 
+		content.push("海象是一种大型海洋哺乳动物，以其突出的象牙和肥胖的身体而闻名。"); 
+		content.push("The walrus is a large marine mammal known for its prominent tusks and blubbery body."); 
+		content.push("peacock 孔雀"); 
+		content.push("The peacock is a large and colorful bird known for its extravagant display of feathers."); 
+		content.push("The peacock is a large and colorful bird known for its extravagant display of feathers."); 
+		content.push("孔雀是一种大型、多彩的鸟类，以其奢华的羽毛展示而闻名。"); 
+		content.push("The peacock is a large and colorful bird known for its extravagant display of feathers."); 
+		content.push("During courtship, the male peacock fans out its vibrant tail feathers in a display called \"peacock opening its screen.\""); 
+		content.push("During courtship, the male peacock fans out its vibrant tail feathers in a display called \"peacock opening its screen.\""); 
+		content.push("在求偶期间，雄性孔雀会展开色彩斑斓的尾羽，进行一种被称为\"孔雀开屏\"的展示。"); 
+		content.push("During courtship, the male peacock fans out its vibrant tail feathers in a display called \"peacock opening its screen.\""); 
+		content.push("ostrich 鸵鸟"); 
+		content.push("The ostrich is a large flightless bird native to Africa and known for its long neck, powerful legs, and ability to run at high speeds."); 
+		content.push("The ostrich is a large flightless bird native to Africa and known for its long neck, powerful legs, and ability to run at high speeds."); 
+		content.push("鸵鸟是一种大型的无法飞行的鸟类，原产于非洲，以其长脖子、强壮的腿和高速奔跑的能力而闻名。"); 
+		content.push("The ostrich is a large flightless bird native to Africa and known for its long neck, powerful legs, and ability to run at high speeds."); 
+		content.push("canary 金丝雀"); 
+		content.push("Canaries were once used in coal mines to detect the presence of toxic gases."); 
+		content.push("Canaries were once used in coal mines to detect the presence of toxic gases."); 
+		content.push("金丝雀曾经被用于煤矿中检测有毒气体的存在。"); 
+		content.push("Canaries were once used in coal mines to detect the presence of toxic gases."); 
+		content.push("rattlesnake 响尾蛇"); 
+		content.push("The rattlesnake is a venomous snake characterized by its rattling tail, which it uses as a warning signal when threatened."); 
+		content.push("The rattlesnake is a venomous snake characterized by its rattling tail, which it uses as a warning signal when threatened."); 
+		content.push("响尾蛇是一种有毒的蛇，以其尾巴发出的响声作为受威胁时的警示信号。"); 
+		content.push("The rattlesnake is a venomous snake characterized by its rattling tail, which it uses as a warning signal when threatened."); 
+		content.push("chameleon 变色龙"); 
+		content.push("The chameleon is a lizard known for its ability to change colors and blend into its surroundings."); 
+		content.push("The chameleon is a lizard known for its ability to change colors and blend into its surroundings."); 
+		content.push("变色龙是一种蜥蜴，以其变色能力和融入周围环境的特点而闻名。"); 
+		content.push("The chameleon is a lizard known for its ability to change colors and blend into its surroundings."); 
+		content.push("cicada 蝉"); 
+		content.push("The cicada is an insect known for its distinctive buzzing sound, often heard during the summer months."); 
+		content.push("The cicada is an insect known for its distinctive buzzing sound, often heard during the summer months."); 
+		content.push("蝉是一种昆虫，以其独特的嗡嗡声而闻名，常在夏季月份听到。"); 
+		content.push("The cicada is an insect known for its distinctive buzzing sound, often heard during the summer months."); 
+		content.push("centipede 蜈蚣"); 
+		content.push("The centipede is a long, segmented arthropod with numerous legs, known for its fast movements and venomous bite."); 
+		content.push("The centipede is a long, segmented arthropod with numerous legs, known for its fast movements and venomous bite."); 
+		content.push("蜈蚣是一种长而有节段的节肢动物，有众多的腿，以其快速的移动和具有毒性的咬伤而闻名。"); 
+		content.push("The centipede is a long, segmented arthropod with numerous legs, known for its fast movements and venomous bite."); 
+		content.push("mollusk 软体动物"); 
+		content.push("Mollusks are a diverse group of invertebrates that typically have soft bodies and a hard external shell. They include creatures like snails, clams, and octopuses."); 
+		content.push("Mollusks are a diverse group of invertebrates that typically have soft bodies and a hard external shell. They include creatures like snails, clams, and octopuses."); 
+		content.push("软体动物是一类多样化的无脊椎动物，通常具有柔软的身体和坚硬的外壳。它们包括蜗牛、蛤蜊和章鱼等生物。"); 
+		content.push("Mollusks are a diverse group of invertebrates that typically have soft bodies and a hard external shell. They include creatures like snails, clams, and octopuses."); 
+		content.push("cuttlefish 乌贼"); 
+		content.push("The cuttlefish is a marine mollusk known for its ability to rapidly change its skin color and texture for camouflage and communication."); 
+		content.push("The cuttlefish is a marine mollusk known for its ability to rapidly change its skin color and texture for camouflage and communication."); 
+		content.push("乌贼是一种海洋软体动物，以其快速改变皮肤颜色和质地以进行伪装和沟通而闻名。"); 
+		content.push("The cuttlefish is a marine mollusk known for its ability to rapidly change its skin color and texture for camouflage and communication."); 
+		content.push("墨鱼"); 
+		content.push("Cuttlefish have a unique internal structure called a cuttlebone, which helps them control their buoyancy in the water."); 
+		content.push("Cuttlefish have a unique internal structure called a cuttlebone, which helps them control their buoyancy in the water."); 
+		content.push("乌贼拥有一种独特的内部结构叫做墨鱼骨，它能帮助它们在水中控制浮力。"); 
+		content.push("Cuttlefish have a unique internal structure called a cuttlebone, which helps them control their buoyancy in the water."); 
+		content.push("Earthworms 蚯蚓"); 
+		content.push("Earthworms are elongated, tube-like segmented worms that live in soil. They play a crucial role in soil fertility and decomposition by breaking down organic matter."); 
+		content.push("Earthworms are elongated, tube-like segmented worms that live in soil. They play a crucial role in soil fertility and decomposition by breaking down organic matter."); 
+		content.push("蚯蚓是一种细长的、管状的节肢动物，生活在土壤中。它们通过分解有机物质，在土壤的肥力和分解过程中发挥着重要作用。"); 
+		content.push("Earthworms are elongated, tube-like segmented worms that live in soil. They play a crucial role in soil fertility and decomposition by breaking down organic matter."); 
+		content.push("Genus 属（生物分类）"); 
+		content.push("Genus is a taxonomic rank in the classification of living organisms. It is a level below family and above species. Organisms belonging to the same genus share certain common characteristics and are closely related."); 
+		content.push("Genus is a taxonomic rank in the classification of living organisms. It is a level below family and above species. Organisms belonging to the same genus share certain common characteristics and are closely related."); 
+		content.push("属是生物分类中的一个分类级别。它位于科的下方、种的上方。属内的生物具有一些共同的特征，并且彼此关系密切。"); 
+		content.push("Genus is a taxonomic rank in the classification of living organisms. It is a level below family and above species. Organisms belonging to the same genus share certain common characteristics and are closely related."); 
+		content.push("fuzzy 模糊的"); 
+		content.push("The picture is fuzzy and unclear, making it difficult to see the details."); 
+		content.push("The picture is fuzzy and unclear, making it difficult to see the details."); 
+		content.push("这张图片模糊不清，很难看清细节。"); 
+		content.push("The picture is fuzzy and unclear, making it difficult to see the details."); 
+		content.push("reagent 试剂"); 
+		content.push("A reagent is a substance or compound used in a chemical reaction to detect, measure, or produce other substances."); 
+		content.push("A reagent is a substance or compound used in a chemical reaction to detect, measure, or produce other substances."); 
+		content.push("试剂是在化学反应中用于检测、测量或产生其他物质的物质或化合物。"); 
+		content.push("A reagent is a substance or compound used in a chemical reaction to detect, measure, or produce other substances."); 
+		content.push("isotope 同位素"); 
+		content.push("isotope 同位素"); 
+		content.push("adhesive 粘合剂"); 
+		content.push("The carpenter applied adhesive to the wooden pieces before joining them to create a strong bond."); 
+		content.push("The carpenter applied adhesive to the wooden pieces before joining them to create a strong bond."); 
+		content.push("木匠在拼接木制零件之前涂抹了粘合剂，以形成牢固的粘合。"); 
+		content.push("The carpenter applied adhesive to the wooden pieces before joining them to create a strong bond."); 
+		content.push("alchemy 炼金术"); 
+		content.push("alchemy 炼金术"); 
+		content.push("Caustic 腐蚀性的"); 
+		content.push("Caustic chemicals should be handled with extreme caution to avoid skin or eye contact."); 
+		content.push("Caustic chemicals should be handled with extreme caution to avoid skin or eye contact."); 
+		content.push("腐蚀性化学物质应该小心处理，以避免接触皮肤或眼睛。"); 
+		content.push("Caustic chemicals should be handled with extreme caution to avoid skin or eye contact."); 
+		content.push("corrode 腐蚀"); 
+		content.push("The metal pipes in the old building have corroded over time due to exposure to moisture."); 
+		content.push("The metal pipes in the old building have corroded over time due to exposure to moisture."); 
+		content.push("由于长时间暴露在湿气中，老建筑中的金属管道逐渐腐蚀。"); 
+		content.push("The metal pipes in the old building have corroded over time due to exposure to moisture."); 
+		content.push("the balloon exploded when I popped it with a pin"); 
+		content.push("the balloon exploded when I popped it with a pin"); 
+		content.push("当我用针戳破气球时，气球爆炸了"); 
+		content.push("the balloon exploded when I popped it with a pin"); 
+		content.push("She popped into the store to pick up some milk"); 
+		content.push("She popped into the store to pick up some milk"); 
+		content.push("她突然进入商店去买一些牛奶"); 
+		content.push("She popped into the store to pick up some milk"); 
+		content.push("This device is not suitable for this shooting game."); 
+		content.push("This device is not suitable for this shooting game."); 
+		content.push("这个设备不适合这种射击游戏。"); 
+		content.push("This device is not suitable for this shooting game."); 
+		content.push("lodges 小屋"); 
+		content.push("Hunting lodges are popular among outdoor enthusiasts who seek accommodations near hunting grounds."); 
+		content.push("Hunting lodges are popular among outdoor enthusiasts who seek accommodations near hunting grounds."); 
+		content.push("狩猎小屋受到那些希望在狩猎地附近找到住宿的户外爱好者的欢迎。"); 
+		content.push("Hunting lodges are popular among outdoor enthusiasts who seek accommodations near hunting grounds."); 
+		content.push("interlude 插曲"); 
+		content.push("After the intense action sequence, there was a brief interlude of peaceful music."); 
+		content.push("After the intense action sequence, there was a brief interlude of peaceful music."); 
+		content.push("在紧张的动作场景之后，有一段短暂的平静音乐插曲。"); 
+		content.push("After the intense action sequence, there was a brief interlude of peaceful music."); 
+		content.push("interlude 幕间"); 
+		content.push("The interlude between the second and third acts allowed the audience to take a break and refresh themselves."); 
+		content.push("The interlude between the second and third acts allowed the audience to take a break and refresh themselves."); 
+		content.push("第二幕和第三幕之间的幕间休息给观众一个休息和放松的机会。"); 
+		content.push("The interlude between the second and third acts allowed the audience to take a break and refresh themselves."); 
+		content.push("the blending of the sounds"); 
+		content.push("the blending of the sounds"); 
+		content.push("英语口语流利度、发音和语调的流畅和协调"); 
+		content.push("the blending of the sounds"); 
+		content.push("Her constant complaining really gets on my nerves."); 
+		content.push("Her constant complaining really gets on my nerves."); 
+		content.push("她不停地抱怨真让我烦躁。"); 
+		content.push("Her constant complaining really gets on my nerves."); 
+		content.push("tangential 离题的或不相关的"); 
+		content.push("His comments were tangential to the main topic of discussion."); 
+		content.push("His comments were tangential to the main topic of discussion."); 
+		content.push("他的评论与主要讨论话题不相关。"); 
+		content.push("His comments were tangential to the main topic of discussion."); 
+
+		pageLength = 100 
+		totalPages = Math.ceil(content.length / pageLength); 
+		totalLines = content.length; 
+		
+		currentPage = 1 
+		
+		function initialize() {
+			renderPage(currentPage); 
+		} 
+		
+		function previous() {
+			renderPage((currentPage == 1 ? 1 : currentPage - 1)); 
+		} 
+		
+		function next() {
+			renderPage((currentPage == totalPages ? totalPages : currentPage + 1)); 
+		} 
+		
+		function go(elementId1, elementId2) {
+			page1 = document.getElementById(elementId1).value.trim(); 
+			page2 = document.getElementById(elementId2).value.trim(); 
+			if(!isNaN(parseInt(page1))) { 
+				if(page2 == "") {
+					renderPage(page1); 
+				} else if(!isNaN(parseInt(page2)) && 
+							(page1 >= 1 && page1 <= page2 - 1 && page2 <= totalPages)) {
+					totalPagesToRender = page2 - page1 + 1; 
+					renderPage(page1, totalPagesToRender); 
+				}  
+			} 
+		} 
+		
+		function renderPage(page, totalPagesToRender=1) { 
+			currentPage = parseInt(page); 
+			
+			//Render new page 
+			beginningIndex = (page - 1) * pageLength; 
+			totalPageLength = totalPagesToRender * pageLength; 
+			endingIndex = beginningIndex + totalPageLength 
+			endingIndex = endingIndex < totalLines ? endingIndex : totalLines 
+			
+			contentHTML = ""; 
+			for(i = beginningIndex; i < endingIndex; i++) {
+				contentHTML = contentHTML + "<p>" + content[i] + "</p>"; 
+			}  
+			
+			//Update navigation bar 
+			pageNumElements = document.getElementsByName("pageNum") 
+			for(i = 0; i < pageNumElements.length; i++) {
+				pageNumElements[i].innerHTML = page + "/" + totalPages; 
+			}
+			document.getElementById("contentHolder").innerHTML = contentHTML; 
+			
+			//Back to page top 
+			topFunction(); 
+		} 
+		
+		function topFunction() {
+			document.body.scrollTop = 0; // For Safari
+			document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+		} 
+		
+		//=================================================
+		// Set up events
+		//================================================= 
+		document.getElementById("pageBody").addEventListener("keyup", async function(event) { 
+			if (event.keyCode === 13) { 
+				// When Enter is pressed 
+				go("pageNumInputStart", "pageNumInputEnd") 
+			} 
+		}); 
+		
+	</script>  
+</html>
