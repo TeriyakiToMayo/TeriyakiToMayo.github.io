@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 
 # import sys 
-import re
+# import re
 
-# it will retrieve input file from "input" folder
+# it will retrieve input file from "input" folder, and output to "output" folder  
 def txt_to_html (input_file_name): 
     input_file = open("input/" + input_file_name + ".txt", "r", encoding='utf-8') 
     output_file_name = "output/" + input_file_name + ".html"
