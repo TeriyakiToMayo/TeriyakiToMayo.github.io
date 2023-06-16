@@ -4,15 +4,20 @@
 # import re
 
 # it will retrieve input file from "input" folder, and output to "output" folder  
-def txt_to_html (input_file_name, english_practice=False): 
-    input_file = open("input/" + input_file_name + ".txt", "r", encoding='utf-8') 
-    output_file_name = "output/" + input_file_name + ".html"
+def txt_to_html (input_path, input_file_name, output_path='', output_file_name=''): 
+    input_file = open(input_path + input_file_name + ".txt", "r", encoding='utf-8') 
+    
+    if output_path == '': 
+        output_path = input_path
+    
+    if output_file_name == '': 
+        output_file_name = input_file_name + ".html"
     
     template_html_part1 = open("html template//part1.html", "r", encoding='utf-8') 
     template_html_part2 = open("html template//part2.html", "r", encoding='utf-8') 
     
     
-    output_file = open(output_file_name, "w", encoding='utf-8') 
+    output_file = open(output_path + output_file_name, "w", encoding='utf-8') 
     
     lines = template_html_part1.readlines() 
     for line in lines: 
@@ -42,25 +47,34 @@ def txt_to_html (input_file_name, english_practice=False):
     
     print(output_file_name, "complete") 
 
-# This is for English listening practice, it repeats each line twice 
-def repeat_sections_in_file(input_file_name): 
+# This is for English listening practice, it repeats the 1st line twice, then print the 2nd line, then the 1st line again 
+def repeat_lines_in_file(input_path, input_file_name, output_path='', output_file_name=''):
     # Open the input file and read the text
-    with open("input/" + input_file_name + ".txt", 'r', encoding='utf-8') as file:
+    with open(input_path + input_file_name + ".txt", 'r', encoding='utf-8') as file:
         text = file.read()
     
-    output_file_name = "input/" + input_file_name + "_repeated.txt"
+    if output_path == '': 
+        output_path = input_path 
+    
+    if output_file_name == '': 
+        output_file_name = input_file_name + "_repeated.txt"
     
     # Split the text by empty lines (sections)
     sections = text.strip().split('\n\n')
 
-    # Repeat each section twice
-    repeated_sections = [section + '\n' + section for section in sections]
+    # Repeat the first line, print the second, then the first again
+    output_sections = []
+    for section in sections:
+        lines = section.split('\n')
+        if len(lines) >= 2:
+            repeated_section = '\n'.join([lines[0], lines[0], lines[1], lines[0]])
+            output_sections.append(repeated_section)
 
-    # Join all the repeated sections into a single string
-    output_text = '\n\n'.join(repeated_sections)
+    # Join all the modified sections into a single string
+    output_text = '\n\n'.join(output_sections)
 
     # Write the output text to the output file
-    with open(output_file_name, 'w', encoding='utf-8') as file:
+    with open(output_path + output_file_name, 'w', encoding='utf-8') as file:
         file.write(output_text)
 
 
@@ -91,13 +105,10 @@ def repeat_sections_in_file(input_file_name):
 #======================================================================
 # English Listening Practice  
 #======================================================================
-# repeat_sections_in_file("english_ancient_egypt")
-# txt_to_html("english_ancient_egypt_repeated") 
+repeat_lines_in_file("input/english/", "english_ramesses_ii")
+txt_to_html("input/english/", "english_ramesses_ii" + "_repeated", "output/english/") 
 
-# repeat_sections_in_file("english_ramesses_ii")
-# txt_to_html("english_ramesses_ii" + "_repeated") 
-
-txt_to_html("english_vocab_list") 
+txt_to_html("input/english/", "english_vocab_list", "output/english/") 
 
 
 
