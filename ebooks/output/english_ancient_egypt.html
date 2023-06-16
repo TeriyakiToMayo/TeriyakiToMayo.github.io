@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<style>
+			:root{
+				--text-size: 20px; 
+			} 
+		
+			.navbar {
+				background-color: rgba(249, 228, 115); 
+				bottom: 0;
+				width: 100%; 
+				position: fixed; 
+				padding: 10px; 
+				text-align: center; 
+			}
+
+			.body{
+				margin-left: 0px; 
+				padding-bottom: 50px; 
+				background-color:#f9e473;
+				font-family: Tahoma, sans-serif;
+				font-size: var(--text-size);
+			} 
+			
+			.contentHolder{
+				margin: 16px; 
+			}
+			.pageText {
+				font-size: var(--text-size);
+			}
+			.link {
+				color: blue; 
+				font-size: var(--text-size); 
+				text-decoration: underline; 
+				cursor: pointer; 
+			} 
+		</style>
+	</head>
+	<body class="body" id="pageBody" onload="initialize()"> 
+	
+		<!-- Navigation Bar (bottom-right corner) --> 
+		<div class="navbar"> 
+			<a class="link" onclick="previous()">Previous</a>
+			<div class="pageText" style="display:inline;" name="pageNum"></div> 
+			<a class="link" onclick="next()">Next</a> 
+			
+			<input class="pageText" size="3" type="text" id="pageNumInputStart"> 
+			-
+			<input class="pageText" size="3" type="text" id="pageNumInputEnd"> 
+			<a class="link" onclick="go(&quot;pageNumInputStart&quot;, &quot;pageNumInputEnd&quot;)">Go</a> 
+		</div> 
+		
+		<div class="contentHolder" id="contentHolder"> 
+		</div>  
+		
+
+	</body>
+
+	<script>
+		
+	
+		content = []; 
+		content.push("Ancient Egypt was a civilization in Northeast Africa situated in the Nile Valley."); 
+		content.push("古埃及是位于非洲东北部尼罗河流域的文明。"); 
+		content.push("Ancient Egypt was a civilization in Northeast Africa situated in the Nile Valley."); 
+		content.push("古埃及是位于非洲东北部尼罗河流域的文明。"); 
+		content.push("Ancient Egyptian civilization followed prehistoric Egypt and coalesced around 3100 BC (according to conventional Egyptian chronology)."); 
+		content.push("古埃及文明紧随史前埃及而来，在公元前3100年左右形成（根据传统的埃及年表）。"); 
+		content.push("Egyptian civilization followed prehistoric Egypt and coalesced around 3100 BC (according to conventional Egyptian chronology)."); 
+		content.push("古埃及文明紧随史前埃及而来，在公元前3100年左右形成（根据传统的埃及年表）。"); 
+		content.push("This coalescence happened with the political unification of Upper and Lower Egypt under Menes (often identified with Narmer)."); 
+		content.push("这种融合发生在上埃及和下埃及在Menes（通常与Narmer等同）统一的政治下。"); 
+		content.push("This coalescence happened with the political unification of Upper and Lower Egypt under Menes (often identified with Narmer)."); 
+		content.push("这种融合发生在上埃及和下埃及在Menes（通常与Narmer等同）统一的政治下。"); 
+		content.push("The history of ancient Egypt occurred as a series of stable kingdoms, separated by periods of relative instability known as Intermediate Periods."); 
+		content.push("古埃及的历史是一系列稳定王国的发展，中间夹杂着被称为中间时期的相对不稳定的时期。"); 
+		content.push("The history of ancient Egypt occurred as a series of stable kingdoms, separated by periods of relative instability known as Intermediate Periods."); 
+		content.push("古埃及的历史是一系列稳定王国的发展，中间夹杂着被称为中间时期的相对不稳定的时期。"); 
+		content.push("These stable kingdoms were the Old Kingdom of the Early Bronze Age, the Middle Kingdom of the Middle Bronze Age, and the New Kingdom of the Late Bronze Age."); 
+		content.push("这些稳定王国分别是早期青铜时代的旧王国，中期青铜时代的中王国，以及晚期青铜时代的新王国。"); 
+		content.push("These stable kingdoms were the Old Kingdom of the Early Bronze Age, the Middle Kingdom of the Middle Bronze Age, and the New Kingdom of the Late Bronze Age."); 
+		content.push("这些稳定王国分别是早期青铜时代的旧王国，中期青铜时代的中王国，以及晚期青铜时代的新王国。"); 
+		content.push("Egypt reached the pinnacle of its power in the New Kingdom, ruling much of Nubia and a sizable portion of the Levant, after which it entered a period of slow decline."); 
+		content.push("埃及在新王国时期达到了权力的巅峰，在许多努比亚和利凡特地区统治，并随后进入了一个缓慢衰落的时期。"); 
+		content.push("Egypt reached the pinnacle of its power in the New Kingdom, ruling much of Nubia and a sizable portion of the Levant, after which it entered a period of slow decline."); 
+		content.push("埃及在新王国时期达到了权力的巅峰，在许多努比亚和利凡特地区统治，并随后进入了一个缓慢衰落的时期。"); 
+		content.push("During the course of its history, Egypt was invaded or conquered by a number of foreign powers, including the Hyksos, the Libyans, the Nubians, the Assyrians, the Achaemenid Persians, and the Macedonians under Alexander the Great."); 
+		content.push("在其历史进程中，埃及曾被许多外国势力入侵或征服，包括海克索斯人、利比亚人、努比亚人、亚述人、阿契美尼德波斯人以及亚历山大大帝率领的马其顿人。"); 
+		content.push("During the course of its history, Egypt was invaded or conquered by a number of foreign powers, including the Hyksos, the Libyans, the Nubians, the Assyrians, the Achaemenid Persians, and the Macedonians under Alexander the Great."); 
+		content.push("在其历史进程中，埃及曾被许多外国势力入侵或征服，包括海克索斯人、利比亚人、努比亚人、亚述人、阿契美尼德波斯人以及亚历山大大帝率领的马其顿人。"); 
+		content.push("The Greek Ptolemaic Kingdom, formed in the aftermath of Alexander's death, ruled Egypt until 30 BC, when, under Cleopatra, it fell to the Roman Empire and became a Roman province."); 
+		content.push("在亚历山大去世后，希腊托勒密王国在埃及成立，并统治埃及直到公元前30年，此后在克娄巴特拉的统治下，它被罗马帝国征服，成为罗马省份。"); 
+		content.push("The Greek Ptolemaic Kingdom, formed in the aftermath of Alexander's death, ruled Egypt until 30 BC, when, under Cleopatra, it fell to the Roman Empire and became a Roman province."); 
+		content.push("在亚历山大去世后，希腊托勒密王国在埃及成立，并统治埃及直到公元前30年，此后在克娄巴特拉的统治下，它被罗马帝国征服，成为罗马省份。"); 
+		content.push("The success of ancient Egyptian civilization came partly from its ability to adapt to the conditions of the Nile River valley for agriculture."); 
+		content.push("古埃及文明的成功部分来自于其适应尼罗河流域的农业条件的能力。"); 
+		content.push("The success of ancient Egyptian civilization came partly from its ability to adapt to the conditions of the Nile River valley for agriculture."); 
+		content.push("古埃及文明的成功部分来自于其适应尼罗河流域的农业条件的能力。"); 
+		content.push("The predictable flooding and controlled irrigation of the fertile valley produced surplus crops, which supported a more dense population, and social development and culture."); 
+		content.push("肥沃山谷的可预测洪水和受控灌溉产生了过剩的农作物，这支撑了更多密集的人口、社会发展和文化。"); 
+		content.push("The predictable flooding and controlled irrigation of the fertile valley produced surplus crops, which supported a more dense population, and social development and culture."); 
+		content.push("肥沃山谷的可预测洪水和受控灌溉产生了过剩的农作物，这支撑了更多密集的人口、社会发展和文化。"); 
+		content.push("With resources to spare, the administration sponsored mineral exploitation of the valley and surrounding desert regions, the early development of an independent writing system, the organization of collective construction and agricultural projects, trade with surrounding regions, and a military intended to assert Egyptian dominance."); 
+		content.push("埃及政府有多余的资源，赞助开发山谷和周边沙漠地区的矿产资源，早期发展独立的书写系统，组织集体建设和农业项目，与周边地区进行贸易，并拥有一支旨在维护埃及优势的军队。"); 
+		content.push("With resources to spare, the administration sponsored mineral exploitation of the valley and surrounding desert regions, the early development of an independent writing system, the organization of collective construction and agricultural projects, trade with surrounding regions, and a military intended to assert Egyptian dominance."); 
+		content.push("埃及政府有多余的资源，赞助开发山谷和周边沙漠地区的矿产资源，早期发展独立的书写系统，组织集体建设和农业项目，与周边地区进行贸易，并拥有一支旨在维护埃及优势的军队。"); 
+		content.push("Motivating and organizing these activities was a bureaucracy of elite scribes, religious leaders, and administrators under the control of a pharaoh, who ensured the cooperation and unity of the Egyptian people in the context of an elaborate system of religious beliefs."); 
+		content.push("促使和组织这些活动的是一支由精英抄写员、宗教领袖和行政人员组成的官僚机构，他们在法老的控制下，确保埃及人民在一个复杂的宗教信仰体系中合作和团结。"); 
+		content.push("Motivating and organizing these activities was a bureaucracy of elite scribes, religious leaders, and administrators under the control of a pharaoh, who ensured the cooperation and unity of the Egyptian people in the context of an elaborate system of religious beliefs."); 
+		content.push("促使和组织这些活动的是一支由精英抄写员、宗教领袖和行政人员组成的官僚机构，他们在法老的控制下，确保埃及人民在一个复杂的宗教信仰体系中合作和团结。"); 
+		content.push("The many achievements of the ancient Egyptians include the quarrying, surveying, and construction techniques that supported the building of monumental pyramids, temples, and obelisks; a system of mathematics, a practical and effective system of medicine, irrigation systems, and agricultural production techniques, the first known planked boats, Egyptian faience and glass technology, new forms of literature, and the earliest known peace treaty, made with the Hittites."); 
+		content.push("古埃及人的许多成就包括开采、测量和建筑技术，支撑着巨大金字塔、寺庙和方尖碑的建造；一套数学系统、实用有效的医学系统、灌溉系统和农业生产技术、最早知道的木板船、埃及法蓝陶瓷和玻璃技术、新形式的文学以及已知最早的与赫梯人签订的和平条约。"); 
+		content.push("The many achievements of the ancient Egyptians include the quarrying, surveying, and construction techniques that supported the building of monumental pyramids, temples, and obelisks; a system of mathematics, a practical and effective system of medicine, irrigation systems, and agricultural production techniques, the first known planked boats, Egyptian faience and glass technology, new forms of literature, and the earliest known peace treaty, made with the Hittites."); 
+		content.push("古埃及人的许多成就包括开采、测量和建筑技术，支撑着巨大金字塔、寺庙和方尖碑的建造；一套数学系统、实用有效的医学系统、灌溉系统和农业生产技术、最早知道的木板船、埃及法蓝陶瓷和玻璃技术、新形式的文学以及已知最早的与赫梯人签订的和平条约。"); 
+		content.push("Ancient Egypt has left a lasting legacy. Its art and architecture were widely copied, and its antiquities were carried off to far corners of the world. Its monumental ruins have inspired the imaginations of travelers and writers for millennia."); 
+		content.push("古埃及留下了持久的遗产。其艺术和建筑被广泛模仿，它的古物被带到了世界的各个角落。它的宏伟遗迹激发了旅行者和作家们千百年来的想象力。"); 
+		content.push("Ancient Egypt has left a lasting legacy. Its art and architecture were widely copied, and its antiquities were carried off to far corners of the world. Its monumental ruins have inspired the imaginations of travelers and writers for millennia."); 
+		content.push("古埃及留下了持久的遗产。其艺术和建筑被广泛模仿，它的古物被带到了世界的各个角落。它的宏伟遗迹激发了旅行者和作家们千百年来的想象力。"); 
+		content.push("A newfound respect for antiquities and excavations in the early modern period by Europeans and Egyptians has led to the scientific investigation of Egyptian civilization and a greater appreciation of its cultural legacy."); 
+		content.push("欧洲人和埃及人在近代早期对古物和挖掘的新发现尊重，导致了对埃及文明的科学研究，并对其文化遗产有了更深刻的赞赏。"); 
+		content.push("A newfound respect for antiquities and excavations in the early modern period by Europeans and Egyptians has led to the scientific investigation of Egyptian civilization and a greater appreciation of its cultural legacy."); 
+		content.push("欧洲人和埃及人在近代早期对古物和挖掘的新发现尊重，导致了对埃及文明的科学研究，并对其文化遗产有了更深刻的赞赏。"); 
+		content.push("The Nile has been the lifeline of its region for much of human history."); 
+		content.push("尼罗河在人类历史的大部分时间里是其地区的生命线。"); 
+		content.push("The Nile has been the lifeline of its region for much of human history."); 
+		content.push("尼罗河在人类历史的大部分时间里是其地区的生命线。"); 
+		content.push("The fertile floodplain of the Nile gave humans the opportunity to develop a settled agricultural economy and a more sophisticated, centralized society that became a cornerstone in the history of human civilization."); 
+		content.push("尼罗河肥沃的冲积平原为人类提供了发展定居农业经济和更复杂、中央集权的社会的机会，成为人类文明史上的重要基石。"); 
+		content.push("The fertile floodplain of the Nile gave humans the opportunity to develop a settled agricultural economy and a more sophisticated, centralized society that became a cornerstone in the history of human civilization."); 
+		content.push("尼罗河肥沃的冲积平原为人类提供了发展定居农业经济和更复杂、中央集权的社会的机会，成为人类文明史上的重要基石。"); 
+		content.push("Nomadic modern human hunter-gatherers began living in the Nile valley through the end of the Middle Pleistocene some 120,000 years ago."); 
+		content.push("大约12万年前，在中更新世结束时，游牧的现代人类狩猎采集者开始在尼罗河流域定居。"); 
+		content.push("Nomadic modern human hunter-gatherers began living in the Nile valley through the end of the Middle Pleistocene some 120,000 years ago."); 
+		content.push("大约12万年前，在中更新世结束时，游牧的现代人类狩猎采集者开始在尼罗河流域定居。"); 
+		content.push("By the late Paleolithic period, the arid climate of Northern Africa had become increasingly hot and dry, forcing the populations of the area to concentrate along the river region."); 
+		content.push("到了晚更新世时期，北非干旱气候变得越来越炎热和干燥，迫使该地区的人口集中在河流地区。"); 
+		content.push("By the late Paleolithic period, the arid climate of Northern Africa had become increasingly hot and dry, forcing the populations of the area to concentrate along the river region."); 
+		content.push("到了晚更新世时期，北非干旱气候变得越来越炎热和干燥，迫使该地区的人口集中在河流地区。"); 
+		content.push("In Predynastic and Early Dynastic times, the Egyptian climate was much less arid than it is today."); 
+		content.push("在前王朝和早期王朝时期，埃及的气候比现在要少干旱得多。"); 
+		content.push("In Predynastic and Early Dynastic times, the Egyptian climate was much less arid than it is today."); 
+		content.push("在前王朝和早期王朝时期，埃及的气候比现在要少干旱得多。"); 
+		content.push("Large regions of Egypt were covered in treed savanna and traversed by herds of grazing ungulates."); 
+		content.push("埃及的大片区域被树木丛生的稀树草原覆盖，并有成群的野生食草动物穿行其中。"); 
+		content.push("Large regions of Egypt were covered in treed savanna and traversed by herds of grazing ungulates."); 
+		content.push("埃及的大片区域被树木丛生的稀树草原覆盖，并有成群的野生食草动物穿行其中。"); 
+		content.push("Foliage and fauna were far more prolific in all environs, and the Nile region supported large populations of waterfowl."); 
+		content.push("所有环境中的植被和动物更加繁盛，尼罗河地区支撑着大量的水禽。"); 
+		content.push("Foliage and fauna were far more prolific in all environs, and the Nile region supported large populations of waterfowl."); 
+		content.push("所有环境中的植被和动物更加繁盛，尼罗河地区支撑着大量的水禽。"); 
+		content.push("Hunting would have been common for Egyptians, and this is also the period when many animals were first domesticated."); 
+		content.push("对于埃及人来说，狩猎是常见的，这也是许多动物被首次驯化的时期。"); 
+		content.push("Hunting would have been common for Egyptians, and this is also the period when many animals were first domesticated."); 
+		content.push("对于埃及人来说，狩猎是常见的，这也是许多动物被首次驯化的时期。"); 
+		content.push("By about 5500 BC, small tribes living in the Nile valley had developed into a series of cultures demonstrating firm control of agriculture and animal husbandry, and identifiable by their pottery and personal items, such as combs, bracelets, and beads."); 
+		content.push("到公元前约5500年左右，生活在尼罗河谷的小部落已经发展成为一系列文化，展现了对农业和畜牧业的牢固控制，并通过他们的陶器和个人物品（如梳子、手镯和珠子）可以辨识出来。"); 
+		content.push("By about 5500 BC, small tribes living in the Nile valley had developed into a series of cultures demonstrating firm control of agriculture and animal husbandry, and identifiable by their pottery and personal items, such as combs, bracelets, and beads."); 
+		content.push("到公元前约5500年左右，生活在尼罗河谷的小部落已经发展成为一系列文化，展现了对农业和畜牧业的牢固控制，并通过他们的陶器和个人物品（如梳子、手镯和珠子）可以辨识出来。"); 
+		content.push("The largest of these early cultures in upper (Southern) Egypt was the Badarian culture, which probably originated in the Western Desert; it was known for its high-quality ceramics, stone tools, and its use of copper."); 
+		content.push("在（南）埃及的早期文化中，最大的是巴达里亚文化，它可能起源于西部沙漠；它以高质量的陶器、石器工具和铜的使用而闻名。"); 
+		content.push("The largest of these early cultures in upper (Southern) Egypt was the Badarian culture, which probably originated in the Western Desert; it was known for its high-quality ceramics, stone tools, and its use of copper."); 
+		content.push("在（南）埃及的早期文化中，最大的是巴达里亚文化，它可能起源于西部沙漠；它以高质量的陶器、石器工具和铜的使用而闻名。"); 
+		content.push("The Badari was followed by the Naqada culture: the Amratian (Naqada I), the Gerzeh (Naqada II), and Semainean (Naqada III)."); 
+		content.push("巴达里亚文化之后是纳卡达文化：阿姆拉特（纳卡达一期）、盖尔泽（纳卡达二期）和塞迈南（纳卡达三期）。"); 
+		content.push("The Badari was followed by the Naqada culture: the Amratian (Naqada I), the Gerzeh (Naqada II), and Semainean (Naqada III)."); 
+		content.push("巴达里亚文化之后是纳卡达文化：阿姆拉特（纳卡达一期）、盖尔泽（纳卡达二期）和塞迈南（纳卡达三期）。"); 
+		content.push("These brought a number of technological improvements."); 
+		content.push("这些文化带来了许多技术改进。"); 
+		content.push("These brought a number of technological improvements."); 
+		content.push("这些文化带来了许多技术改进。"); 
+		content.push("As early as the Naqada I Period, predynastic Egyptians imported obsidian from Ethiopia, used to shape blades and other objects from flakes."); 
+		content.push("早在纳卡达一期，前王朝埃及人就从埃塞俄比亚进口黑曜石，用于从碎片中制作刀片和其他物品。"); 
+		content.push("As early as the Naqada I Period, predynastic Egyptians imported obsidian from Ethiopia, used to shape blades and other objects from flakes."); 
+		content.push("早在纳卡达一期，前王朝埃及人就从埃塞俄比亚进口黑曜石，用于从碎片中制作刀片和其他物品。"); 
+		content.push("In Naqada II times, early evidence exists of contact with the Near East, particularly Canaan and the Byblos coast."); 
+		content.push("在纳卡达二期，有早期的证据表明与近东地区，尤其是迦南和比伯勒斯海岸有接触。"); 
+		content.push("In Naqada II times, early evidence exists of contact with the Near East, particularly Canaan and the Byblos coast."); 
+		content.push("在纳卡达二期，有早期的证据表明与近东地区，尤其是迦南和比伯勒斯海岸有接触。"); 
+		content.push("Over a period of about 1,000 years, the Naqada culture developed from a few small farming communities into a powerful civilization whose leaders were in complete control of the people and resources of the Nile valley."); 
+		content.push("在大约1000年的时间里，纳卡达文化从几个小农业社区发展成为一个强大的文明，其领导人完全掌控了尼罗河流域的人民和资源。"); 
+		content.push("Over a period of about 1,000 years, the Naqada culture developed from a few small farming communities into a powerful civilization whose leaders were in complete control of the people and resources of the Nile valley."); 
+		content.push("在大约1000年的时间里，纳卡达文化从几个小农业社区发展成为一个强大的文明，其领导人完全掌控了尼罗河流域的人民和资源。"); 
+		content.push("Establishing a power center at Nekhen (in Greek, Hierakonpolis), and later at Abydos, Naqada III leaders expanded their control of Egypt northwards along the Nile."); 
+		content.push("纳卡达三期的领导人在涅肯（希腊语中的城市名为Hierakonpolis）建立了一个权力中心，之后又在阿比多斯建立了权力中心，他们沿着尼罗河向北扩展了对埃及的控制。"); 
+		content.push("Establishing a power center at Nekhen (in Greek, Hierakonpolis), and later at Abydos, Naqada III leaders expanded their control of Egypt northwards along the Nile."); 
+		content.push("纳卡达三期的领导人在涅肯（希腊语中的城市名为Hierakonpolis）建立了一个权力中心，之后又在阿比多斯建立了权力中心，他们沿着尼罗河向北扩展了对埃及的控制。"); 
+		content.push("They also traded with Nubia to the south, the oases of the western desert to the west, and the cultures of the eastern Mediterranean and Near East to the east, initiating a period of Egypt-Mesopotamia relations."); 
+		content.push("他们还与南方的努比亚、西方沙漠的绿洲以及东方地中海和近东地区的文化进行贸易，开启了埃及与美索不达米亚的关系时期。"); 
+		content.push("They also traded with Nubia to the south, the oases of the western desert to the west, and the cultures of the eastern Mediterranean and Near East to the east, initiating a period of Egypt-Mesopotamia relations."); 
+		content.push("他们还与南方的努比亚、西方沙漠的绿洲以及东方地中海和近东地区的文化进行贸易，开启了埃及与美索不达米亚的关系时期。"); 
+		content.push("The Naqada culture manufactured a diverse selection of material goods, reflective of the increasing power and wealth of the elite, as well as societal personal-use items."); 
+		content.push("纳卡达文化制造了多种材料的商品，反映了精英阶层日益增长的权力和财富，以及社会个人使用的物品。"); 
+		content.push("The Naqada culture manufactured a diverse selection of material goods, reflective of the increasing power and wealth of the elite, as well as societal personal-use items."); 
+		content.push("纳卡达文化制造了多种材料的商品，反映了精英阶层日益增长的权力和财富，以及社会个人使用的物品。"); 
+		content.push("These goods included combs, small statuary, painted pottery, high-quality decorative stone vases, cosmetic palettes, and jewelry made of gold, lapis, and ivory."); 
+		content.push("这些商品包括梳子、小雕像、绘画陶器、高品质的装饰石制花瓶、化妆板和由黄金、青金石和象牙制成的珠宝。"); 
+		content.push("These goods included combs, small statuary, painted pottery, high-quality decorative stone vases, cosmetic palettes, and jewelry made of gold, lapis, and ivory."); 
+		content.push("这些商品包括梳子、小雕像、绘画陶器、高品质的装饰石制花瓶、化妆板和由黄金、青金石和象牙制成的珠宝。"); 
+		content.push("They also developed a ceramic glaze known as faience, which was used well into the Roman Period to decorate cups, amulets, and figurines."); 
+		content.push("他们还开发了一种被称为法蓝陶瓷釉的陶瓷釉料，该釉料一直被用于罗马时期装饰杯子、护身符和小雕像。"); 
+		content.push("They also developed a ceramic glaze known as faience, which was used well into the Roman Period to decorate cups, amulets, and figurines."); 
+		content.push("他们还开发了一种被称为法蓝陶瓷釉的陶瓷釉料，该釉料一直被用于罗马时期装饰杯子、护身符和小雕像。"); 
+		content.push("During the last predynastic phase, the Naqada culture began using written symbols that eventually were developed into a full system of hieroglyphs for writing the ancient Egyptian language."); 
+		content.push("在最后的前王朝阶段，纳卡达文化开始使用书写符号，最终发展成了用于书写古埃及语的象形文字系统。"); 
+		content.push("During the last predynastic phase, the Naqada culture began using written symbols that eventually were developed into a full system of hieroglyphs for writing the ancient Egyptian language."); 
+		content.push("在最后的前王朝阶段，纳卡达文化开始使用书写符号，最终发展成了用于书写古埃及语的象形文字系统。"); 
+		content.push("The Early Dynastic Period was approximately contemporary to the early Sumerian-Akkadian civilization of Mesopotamia and of ancient Elam."); 
+		content.push("早王朝时期大约与美索不达米亚早期苏美尔-阿卡德文明和古代埃兰文明同时期。"); 
+		content.push("The Early Dynastic Period was approximately contemporary to the early Sumerian-Akkadian civilization of Mesopotamia and of ancient Elam."); 
+		content.push("早王朝时期大约与美索不达米亚早期苏美尔-阿卡德文明和古代埃兰文明同时期。"); 
+		content.push("The third-century BC Egyptian priest Manetho grouped the long line of kings from Menes to his own time into 30 dynasties, a system still used today."); 
+		content.push("公元前三世纪的埃及祭司马内托将从门内斯到自己时代的一长串国王划分为30个王朝，这个体系至今仍在使用。"); 
+		content.push("The third-century BC Egyptian priest Manetho grouped the long line of kings from Menes to his own time into 30 dynasties, a system still used today."); 
+		content.push("公元前三世纪的埃及祭司马内托将从门内斯到自己时代的一长串国王划分为30个王朝，这个体系至今仍在使用。"); 
+		content.push("He began his official history with the king named \"Meni\" (or Menes in Greek), who was believed to have united the two kingdoms of Upper and Lower Egypt."); 
+		content.push("他在正式历史中从名为 \"门尼\"（希腊语中为门内斯）的国王开始，据信他统一了上埃及和下埃及两个王国。"); 
+		content.push("He began his official history with the king named \"Meni\" (or Menes in Greek), who was believed to have united the two kingdoms of Upper and Lower Egypt."); 
+		content.push("他在正式历史中从名为 \"门尼\"（希腊语中为门内斯）的国王开始，据信他统一了上埃及和下埃及两个王国。"); 
+		content.push("The transition to a unified state happened more gradually than ancient Egyptian writers represented, and there is no contemporary record of Menes."); 
+		content.push("统一国家的过渡比古埃及的文献所描绘的更为渐进，并没有关于门内斯的同时期记录。"); 
+		content.push("The transition to a unified state happened more gradually than ancient Egyptian writers represented, and there is no contemporary record of Menes."); 
+		content.push("统一国家的过渡比古埃及的文献所描绘的更为渐进，并没有关于门内斯的同时期记录。"); 
+		content.push("Some scholars now believe, however, that the mythical Menes may have been the king Narmer, who is depicted wearing royal regalia on the ceremonial Narmer Palette, in a symbolic act of unification."); 
+		content.push("然而，一些学者现在认为，传说中的门内斯可能是纳玛尔国王，他在纳玛尔石板上身着皇家服饰，象征性地实现了统一。"); 
+		content.push("Some scholars now believe, however, that the mythical Menes may have been the king Narmer, who is depicted wearing royal regalia on the ceremonial Narmer Palette, in a symbolic act of unification."); 
+		content.push("然而，一些学者现在认为，传说中的门内斯可能是纳玛尔国王，他在纳玛尔石板上身着皇家服饰，象征性地实现了统一。"); 
+		content.push("In the Early Dynastic Period, which began about 3000 BC, the first of the Dynastic kings solidified control over lower Egypt by establishing a capital at Memphis, from which he could control the labor force and agriculture of the fertile delta region, as well as the lucrative and critical trade routes to the Levant."); 
+		content.push("在公元前约3000年开始的早王朝时期，第一位王朝国王通过在孟菲斯建立首都，巩固了对下埃及的控制，从那里他可以控制肥沃三角洲地区的劳动力和农业，以及通往利凡特的有利且关键的贸易路线。"); 
+		content.push("In the Early Dynastic Period, which began about 3000 BC, the first of the Dynastic kings solidified control over lower Egypt by establishing a capital at Memphis, from which he could control the labor force and agriculture of the fertile delta region, as well as the lucrative and critical trade routes to the Levant."); 
+		content.push("在公元前约3000年开始的早王朝时期，第一位王朝国王通过在孟菲斯建立首都，巩固了对下埃及的控制，从那里他可以控制肥沃三角洲地区的劳动力和农业，以及通往利凡特的有利且关键的贸易路线。"); 
+		content.push("The increasing power and wealth of the kings during the early dynastic period was reflected in their elaborate mastaba tombs and mortuary cult structures at Abydos, which were used to celebrate the deified king after his death."); 
+		content.push("早王朝时期国王的权力和财富的增加体现在他们在阿比多斯建造的复杂的长方形陵墓和葬礼崇拜结构中，这些结构被用来纪念在死后被神化的国王。"); 
+		content.push("The increasing power and wealth of the kings during the early dynastic period was reflected in their elaborate mastaba tombs and mortuary cult structures at Abydos, which were used to celebrate the deified king after his death."); 
+		content.push("早王朝时期国王的权力和财富的增加体现在他们在阿比多斯建造的复杂的长方形陵墓和葬礼崇拜结构中，这些结构被用来纪念在死后被神化的国王。"); 
+		content.push("The strong institution of kingship developed by the kings served to legitimize state control over the land, labor, and resources that were essential to the survival and growth of ancient Egyptian civilization."); 
+		content.push("国王们发展起来的强大君主制度有助于使国家对土地、劳动力和资源的控制合法化，这对于古埃及文明的生存和发展至关重要。"); 
+		content.push("The strong institution of kingship developed by the kings served to legitimize state control over the land, labor, and resources that were essential to the survival and growth of ancient Egyptian civilization."); 
+		content.push("国王们发展起来的强大君主制度有助于使国家对土地、劳动力和资源的控制合法化，这对于古埃及文明的生存和发展至关重要。"); 
+		content.push("Major advances in architecture, art, and technology were made during the Old Kingdom, fueled by the increased agricultural productivity and resulting population, made possible by a well-developed central administration."); 
+		content.push("在旧王国时期，建筑、艺术和技术方面取得了重大进展，这得益于农业生产力的增加和由发达的中央行政机构带来的人口增长。"); 
+		content.push("Major advances in architecture, art, and technology were made during the Old Kingdom, fueled by the increased agricultural productivity and resulting population, made possible by a well-developed central administration."); 
+		content.push("在旧王国时期，建筑、艺术和技术方面取得了重大进展，这得益于农业生产力的增加和由发达的中央行政机构带来的人口增长。"); 
+		content.push("Some of ancient Egypt's crowning achievements, the Giza pyramids and Great Sphinx, were constructed during the Old Kingdom."); 
+		content.push("古埃及的一些杰作，如吉萨金字塔和狮身人面像，就是在旧王国时期建造的。"); 
+		content.push("Some of ancient Egypt's crowning achievements, the Giza pyramids and Great Sphinx, were constructed during the Old Kingdom."); 
+		content.push("古埃及的一些杰作，如吉萨金字塔和狮身人面像，就是在旧王国时期建造的。"); 
+		content.push("Under the direction of the vizier, state officials collected taxes, coordinated irrigation projects to improve crop yield, drafted peasants to work on construction projects, and established a justice system to maintain peace and order."); 
+		content.push("在宰相的指导下，国家官员收取税款，协调灌溉项目以提高农作物产量，征召农民参与建设项目，并建立司法体系以维持和平和秩序。"); 
+		content.push("Under the direction of the vizier, state officials collected taxes, coordinated irrigation projects to improve crop yield, drafted peasants to work on construction projects, and established a justice system to maintain peace and order."); 
+		content.push("在宰相的指导下，国家官员收取税款，协调灌溉项目以提高农作物产量，征召农民参与建设项目，并建立司法体系以维持和平和秩序。"); 
+		content.push("With the rising importance of central administration in Egypt, a new class of educated scribes and officials arose who were granted estates by the king in payment for their services."); 
+		content.push("随着埃及中央行政的日益重要，出现了一批受过教育的抄写员和官员，他们获得了国王赋予的土地作为对他们服务的回报。"); 
+		content.push("With the rising importance of central administration in Egypt, a new class of educated scribes and officials arose who were granted estates by the king in payment for their services."); 
+		content.push("随着埃及中央行政的日益重要，出现了一批受过教育的抄写员和官员，他们获得了国王赋予的土地作为对他们服务的回报。"); 
+		content.push("Kings also made land grants to their mortuary cults and local temples, to ensure that these institutions had the resources to worship the king after his death."); 
+		content.push("国王还将土地授予他们的葬礼崇拜和当地的寺庙，以确保这些机构在他们死后有足够的资源来崇拜国王。"); 
+		content.push("also made land grants to their mortuary cults and local temples, to ensure that these institutions had the resources to worship the king after his death."); 
+		content.push("国王还将土地授予他们的葬礼崇拜和当地的寺庙，以确保这些机构在他们死后有足够的资源来崇拜国王。"); 
+		content.push("Scholars believe that five centuries of these practices slowly eroded the economic vitality of Egypt, and that the economy could no longer afford to support a large centralized administration."); 
+		content.push("学者们认为，长达五个世纪的这些做法逐渐侵蚀了埃及的经济活力，经济已经无法再承担支持大规模中央行政的负担。"); 
+		content.push("Scholars believe that five centuries of these practices slowly eroded the economic vitality of Egypt, and that the economy could no longer afford to support a large centralized administration."); 
+		content.push("学者们认为，长达五个世纪的这些做法逐渐侵蚀了埃及的经济活力，经济已经无法再承担支持大规模中央行政的负担。"); 
+		content.push("As the power of the kings diminished, regional governors called nomarchs began to challenge the supremacy of the office of king."); 
+		content.push("随着国王权力的减弱，被称为诺马克的地区统治者开始挑战国王职位的至高无上。"); 
+		content.push("As the power of the kings diminished, regional governors called nomarchs began to challenge the supremacy of the office of king."); 
+		content.push("随着国王权力的减弱，被称为诺马克的地区统治者开始挑战国王职位的至高无上。"); 
+		content.push("This, coupled with severe droughts between 2200 and 2150 BC, is believed to have caused the country to enter the 140-year period of famine and strife known as the First Intermediate Period."); 
+		content.push("这个原因加上公元前2200年至2150年之间的严重干旱，被认为导致了埃及进入了被称为第一中间期的140年饥荒和动荡时期。"); 
+		content.push("This, coupled with severe droughts between 2200 and 2150 BC, is believed to have caused the country to enter the 140-year period of famine and strife known as the First Intermediate Period."); 
+		content.push("这个原因加上公元前2200年至2150年之间的严重干旱，被认为导致了埃及进入了被称为第一中间期的140年饥荒和动荡时期。"); 
+		content.push("After Egypt's central government collapsed at the end of the Old Kingdom, the administration could no longer support or stabilize the country's economy."); 
+		content.push("在旧王国末期，埃及的中央政府崩溃后，政府无法再支持或稳定国家的经济。"); 
+		content.push("After Egypt's central government collapsed at the end of the Old Kingdom, the administration could no longer support or stabilize the country's economy."); 
+		content.push("在旧王国末期，埃及的中央政府崩溃后，政府无法再支持或稳定国家的经济。"); 
+		content.push("Regional governors could not rely on the king for help in times of crisis, and the ensuing food shortages and political disputes escalated into famines and small-scale civil wars."); 
+		content.push("地方总督不能依赖国王在危机时期提供帮助，导致食物短缺和政治争端升级为饥荒和小规模内战。"); 
+		content.push("Regional governors could not rely on the king for help in times of crisis, and the ensuing food shortages and political disputes escalated into famines and small-scale civil wars."); 
+		content.push("地方总督不能依赖国王在危机时期提供帮助，导致食物短缺和政治争端升级为饥荒和小规模内战。"); 
+		content.push("Yet despite difficult problems, local leaders, owing no tribute to the king, used their newfound independence to establish a thriving culture in the provinces."); 
+		content.push("尽管面临困难问题，但地方领导人由于无需向国王进贡，利用他们新获得的独立性在各省建立了繁荣的文化。"); 
+		content.push("Yet despite difficult problems, local leaders, owing no tribute to the king, used their newfound independence to establish a thriving culture in the provinces."); 
+		content.push("尽管面临困难问题，但地方领导人由于无需向国王进贡，利用他们新获得的独立性在各省建立了繁荣的文化。"); 
+		content.push("Once in control of their own resources, the provinces became economically richer—which was demonstrated by larger and better burials among all social classes."); 
+		content.push("一旦掌控了自己的资源，各省的经济变得更加富裕，这在各个社会阶层中通过更大规模、更好的葬礼得到了体现。"); 
+		content.push("Once in control of their own resources, the provinces became economically richer—which was demonstrated by larger and better burials among all social classes."); 
+		content.push("一旦掌控了自己的资源，各省的经济变得更加富裕，这在各个社会阶层中通过更大规模、更好的葬礼得到了体现。"); 
+		content.push("In bursts of creativity, provincial artisans adopted and adapted cultural motifs formerly restricted to the royalty of the Old Kingdom, and scribes developed literary styles that expressed the optimism and originality of the period."); 
+		content.push("在创造力的迸发中，各省的工匠采用和改编了过去仅限于旧王国王室的文化主题，抄写员则发展了表达该时期乐观和独创性的文学风格。"); 
+		content.push("In bursts of creativity, provincial artisans adopted and adapted cultural motifs formerly restricted to the royalty of the Old Kingdom, and scribes developed literary styles that expressed the optimism and originality of the period."); 
+		content.push("在创造力的迸发中，各省的工匠采用和改编了过去仅限于旧王国王室的文化主题，抄写员则发展了表达该时期乐观和独创性的文学风格。"); 
+		content.push("Free from their loyalties to the king, local rulers began competing with each other for territorial control and political power."); 
+		content.push("摆脱对国王的忠诚，地方统治者开始相互竞争，争夺领土控制权和政治权力。"); 
+		content.push("Free from their loyalties to the king, local rulers began competing with each other for territorial control and political power."); 
+		content.push("摆脱对国王的忠诚，地方统治者开始相互竞争，争夺领土控制权和政治权力。"); 
+		content.push("By 2160 BC, rulers in Herakleopolis controlled Lower Egypt in the north, while a rival clan based in Thebes, the Intef family, took control of Upper Egypt in the south."); 
+		content.push("公元前2160年，位于赫拉克利波利斯的统治者控制了北部的下埃及，而以底比斯为基地的对手家族（因特夫家族）掌控了南部的上埃及。"); 
+		content.push("By 2160 BC, rulers in Herakleopolis controlled Lower Egypt in the north, while a rival clan based in Thebes, the Intef family, took control of Upper Egypt in the south."); 
+		content.push("公元前2160年，位于赫拉克利波利斯的统治者控制了北部的下埃及，而以底比斯为基地的对手家族（因特夫家族）掌控了南部的上埃及。"); 
+		content.push("As the Intefs grew in power and expanded their control northward, a clash between the two rival dynasties became inevitable."); 
+		content.push("随着因特夫家族的实力增长和他们对北方的控制扩大，两个对立王朝之间的冲突变得不可避免。"); 
+		content.push("As the Intefs grew in power and expanded their control northward, a clash between the two rival dynasties became inevitable."); 
+		content.push("随着因特夫家族的实力增长和他们对北方的控制扩大，两个对立王朝之间的冲突变得不可避免。"); 
+		content.push("Around 2055 BC, the northern Theban forces under Nebhepetre Mentuhotep II finally defeated the Herakleopolitan rulers, reuniting the Two Lands."); 
+		content.push("公元前2055年左右，尼布赫培特雷·孟图赫特普二世领导的底比斯北部军队终于击败了赫拉克利波利斯的统治者，重新统一了上下埃及。"); 
+		content.push("Around 2055 BC, the northern Theban forces under Nebhepetre Mentuhotep II finally defeated the Herakleopolitan rulers, reuniting the Two Lands."); 
+		content.push("公元前2055年左右，尼布赫培特雷·孟图赫特普二世领导的底比斯北部军队终于击败了赫拉克利波利斯的统治者，重新统一了上下埃及。"); 
+		content.push("They inaugurated a period of economic and cultural renaissance known as the Middle Kingdom."); 
+		content.push("他们开启了一个被称为中王国的经济和文化复兴时期。"); 
+		content.push("They inaugurated a period of economic and cultural renaissance known as the Middle Kingdom."); 
+		content.push("他们开启了一个被称为中王国的经济和文化复兴时期。"); 
+		content.push("The kings of the Middle Kingdom restored the country's stability and prosperity, thereby stimulating a resurgence of art, literature, and monumental building projects."); 
+		content.push("中王国的国王恢复了国家的稳定与繁荣，从而刺激了艺术、文学和宏伟建筑项目的复苏。"); 
+		content.push("The kings of the Middle Kingdom restored the country's stability and prosperity, thereby stimulating a resurgence of art, literature, and monumental building projects."); 
+		content.push("中王国的国王恢复了国家的稳定与繁荣，从而刺激了艺术、文学和宏伟建筑项目的复苏。"); 
+		content.push("Mentuhotep II and his Eleventh Dynasty successors ruled from Thebes, but the vizier Amenemhat I, upon assuming the kingship at the beginning of the Twelfth Dynasty around 1985 BC, shifted the kingdom's capital to the city of Itjtawy, located in Faiyum."); 
+		content.push("孟图赫特普二世及其第十一王朝的继任者统治底比斯，但宰相阿蒙恩马特一世在公元前约1985年担任国王后，将王国的首都迁至位于费尤姆的伊特托伊城。"); 
+		content.push("Mentuhotep II and his Eleventh Dynasty successors ruled from Thebes, but the vizier Amenemhat I, upon assuming the kingship at the beginning of the Twelfth Dynasty around 1985 BC, shifted the kingdom's capital to the city of Itjtawy, located in Faiyum."); 
+		content.push("孟图赫特普二世及其第十一王朝的继任者统治底比斯，但宰相阿蒙恩马特一世在公元前约1985年担任国王后，将王国的首都迁至位于费尤姆的伊特托伊城。"); 
+		content.push("From Itjtawy, the kings of the Twelfth Dynasty undertook a far-sighted land reclamation and irrigation scheme to increase agricultural output in the region."); 
+		content.push("第十二王朝的国王们从伊特托伊城开始实施了远见卓识的土地开垦和灌溉计划，以增加该地区的农业产量。"); 
+		content.push("From Itjtawy, the kings of the Twelfth Dynasty undertook a far-sighted land reclamation and irrigation scheme to increase agricultural output in the region."); 
+		content.push("第十二王朝的国王们从伊特托伊城开始实施了远见卓识的土地开垦和灌溉计划，以增加该地区的农业产量。"); 
+		content.push("Moreover, the military reconquered territory in Nubia that was rich in quarries and gold mines, while laborers built a defensive structure in the Eastern Delta, called the \"Walls of the Ruler\", to defend against foreign attack."); 
+		content.push("此外，军队重新夺回了富含采石场和金矿的努比亚领土，而劳工在东部三角洲建造了一座名为 \"统治者之墙\" 的防御建筑，以抵御外敌的攻击。"); 
+		content.push("Moreover, the military reconquered territory in Nubia that was rich in quarries and gold mines, while laborers built a defensive structure in the Eastern Delta, called the \"Walls of the Ruler\", to defend against foreign attack."); 
+		content.push("此外，军队重新夺回了富含采石场和金矿的努比亚领土，而劳工在东部三角洲建造了一座名为 \"统治者之墙\" 的防御建筑，以抵御外敌的攻击。"); 
+		content.push("With the kings having secured the country militarily and politically and with vast agricultural and mineral wealth at their disposal, the nation's population, arts, and religion flourished."); 
+		content.push("在国王在军事和政治上确保了国家的安全，并拥有广阔的农业和矿产财富之际，国家的人口、艺术和宗教繁荣发展。"); 
+		content.push("With the kings having secured the country militarily and politically and with vast agricultural and mineral wealth at their disposal, the nation's population, arts, and religion flourished."); 
+		content.push("在国王在军事和政治上确保了国家的安全，并拥有广阔的农业和矿产财富之际，国家的人口、艺术和宗教繁荣发展。"); 
+		content.push("In contrast to elitist Old Kingdom attitudes towards the gods, the Middle Kingdom displayed an increase in expressions of personal piety."); 
+		content.push("与旧王国对待神明的精英主义态度相比，中王国展现了对个人虔诚的表达增加。"); 
+		content.push("In contrast to elitist Old Kingdom attitudes towards the gods, the Middle Kingdom displayed an increase in expressions of personal piety."); 
+		content.push("与旧王国对待神明的精英主义态度相比，中王国展现了对个人虔诚的表达增加。"); 
+		content.push("Middle Kingdom literature featured sophisticated themes and characters written in a confident, eloquent style."); 
+		content.push("中王国文学以复杂的主题和角色为特色，以自信、雄辩的风格书写。"); 
+		content.push("Middle Kingdom literature featured sophisticated themes and characters written in a confident, eloquent style."); 
+		content.push("中王国文学以复杂的主题和角色为特色，以自信、雄辩的风格书写。"); 
+		content.push("The relief and portrait sculpture of the period captured subtle, individual details that reached new heights of technical sophistication."); 
+		content.push("该时期的浮雕和人像雕塑捕捉到微妙的个体细节，达到了新的技术精湛的高度。"); 
+		content.push("The relief and portrait sculpture of the period captured subtle, individual details that reached new heights of technical sophistication."); 
+		content.push("该时期的浮雕和人像雕塑捕捉到微妙的个体细节，达到了新的技术精湛的高度。"); 
+		content.push("The last great ruler of the Middle Kingdom, Amenemhat III, allowed Semitic-speaking Canaanite settlers from the Near East into the Delta region to provide a sufficient labor force for his especially active mining and building campaigns."); 
+		content.push("中王国的最后一位伟大统治者阿蒙恩马特三世，允许来自近东的以色列人在三角洲地区定居，为他特别活跃的采矿和建筑运动提供充足的劳动力。"); 
+		content.push("The last great ruler of the Middle Kingdom, Amenemhat III, allowed Semitic-speaking Canaanite settlers from the Near East into the Delta region to provide a sufficient labor force for his especially active mining and building campaigns."); 
+		content.push("中王国的最后一位伟大统治者阿蒙恩马特三世，允许来自近东的以色列人在三角洲地区定居，为他特别活跃的采矿和建筑运动提供充足的劳动力。"); 
+		content.push("These ambitious building and mining activities, however, combined with severe Nile floods later in his reign, strained the economy and precipitated the slow decline into the Second Intermediate Period during the later Thirteenth and Fourteenth dynasties."); 
+		content.push("然而，这些雄心勃勃的建设和采矿活动，加上他统治后期的严重尼罗河洪水，给经济带来了压力，并在第十三王朝和第十四王朝后期导致了缓慢的下滑，进入了第二中间期。"); 
+		content.push("These ambitious building and mining activities, however, combined with severe Nile floods later in his reign, strained the economy and precipitated the slow decline into the Second Intermediate Period during the later Thirteenth and Fourteenth dynasties."); 
+		content.push("然而，这些雄心勃勃的建设和采矿活动，加上他统治后期的严重尼罗河洪水，给经济带来了压力，并在第十三王朝和第十四王朝后期导致了缓慢的下滑，进入了第二中间期。"); 
+		content.push("During this decline, the Canaanite settlers began to assume greater control of the Delta region, eventually coming to power in Egypt as the Hyksos."); 
+		content.push("在这一衰落过程中，以色列定居者开始在三角洲地区获得更大的控制权，最终以海克索斯的身份掌权埃及。"); 
+		content.push("During this decline, the Canaanite settlers began to assume greater control of the Delta region, eventually coming to power in Egypt as the Hyksos."); 
+		content.push("在这一衰落过程中，以色列定居者开始在三角洲地区获得更大的控制权，最终以海克索斯的身份掌权埃及。"); 
+		content.push("Around 1785 BC, as the power of the Middle Kingdom kings weakened, a Western Asian people called the Hyksos, who had already settled in the Delta, seized control of Egypt and established their capital at Avaris, forcing the former central government to retreat to Thebes."); 
+		content.push("公元前约1785年，随着中王国国王权力的削弱，已经在三角洲定居的西亚人——海克索斯人夺取了对埃及的控制，并在阿瓦里斯建立了他们的首都，迫使前中央政府撤退到底比斯。"); 
+		content.push("Around 1785 BC, as the power of the Middle Kingdom kings weakened, a Western Asian people called the Hyksos, who had already settled in the Delta, seized control of Egypt and established their capital at Avaris, forcing the former central government to retreat to Thebes."); 
+		content.push("公元前约1785年，随着中王国国王权力的削弱，已经在三角洲定居的西亚人——海克索斯人夺取了对埃及的控制，并在阿瓦里斯建立了他们的首都，迫使前中央政府撤退到底比斯。"); 
+		content.push("The king was treated as a vassal and expected to pay tribute."); 
+		content.push("国王被视为一个附庸，并被期望向海克索斯人进贡。"); 
+		content.push("The king was treated as a vassal and expected to pay tribute."); 
+		content.push("国王被视为一个附庸，并被期望向海克索斯人进贡。"); 
+		content.push("The Hyksos (\"foreign rulers\") retained Egyptian models of government and identified as kings, thereby integrating Egyptian elements into their culture."); 
+		content.push("海克索斯人（\"外国统治者\"）保留了埃及的政府模式，并自称国王，从而将埃及元素融入了他们的文化。"); 
+		content.push("The Hyksos (\"foreign rulers\") retained Egyptian models of government and identified as kings, thereby integrating Egyptian elements into their culture."); 
+		content.push("海克索斯人（\"外国统治者\"）保留了埃及的政府模式，并自称国王，从而将埃及元素融入了他们的文化。"); 
+		content.push("They and other invaders introduced new tools of warfare into Egypt, most notably the composite bow and the horse-drawn chariot."); 
+		content.push("他们和其他入侵者将新的战争工具引入埃及，其中最引人注目的是复合弓和马拉的战车。"); 
+		content.push("They and other invaders introduced new tools of warfare into Egypt, most notably the composite bow and the horse-drawn chariot."); 
+		content.push("他们和其他入侵者将新的战争工具引入埃及，其中最引人注目的是复合弓和马拉的战车。"); 
+		content.push("After retreating south, the native Theban kings found themselves trapped between the Canaanite Hyksos ruling the north and the Hyksos' Nubian allies, the Kushites, to the south."); 
+		content.push("在南方撤退后，当地的底比斯国王发现自己陷入了由海克索斯人统治的北方和海克索斯的南方努比亚盟友库希特人之间的夹缝中。"); 
+		content.push("retreating south, the native Theban kings found themselves trapped between the Canaanite Hyksos ruling the north and the Hyksos' Nubian allies, the Kushites, to the south."); 
+		content.push("在南方撤退后，当地的底比斯国王发现自己陷入了由海克索斯人统治的北方和海克索斯的南方努比亚盟友库希特人之间的夹缝中。"); 
+		content.push("After years of vassalage, Thebes gathered enough strength to challenge the Hyksos in a conflict that lasted more than 30 years, until 1555 BC."); 
+		content.push("经过多年的附庸状态，底比斯积聚了足够的力量来挑战海克索斯人，在一场持续了30多年的冲突中，直到公元前1555年才获得胜利。"); 
+		content.push("After years of vassalage, Thebes gathered enough strength to challenge the Hyksos in a conflict that lasted more than 30 years, until 1555 BC."); 
+		content.push("经过多年的附庸状态，底比斯积聚了足够的力量来挑战海克索斯人，在一场持续了30多年的冲突中，直到公元前1555年才获得胜利。"); 
+		content.push("The kings Seqenenre Tao II and Kamose were ultimately able to defeat the Nubians to the south of Egypt, but failed to defeat the Hyksos."); 
+		content.push("国王塞克西尼奥斯·陶二世和卡摩西最终能够击败埃及南部的努比亚人，但未能击败海克索斯人。"); 
+		content.push("The kings Seqenenre Tao II and Kamose were ultimately able to defeat the Nubians to the south of Egypt, but failed to defeat the Hyksos."); 
+		content.push("国王塞克西尼奥斯·陶二世和卡摩西最终能够击败埃及南部的努比亚人，但未能击败海克索斯人。"); 
+		content.push("That task fell to Kamose's successor, Ahmose I, who successfully waged a series of campaigns that permanently eradicated the Hyksos' presence in Egypt."); 
+		content.push("这一任务落到了卡摩西的继任者阿赫摩斯一世身上，他成功发动了一系列战役，永久根除了埃及的海克索斯人。"); 
+		content.push("That task fell to Kamose's successor, Ahmose I, who successfully waged a series of campaigns that permanently eradicated the Hyksos' presence in Egypt."); 
+		content.push("这一任务落到了卡摩西的继任者阿赫摩斯一世身上，他成功发动了一系列战役，永久根除了埃及的海克索斯人。"); 
+		content.push("He established a new dynasty and, in the New Kingdom that followed, the military became a central priority for the kings, who sought to expand Egypt's borders and attempted to gain mastery of the Near East."); 
+		content.push("他建立了一个新的王朝，在随后的新王国时期，军事成为国王的中心重点，他们试图扩大埃及的疆界并试图掌握近东地区。"); 
+		content.push("He established a new dynasty and, in the New Kingdom that followed, the military became a central priority for the kings, who sought to expand Egypt's borders and attempted to gain mastery of the Near East."); 
+		content.push("他建立了一个新的王朝，在随后的新王国时期，军事成为国王的中心重点，他们试图扩大埃及的疆界并试图掌握近东地区。"); 
+		content.push("The New Kingdom pharaohs established a period of unprecedented prosperity by securing their borders and strengthening diplomatic ties with their neighbors, including the Mitanni Empire, Assyria, and Canaan."); 
+		content.push("新王国的法老通过确保边境安全和加强与邻国的外交关系，包括与米坦尼帝国、亚述和迦南的关系，建立了前所未有的繁荣时期。"); 
+		content.push("The New Kingdom pharaohs established a period of unprecedented prosperity by securing their borders and strengthening diplomatic ties with their neighbors, including the Mitanni Empire, Assyria, and Canaan."); 
+		content.push("新王国的法老通过确保边境安全和加强与邻国的外交关系，包括与米坦尼帝国、亚述和迦南的关系，建立了前所未有的繁荣时期。"); 
+		content.push("Military campaigns waged under Tuthmosis I and his grandson Tuthmosis III extended the influence of the pharaohs to the largest empire Egypt had ever seen."); 
+		content.push("图特摩斯一世和他的孙子图特摩斯三世发起的军事战役将法老的影响力扩展到埃及历史上最大的帝国。"); 
+		content.push("Military campaigns waged under Tuthmosis I and his grandson Tuthmosis III extended the influence of the pharaohs to the largest empire Egypt had ever seen."); 
+		content.push("图特摩斯一世和他的孙子图特摩斯三世发起的军事战役将法老的影响力扩展到埃及历史上最大的帝国。"); 
+		content.push("Beginning with Merneptah the rulers of Egypt adopted the title of pharaoh."); 
+		content.push("从门涅普塔开始，埃及的统治者采用了法老的称号。"); 
+		content.push("Beginning with Merneptah the rulers of Egypt adopted the title of pharaoh."); 
+		content.push("从门涅普塔开始，埃及的统治者采用了法老的称号。"); 
+		content.push("Between their reigns, Hatshepsut, a queen who established herself as pharaoh, launched many building projects, including the restoration of temples damaged by the Hyksos, and sent trading expeditions to Punt and the Sinai."); 
+		content.push("在他们统治期间之间，哈特谢普苏特，一位成为法老的女王，发起了许多建筑项目，包括修复被海克索斯人破坏的神庙，并派遣贸易远征队前往邦特和西奈。"); 
+		content.push("Between their reigns, Hatshepsut, a queen who established herself as pharaoh, launched many building projects, including the restoration of temples damaged by the Hyksos, and sent trading expeditions to Punt and the Sinai."); 
+		content.push("在他们统治期间之间，哈特谢普苏特，一位成为法老的女王，发起了许多建筑项目，包括修复被海克索斯人破坏的神庙，并派遣贸易远征队前往邦特和西奈。"); 
+		content.push("When Tuthmosis III died in 1425 BC, Egypt had an empire extending from Niya in northwest Syria to the Fourth Cataract of the Nile in Nubia, cementing loyalties and opening access to critical imports such as bronze and wood."); 
+		content.push("当图特摩斯三世于公元前1425年去世时，埃及的帝国从叙利亚西北部的尼亚延伸到努比亚的第四级瀑布，巩固了忠诚，并开启了对青铜和木材等重要进口商品的进入。"); 
+		content.push("When Tuthmosis III died in 1425 BC, Egypt had an empire extending from Niya in northwest Syria to the Fourth Cataract of the Nile in Nubia, cementing loyalties and opening access to critical imports such as bronze and wood."); 
+		content.push("当图特摩斯三世于公元前1425年去世时，埃及的帝国从叙利亚西北部的尼亚延伸到努比亚的第四级瀑布，巩固了忠诚，并开启了对青铜和木材等重要进口商品的进入。"); 
+		content.push("The New Kingdom pharaohs began a large-scale building campaign to promote the god Amun, whose growing cult was based in Karnak."); 
+		content.push("新王国的法老们开始了一项大规模的建筑运动，以推广由位于卡尔纳克的日益庞大的阿蒙神所主导的信仰。"); 
+		content.push("The New Kingdom pharaohs began a large-scale building campaign to promote the god Amun, whose growing cult was based in Karnak."); 
+		content.push("新王国的法老们开始了一项大规模的建筑运动，以推广由位于卡尔纳克的日益庞大的阿蒙神所主导的信仰。"); 
+		content.push("They also constructed monuments to glorify their own achievements, both real and imagined. The Karnak temple is the largest Egyptian temple ever built."); 
+		content.push("他们还建造纪念碑来赞美自己的真实和想象中的成就。卡尔纳克神庙是埃及历史上最大的神庙。"); 
+		content.push("They also constructed monuments to glorify their own achievements, both real and imagined. The Karnak temple is the largest Egyptian temple ever built."); 
+		content.push("他们还建造纪念碑来赞美自己的真实和想象中的成就。卡尔纳克神庙是埃及历史上最大的神庙。"); 
+		content.push("Around 1350 BC, the stability of the New Kingdom was threatened when Amenhotep IV ascended the throne and instituted a series of radical and chaotic reforms."); 
+		content.push("公元前约1350年左右，新王国的稳定受到威胁，当阿蒙霍特普四世登基并实施了一系列激进而混乱的改革时。"); 
+		content.push("Around 1350 BC, the stability of the New Kingdom was threatened when Amenhotep IV ascended the throne and instituted a series of radical and chaotic reforms."); 
+		content.push("公元前约1350年左右，新王国的稳定受到威胁，当阿蒙霍特普四世登基并实施了一系列激进而混乱的改革时。"); 
+		content.push("Changing his name to Akhenaten, he touted the previously obscure sun deity Aten as the supreme deity, suppressed the worship of most other deities, and moved the capital to the new city of Akhetaten (modern-day Amarna)."); 
+		content.push("他将自己的名字改为阿赫纳顿，将以前鲜为人知的太阳神阿腾吹捧为至高神，压制了对大多数其他神明的崇拜，并将首都迁至新城阿赫特阿通（现代阿马纳）。"); 
+		content.push("Changing his name to Akhenaten, he touted the previously obscure sun deity Aten as the supreme deity, suppressed the worship of most other deities, and moved the capital to the new city of Akhetaten (modern-day Amarna)."); 
+		content.push("他将自己的名字改为阿赫纳顿，将以前鲜为人知的太阳神阿腾吹捧为至高神，压制了对大多数其他神明的崇拜，并将首都迁至新城阿赫特阿通（现代阿马纳）。"); 
+		content.push("He was devoted to his new religion and artistic style. After his death, the cult of the Aten was quickly abandoned and the traditional religious order restored."); 
+		content.push("他对自己的新宗教和艺术风格深信不疑。在他去世后，阿腾的信仰迅速被抛弃，传统的宗教秩序得到恢复。"); 
+		content.push("He was devoted to his new religion and artistic style. After his death, the cult of the Aten was quickly abandoned and the traditional religious order restored."); 
+		content.push("他对自己的新宗教和艺术风格深信不疑。在他去世后，阿腾的信仰迅速被抛弃，传统的宗教秩序得到恢复。"); 
+		content.push("The subsequent pharaohs, Tutankhamun, Ay, and Horemheb, worked to erase all mention of Akhenaten's heresy, now known as the Amarna Period."); 
+		content.push("其后的法老图坦卡蒙、艾伊和霍雷姆赫布致力于抹去阿赫纳顿的异端行为的所有提及，这个时期现在被称为阿马纳时期。"); 
+		content.push("The subsequent pharaohs, Tutankhamun, Ay, and Horemheb, worked to erase all mention of Akhenaten's heresy, now known as the Amarna Period."); 
+		content.push("其后的法老图坦卡蒙、艾伊和霍雷姆赫布致力于抹去阿赫纳顿的异端行为的所有提及，这个时期现在被称为阿马纳时期。"); 
+
+		pageLength = 100 
+		totalPages = Math.ceil(content.length / pageLength); 
+		totalLines = content.length; 
+		
+		currentPage = 1 
+		
+		function initialize() {
+			renderPage(currentPage); 
+		} 
+		
+		function previous() {
+			renderPage((currentPage == 1 ? 1 : currentPage - 1)); 
+		} 
+		
+		function next() {
+			renderPage((currentPage == totalPages ? totalPages : currentPage + 1)); 
+		} 
+		
+		function go(elementId1, elementId2) {
+			page1 = document.getElementById(elementId1).value.trim(); 
+			page2 = document.getElementById(elementId2).value.trim(); 
+			if(!isNaN(parseInt(page1))) { 
+				if(page2 == "") {
+					renderPage(page1); 
+				} else if(!isNaN(parseInt(page2)) && 
+							(page1 >= 1 && page1 <= page2 - 1 && page2 <= totalPages)) {
+					totalPagesToRender = page2 - page1 + 1; 
+					renderPage(page1, totalPagesToRender); 
+				}  
+			} 
+		} 
+		
+		function renderPage(page, totalPagesToRender=1) { 
+			currentPage = parseInt(page); 
+			
+			//Render new page 
+			beginningIndex = (page - 1) * pageLength; 
+			totalPageLength = totalPagesToRender * pageLength; 
+			endingIndex = beginningIndex + totalPageLength 
+			endingIndex = endingIndex < totalLines ? endingIndex : totalLines 
+			
+			contentHTML = ""; 
+			for(i = beginningIndex; i < endingIndex; i++) {
+				contentHTML = contentHTML + "<p>" + content[i] + "</p>"; 
+			}  
+			
+			//Update navigation bar 
+			pageNumElements = document.getElementsByName("pageNum") 
+			for(i = 0; i < pageNumElements.length; i++) {
+				pageNumElements[i].innerHTML = page + "/" + totalPages; 
+			}
+			document.getElementById("contentHolder").innerHTML = contentHTML; 
+			
+			//Back to page top 
+			topFunction(); 
+		} 
+		
+		function topFunction() {
+			document.body.scrollTop = 0; // For Safari
+			document.documentElement.scrollTop = 0; // For Chrome, Firefox, IE and Opera
+		} 
+		
+		//=================================================
+		// Set up events
+		//================================================= 
+		document.getElementById("pageBody").addEventListener("keyup", async function(event) { 
+			if (event.keyCode === 13) { 
+				// When Enter is pressed 
+				go("pageNumInputStart", "pageNumInputEnd") 
+			} 
+		}); 
+		
+	</script>  
+</html>

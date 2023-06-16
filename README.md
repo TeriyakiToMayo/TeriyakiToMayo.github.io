@@ -7,6 +7,11 @@ Dev version: https://teriyakitomayo.github.io/text_to_static.html
 
 
 
+English Listening Practice 
+
+- Ancient Egypt Wikipedia 
+  - https://teriyakitomayo.github.io/ebooks/output/english_ancient_egypt
+
 Ebooks 
 
 - 纪录

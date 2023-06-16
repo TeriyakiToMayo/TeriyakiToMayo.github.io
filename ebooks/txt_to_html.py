@@ -3,8 +3,10 @@
 # import sys 
 import re
 
-def txt_to_html (input_file_name, output_file_name): 
-    input_file = open(input_file_name, "r", encoding='utf-8') 
+# it will retrieve input file from "input" folder
+def txt_to_html (input_file_name): 
+    input_file = open("input/" + input_file_name + ".txt", "r", encoding='utf-8') 
+    output_file_name = "output/" + input_file_name + ".html"
     
     template_html_part1 = open("html template//part1.html", "r", encoding='utf-8') 
     template_html_part2 = open("html template//part2.html", "r", encoding='utf-8') 
@@ -62,8 +64,7 @@ def txt_to_html (input_file_name, output_file_name):
 
 # txt_to_html("input/great_books_translation.txt", "output/great_books_translation.html") 
 
-txt_to_html("input/are_your_lights_on.txt", "output/are_your_lights_on.html") 
-txt_to_html("input/asking_the_right_questions.txt", "output/asking_the_right_questions.html") 
+txt_to_html("english_ancient_egypt") 
 
 
 
