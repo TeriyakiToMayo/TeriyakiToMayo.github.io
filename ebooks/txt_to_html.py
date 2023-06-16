@@ -4,7 +4,7 @@
 # import re
 
 # it will retrieve input file from "input" folder, and output to "output" folder  
-def txt_to_html (input_file_name): 
+def txt_to_html (input_file_name, english_practice=False): 
     input_file = open("input/" + input_file_name + ".txt", "r", encoding='utf-8') 
     output_file_name = "output/" + input_file_name + ".html"
     
@@ -42,7 +42,31 @@ def txt_to_html (input_file_name):
     
     print(output_file_name, "complete") 
 
+# This is for English listening practice, it repeats each line twice 
+def repeat_sections_in_file(input_file_name): 
+    # Open the input file and read the text
+    with open("input/" + input_file_name + ".txt", 'r', encoding='utf-8') as file:
+        text = file.read()
+    
+    output_file_name = "input/" + input_file_name + "_repeated.txt"
+    
+    # Split the text by empty lines (sections)
+    sections = text.strip().split('\n\n')
 
+    # Repeat each section twice
+    repeated_sections = [section + '\n' + section for section in sections]
+
+    # Join all the repeated sections into a single string
+    output_text = '\n\n'.join(repeated_sections)
+
+    # Write the output text to the output file
+    with open(output_file_name, 'w', encoding='utf-8') as file:
+        file.write(output_text)
+
+
+#======================================================================
+# Novels 
+#======================================================================
 # txt_to_html("input/liu_cixin.txt", "output/liu_cixin.html") 
 # txt_to_html("input/west_military.txt", "output/west_military.html") 
 # txt_to_html("input/story_of_civilization.txt", "output/story_of_civilization.html") 
@@ -64,9 +88,13 @@ def txt_to_html (input_file_name):
 
 # txt_to_html("input/great_books_translation.txt", "output/great_books_translation.html") 
 
-txt_to_html("english_ancient_egypt") 
+#======================================================================
+# English Listening Practice  
+#======================================================================
+# repeat_sections_in_file("english_ancient_egypt")
+# txt_to_html("english_ancient_egypt_repeated") 
 
-
-
+repeat_sections_in_file("english_ramesses_ii")
+txt_to_html("english_ramesses_ii" + "_repeated") 
 
 
